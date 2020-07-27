@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Graphiczone.Models.SQLServer.Customer>
+@{
+    ViewData["Title"] = "CustomerView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>CustomerView</h1>
+
+<table>
+    @foreach (var x in Model)
+    {
+        <tr>
+            <th>@x.CusId</th>
+        </tr>
+        <tr>
+            <th>@x.CusFirstname</th>
+        </tr>
+        <tr>
+            <th>@x.CusLastname</th>
+        </tr>
+    }
+
+</table>
+

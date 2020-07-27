@@ -1,0 +1,188 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div align="center" style="margin-bottom:2%"><h1>สมัครสมาชิก</h1></div>
+
+<div class="container">
+    <form id="Register">
+        <div class="form-group">
+            <div class="row" style="margin-bottom:5px">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                        <input class="form-control" type="text" id="CusId" name="CusId" placeholder="กรุณากรอกชื่อผู้ใช้งาน" maxlength="" onchange="CheckUsernull()">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" align="right">
+                    <p id="StatusUser" />
+                </div>
+            </div>
+            <div class="row" style="margin-bottom:2%">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input class="form-control" type="Password" id="CusPassword" name="CusPassword" placeholder="กรุณากรอกรหัสผ่าน">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-bottom:2%">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text">ชื่อ</span>
+                        <input class="form-control" type="text" id="CusFirstname" name="CusFirstname" placeholder="กรุณากรอกชื่อจริง">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text">นามสกุล</span>
+                        <input class="form-control" type="text" id="CusLastname" name="CusLastname" placeholder="กรุณากรอกนามสกุล">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-bottom:2%">
+                <div class="col-md-12">
+                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                    <textarea class="form-control" id="CusAddress" name="CusAddress"></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                        <input class="form-control" type="tel" id="CusTel" name="CusTel" placeholder="กรุุณากรอกเบอร์โทรศัพท์" onchange="CheckTelnall()">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" align="right">
+                    <p id="StatusTel" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input class="form-control" type="email" id="CusEmail" name="CusEmail" placeholder="กรุุณากรอกอีเมลล์ติดต่อ">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" align="right">
+                    <p id="StatusEmail" />
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
+                <button class="btn btn-outline-info form-control" type="submit" onclick="Register()">สมัครสมาชิก</button>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-danger form-control" type="reset" onclick="Reset()">รีเซ็ต</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var chkusername,chktel,chkemail;
+    function CheckUsernull() {
+        if (document.getElementById('CusId').value == "") {
+            $("#StatusUser").html('');
+            $("#CusId").css("border-color", "#ced4da");
+        } else {
+            UserCheck();
+        }
+    }
+    function UserCheck() {
+        $("#StatusUser").html('<font color="Gold"><i class="fas fa-spinner"></i> กำลังตรวจสอบ...</font>');
+        $.post("@Url.Action("CheckUsernameAvilability", "Customer")",
+            {
+                userdata: $("#CusId").val()
+            },
+        function (data) {
+            if (data == 0) {
+                $("#StatusUser").html('<font color="Green"><i class="fas fa-check"></i> สามารถใช้ชื่อผู้ใช้งานนี้ได้ </font>');
+                $("#CusId").css("border-color", "Green");
+                chkusername = true;
+            }
+            else {
+                $("#StatusUser").html('<font color="Red"><i class="fas fa-times"></i> ไม่สามารถใช้ชื่อผู้ใช้งานนี้ได้ !</font>');
+                $("#CusId").css("border-color", "Red");
+                chkusername = false;
+            }
+        });
+    }
+    function CheckTelnall() {
+        if (document.getElementById('CusTel').value == "") {
+            $("#StatusTel").html('');
+            $("#CusTel").css("border-color", "#ced4da");
+        } else {
+            TelCheck();
+        }
+    }
+    function TelCheck() {
+        $("#StatusTel").html('<font color="Gold"><i class="fas fa-spinner"></i> กำลังตรวจสอบ...</font>');
+        $.post("@Url.Action("CheckTelAvilability", "Customer")",
+            {
+                teldata: $("#CusTel").val()
+            },
+        function (data) {
+            if (data == 0) {
+                $("#StatusTel").html('<font color="Green"><i class="fas fa-check"></i> สามารถใช้เบอร์โทรศัพท์นี้ได้ </font>');
+                $("#CusTel").css("border-color", "Green");
+                chktel = true;
+            }
+            else {
+                $("#StatusTel").html('<font color="Red"><i class="fas fa-times"></i> ไม่สามารถใช้เบอร์โทรศัพท์นี้ได้ !</font>');
+                $("#CusTel").css("border-color", "Red");
+                chktel = false;
+            }
+        });
+    }
+
+    function Register() {
+        if (chkusername == true && chktel == true) {
+            RegistertoDB();
+        } else if (chkusername == false) {
+            toastr.error('Username ผิดพลาดกรุณาตรวจสอบใหม่อีกครั้ง', 'ไม่สำเร็จ !', { timeOut: 3000, "closeButton": true });
+            document.getElementById("CusId").focus();
+        } else if (chktel == false) {
+            toastr.error('เบอร์โทรศัพท์ผิดพลาดกรุณาตรวจสอบใหม่อีกครั้ง', 'ไม่สำเร็จ !', { timeOut: 3000, "closeButton": true });
+            document.getElementById("CusTel").focus();
+        }
+
+    }
+
+    function RegistertoDB() {
+        var data = $("#Register").serialize();
+        $.ajax({
+            type: "post",
+            data: data,
+            url: "../Customer/Create",
+            success: function (result) {
+                toastr.success('ยินดีด้วยต้อนรับสมาชิกใหม่ สามารถเข้าสู่ระบบได้', 'สำเร็จ', { timeOut: 3000, "closeButton": true });
+                Reset();
+
+            }
+        });
+    }
+    function Reset() {
+        document.getElementById("Register").reset();
+        CheckUsernull();
+        CheckTelnall();
+        chkusername = false;
+        chktel = false;
+    }
+
+
+</script>

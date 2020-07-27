@@ -28,6 +28,31 @@ namespace Graphiczone.Controllers
             return View();
         }
 
+        public ViewResult Service()
+        {
+            return View();
+        }
+
+        public ViewResult Order()
+        {
+            return View();
+        }
+
+        public ViewResult Payment()
+        {
+            return View();
+        }
+
+        public ViewResult AboutUs()
+        {
+            return View();
+        }
+
+        public ViewResult ContactUs()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

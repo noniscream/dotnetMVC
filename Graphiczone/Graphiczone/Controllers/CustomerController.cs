@@ -66,6 +66,20 @@ namespace Graphiczone.Controllers
             }
         }
 
+        public JsonResult CheckEmailAvilability(string emaildata)
+        {
+            System.Threading.Thread.Sleep(200);
+            var seachData = _graphiczoneDBContext.Customer.Where(x => x.CusEmail == emaildata).FirstOrDefault();
+            if (seachData != null)
+            {
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
+        }
+
         [HttpPost]
         public JsonResult Create(Customer customer)
         {

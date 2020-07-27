@@ -12,8 +12,10 @@
             <div class="row" style="margin-bottom:5px">
                 <div class="col-md-12">
                     <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
-                        <input class="form-control" type="text" id="CusId" name="CusId" placeholder="กรุณากรอกชื่อผู้ใช้งาน" maxlength="" onchange="CheckUsernull()">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="CID"><i class="fas fa-user-alt" id="CID"></i></span>
+                        </div>
+                        <input class="form-control" type="text" id="CusId" name="CusId" placeholder="กรุณากรอกชื่อผู้ใช้งาน" maxlength="10" onchange="CheckUsernull()">
                     </div>
                 </div>
             </div>
@@ -25,7 +27,9 @@
             <div class="row" style="margin-bottom:2%">
                 <div class="col-md-12">
                     <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        </div>
                         <input class="form-control" type="Password" id="CusPassword" name="CusPassword" placeholder="กรุณากรอกรหัสผ่าน">
                     </div>
                 </div>
@@ -34,13 +38,17 @@
             <div class="row" style="margin-bottom:2%">
                 <div class="col-md-6">
                     <div class="input-group">
-                        <span class="input-group-text">ชื่อ</span>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-address-card"></i></span>
+                        </div>
                         <input class="form-control" type="text" id="CusFirstname" name="CusFirstname" placeholder="กรุณากรอกชื่อจริง">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
-                        <span class="input-group-text">นามสกุล</span>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-address-card"></i></span>
+                        </div>
                         <input class="form-control" type="text" id="CusLastname" name="CusLastname" placeholder="กรุณากรอกนามสกุล">
                     </div>
                 </div>
@@ -48,15 +56,21 @@
 
             <div class="row" style="margin-bottom:2%">
                 <div class="col-md-12">
-                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                    <textarea class="form-control" id="CusAddress" name="CusAddress"></textarea>
+                    <div class="input-group" id="xx">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                        </div>
+                        <textarea class="form-control" id="CusAddress" name="CusAddress"></textarea>
+                    </div>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" style="margin-bottom:5px">
                 <div class="col-md-12">
                     <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="CT"><i class="fas fa-phone-alt" id="CT"></i></span>
+                        </div>
                         <input class="form-control" type="tel" id="CusTel" name="CusTel" placeholder="กรุุณากรอกเบอร์โทรศัพท์" onchange="CheckTelnall()">
                     </div>
                 </div>
@@ -67,12 +81,23 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" style="margin-bottom:5px">
                 <div class="col-md-12">
                     <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                        <input class="form-control" type="email" id="CusEmail" name="CusEmail" placeholder="กรุุณากรอกอีเมลล์ติดต่อ">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="CEM"><i class="fas fa-envelope" id="CEM"></i></span>
+                        </div>
+                        <input class="form-control" type="email" id="getEmail" name="getEmail" placeholder="กรุุณากรอกอีเมลล์ติดต่อ" onchange="CheckEmailnull()">
+                        <div class="input-group-append">
+                            <select id="Email" class="form-control input-group-text" onchange="CheckEmailnull()">
+                                <option value="@@outlook.com">@@outlook.com</option>
+                                <option value="@@hotmail.com">@@hotmail.com</option>
+                                <option value="@@gmail.com">@@gmail.com</option>
+                                <option value="@@yahoo.com">@@yahoo.com</option>
+                            </select>
+                        </div>
                     </div>
+                    <input type="hidden" name="CusEmail" id="CusEmail" value="" />
                 </div>
             </div>
             <div class="row">
@@ -94,11 +119,12 @@
     </div>
 </div>
 <script>
-    var chkusername,chktel,chkemail;
+    var chkusername, chktel, chkemail;
     function CheckUsernull() {
         if (document.getElementById('CusId').value == "") {
             $("#StatusUser").html('');
             $("#CusId").css("border-color", "#ced4da");
+            $("#CID").css("border-color", "#ced4da");
         } else {
             UserCheck();
         }
@@ -113,11 +139,13 @@
             if (data == 0) {
                 $("#StatusUser").html('<font color="Green"><i class="fas fa-check"></i> สามารถใช้ชื่อผู้ใช้งานนี้ได้ </font>');
                 $("#CusId").css("border-color", "Green");
+                $("#CID").css("border-color", "Green");
                 chkusername = true;
             }
             else {
                 $("#StatusUser").html('<font color="Red"><i class="fas fa-times"></i> ไม่สามารถใช้ชื่อผู้ใช้งานนี้ได้ !</font>');
                 $("#CusId").css("border-color", "Red");
+                $("#CID").css("border-color", "Red");
                 chkusername = false;
             }
         });
@@ -126,6 +154,7 @@
         if (document.getElementById('CusTel').value == "") {
             $("#StatusTel").html('');
             $("#CusTel").css("border-color", "#ced4da");
+            $("#CT").css("border-color", "#ced4da");
         } else {
             TelCheck();
         }
@@ -140,18 +169,67 @@
             if (data == 0) {
                 $("#StatusTel").html('<font color="Green"><i class="fas fa-check"></i> สามารถใช้เบอร์โทรศัพท์นี้ได้ </font>');
                 $("#CusTel").css("border-color", "Green");
+                $("#CT").css("border-color", "Green");
                 chktel = true;
             }
             else {
                 $("#StatusTel").html('<font color="Red"><i class="fas fa-times"></i> ไม่สามารถใช้เบอร์โทรศัพท์นี้ได้ !</font>');
                 $("#CusTel").css("border-color", "Red");
+                $("#CT").css("border-color", "Red");
                 chktel = false;
             }
         });
     }
 
+    function CheckEmailnull() {
+        if (document.getElementById('getEmail').value == "") {
+            $("#StatusEmail").html('');
+            $("#getEmail").css("border-color", "#ced4da");
+            $("#CEM").css("border-color", "#ced4da");
+            $("#Email").css("border-color", "#ced4da");
+            $("#CusEmail").html('');
+        } else {
+            
+            var value = $("#getEmail").val();
+            if (value.match(/@@/g) != null) {
+                $("#StatusEmail").html('<font color="#17a2b8"><i class="fas fa-info-circle"></i> สามารถเลือก@@ Email ได้ในลิสต์ ไม่ต้องใส่ @@ เพิ่ม</font>');
+                $("#getEmail").css("border-color", "#17a2b8");
+                $("#CEM").css("border-color", "#17a2b8");
+                $("#Email").css("border-color", "#17a2b8");
+                chkemail = false;
+            } else {
+                EmailCheck();
+            }
+            document.getElementById('CusEmail').value = $('#getEmail').val() + $('#Email').val();
+        }
+    }
+
+    function EmailCheck() {
+        $("#StatusEmail").html('<font color="Gold"><i class="fas fa-spinner"></i> กำลังตรวจสอบ...</font>');
+        $.post("@Url.Action("CheckEmailAvilability", "Customer")",
+            {
+                emaildata: $("#getEmail").val() + $("#Email").val()
+            },
+        function (data) {
+            if (data == 0) {
+                $("#StatusEmail").html('<font color="Green"><i class="fas fa-check"></i> สามารถใช้อีเมลล์นี้ได้ </font>');
+                $("#getEmail").css("border-color", "Green");
+                $("#CEM").css("border-color", "Green");
+                $("#Email").css("border-color", "Green");
+                chkemail = true;
+            }
+            else {
+                $("#StatusEmail").html('<font color="Red"><i class="fas fa-times"></i> ไม่สามารถใช้อีเมลล์นี้ได้ !</font>');
+                $("#getEmail").css("border-color", "Red");
+                $("#CEM").css("border-color", "Red");
+                $("#Email").css("border-color", "Red");
+                chkemail = false;
+            }
+        });
+    }
+
     function Register() {
-        if (chkusername == true && chktel == true) {
+        if (chkusername == true && chktel == true && chkemail == true) {
             RegistertoDB();
         } else if (chkusername == false) {
             toastr.error('Username ผิดพลาดกรุณาตรวจสอบใหม่อีกครั้ง', 'ไม่สำเร็จ !', { timeOut: 3000, "closeButton": true });
@@ -159,6 +237,12 @@
         } else if (chktel == false) {
             toastr.error('เบอร์โทรศัพท์ผิดพลาดกรุณาตรวจสอบใหม่อีกครั้ง', 'ไม่สำเร็จ !', { timeOut: 3000, "closeButton": true });
             document.getElementById("CusTel").focus();
+        } else if (chkemail == false) {
+            toastr.error('อีเมลล์ติดต่อผิดพลาดกรุณาตรวจสอบใหม่อีกครั้ง', 'ไม่สำเร็จ !', { timeOut: 3000, "closeButton": true });
+            document.getElementById("getEmail").focus();
+        } else {
+            toastr.error('ข้อมูลผิดพลาดกรุณาตรวจสอบใหม่อีกครั้ง', 'ไม่สำเร็จ !', { timeOut: 3000, "closeButton": true });
+            document.getElementById("CusId").focus();
         }
 
     }
@@ -180,8 +264,12 @@
         document.getElementById("Register").reset();
         CheckUsernull();
         CheckTelnall();
+        CheckEmailnull();
         chkusername = false;
         chktel = false;
+        chkemail = false;
+        $("#CusEmail").html('');
+
     }
 
 

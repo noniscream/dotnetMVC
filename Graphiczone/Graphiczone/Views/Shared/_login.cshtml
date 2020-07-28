@@ -1,12 +1,18 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.Http
-@model Graphiczone.Models.SQLServer.Customer
+﻿@using Microsoft.AspNetCore.Http
 
-@inject  IHttpContextAccessor HttpContextAccessor
-<ul class="navbar-nav">
-    <li class="nav-item">
-        @Html.ActionLink("เข้าสู่ระบบ", "Login", "Customer", null, new { @class = "btn btn-outline-success" })
-        @Html.ActionLink("สมัครสมาชิก", "Register", "Customer", null, new { @class = "btn btn-warning" })
-    </li>
-    
-</ul>
+    <ul class="navbar-nav">
+        @if (Context.Session.GetString("CusUsername") != null)
+        {
+        <li class="nav-item">
+            <a href="/Customer/Manager" style="margin:10px">คุณ : @ViewBag.CusUsername</a>
+            @Html.ActionLink("ออกจากระบบ", "Logout", "Customer", null, new { @class = "btn btn-danger" })
+        </li>
+        }
+        else
+        {
+        <li class="nav-item">
+            @Html.ActionLink("เข้าสู่ระบบ", "Login", "Customer", null, new { @class = "btn btn-outline-success" })
+            @Html.ActionLink("สมัครสมาชิก", "Register", "Customer", null, new { @class = "btn btn-warning" })
+        </li>
+    }
+    </ul>

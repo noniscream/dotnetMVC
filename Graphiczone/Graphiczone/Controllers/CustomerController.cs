@@ -30,6 +30,12 @@ namespace Graphiczone.Controllers
             return View();
         }
 
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
+        }
+
         public JsonResult LoginAuth(Customer cus)
         {
             string username = cus.CusUsername;
@@ -37,7 +43,7 @@ namespace Graphiczone.Controllers
             var seachData = _graphiczoneDBContext.Customer.Where(x => x.CusUsername == username && x.CusPassword == password).FirstOrDefault();
             if(seachData != null)
             {
-                HttpContext.Session.SetString("CusUsername",JsonConvert.SerializeObject(cus));
+                HttpContext.Session.SetString("CusUsername",cus.CusUsername); // Save Session
                 return Json(1);
             }
             else
@@ -48,7 +54,16 @@ namespace Graphiczone.Controllers
 
         public IActionResult Manager()
         {
-                return View();
+            if(HttpContext.Session.GetString("CusUsername") == null)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                ViewBag.CusUsername = HttpContext.Session.GetString("CusUsername");
+                //Response.Cookies.Append("LastLogedInTime", DateTime.Now.ToString());
+            }
+            return View();
         }
 
         public ViewResult Register()

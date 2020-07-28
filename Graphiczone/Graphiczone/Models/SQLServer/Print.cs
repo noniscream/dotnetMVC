@@ -10,6 +10,7 @@ namespace Graphiczone.Models.SQLServer
             OrderDetailPrint = new HashSet<OrderDetailPrint>();
         }
 
+        public int Id { get; set; }
         public string PrintId { get; set; }
         public string PrintName { get; set; }
         public double? PrintPrice { get; set; }

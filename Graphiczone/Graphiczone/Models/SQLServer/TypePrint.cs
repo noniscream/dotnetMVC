@@ -10,6 +10,7 @@ namespace Graphiczone.Models.SQLServer
             Print = new HashSet<Print>();
         }
 
+        public int Id { get; set; }
         public string TypePrintId { get; set; }
         public string TypePrintName { get; set; }
 

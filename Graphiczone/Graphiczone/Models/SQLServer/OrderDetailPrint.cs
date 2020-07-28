@@ -5,6 +5,7 @@ namespace Graphiczone.Models.SQLServer
 {
     public partial class OrderDetailPrint
     {
+        public int Id { get; set; }
         public string OrdPrintId { get; set; }
         public double? OrdPrintWidth { get; set; }
         public double? OrdPrintHeight { get; set; }

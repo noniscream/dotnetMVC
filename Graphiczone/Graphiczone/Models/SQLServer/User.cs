@@ -10,6 +10,7 @@ namespace Graphiczone.Models.SQLServer
             Shipping = new HashSet<Shipping>();
         }
 
+        public int Id { get; set; }
         public string UserId { get; set; }
         public string UserFirstname { get; set; }
         public string UserLastname { get; set; }

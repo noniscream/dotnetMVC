@@ -1,6 +1,12 @@
-﻿<ul class="navbar-nav">
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http
+@model Graphiczone.Models.SQLServer.Customer
+
+@inject  IHttpContextAccessor HttpContextAccessor
+<ul class="navbar-nav">
     <li class="nav-item">
-        @Html.ActionLink("Login", "Login", "Customer", null, new { @class = "btn btn-outline-warning" })
-        @Html.ActionLink("Register", "Register", "Customer", null, new { @class = "btn btn-warning" })
+        @Html.ActionLink("เข้าสู่ระบบ", "Login", "Customer", null, new { @class = "btn btn-outline-success" })
+        @Html.ActionLink("สมัครสมาชิก", "Register", "Customer", null, new { @class = "btn btn-warning" })
     </li>
+    
 </ul>

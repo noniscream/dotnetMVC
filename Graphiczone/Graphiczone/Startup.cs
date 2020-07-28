@@ -28,6 +28,10 @@ namespace Graphiczone
             services.AddControllersWithViews();
             services.AddDbContext<GraphiczoneDBContext>(options => options.UseSqlServer
             (Configuration.GetConnectionString("GraphiczoneDB")));
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(3600);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +49,8 @@ namespace Graphiczone
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseRouting();
 

@@ -10,6 +10,7 @@ namespace Graphiczone.Models.SQLServer
             OrderDetailPrint = new HashSet<OrderDetailPrint>();
         }
 
+        public int Id { get; set; }
         public string OrPrintId { get; set; }
         public DateTime? OrPrintDate { get; set; }
         public DateTime? OrPrintDue { get; set; }
@@ -20,8 +21,8 @@ namespace Graphiczone.Models.SQLServer
         public string CusId { get; set; }
 
         public virtual Customer Cus { get; set; }
-        public virtual ProofPayment OrPrint { get; set; }
-        public virtual Shipping OrPrintNavigation { get; set; }
+        public virtual ProofPayment ProofPayment { get; set; }
+        public virtual Shipping Shipping { get; set; }
         public virtual ICollection<OrderDetailPrint> OrderDetailPrint { get; set; }
     }
 }

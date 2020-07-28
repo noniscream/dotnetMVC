@@ -5,6 +5,7 @@ namespace Graphiczone.Models.SQLServer
 {
     public partial class ProofPayment
     {
+        public int Id { get; set; }
         public string OrPrintId { get; set; }
         public string PrfPayId { get; set; }
         public string PrfPayBank { get; set; }
@@ -13,6 +14,6 @@ namespace Graphiczone.Models.SQLServer
         public string PrfPayFile { get; set; }
         public string PrfPayDetail { get; set; }
 
-        public virtual OrderPrint OrderPrint { get; set; }
+        public virtual OrderPrint OrPrint { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Register";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_authLayout.cshtml";
 }
 
     <div align="center" style="margin-bottom:2%"><h1>สมัครสมาชิก</h1></div>
@@ -15,7 +15,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="CID"><i class="fas fa-user-alt" id="CID"></i></span>
                         </div>
-                        <input class="form-control" type="text" id="CusId" name="CusId" placeholder="กรุณากรอกชื่อผู้ใช้งาน" maxlength="10" onchange="CheckUsernull()">
+                        <input class="form-control" type="text" id="CusUsername" name="CusUsername" placeholder="กรุณากรอกชื่อผู้ใช้งาน" maxlength="50" onchange="CheckUsernull()">
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-lock"></i></span>
                         </div>
-                        <input class="form-control" type="Password" id="CusPassword" name="CusPassword" placeholder="กรุณากรอกรหัสผ่าน">
+                        <input class="form-control" type="Password" id="CusPassword" name="CusPassword" maxlength="50" placeholder="กรุณากรอกรหัสผ่าน">
                     </div>
                 </div>
             </div>
@@ -39,18 +39,23 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-address-card"></i></span>
+                            <span class="input-group-text" id="CFN"><i class="fas fa-address-card" id="CFN"></i></span>
                         </div>
-                        <input class="form-control" type="text" id="CusFirstname" name="CusFirstname" placeholder="กรุณากรอกชื่อจริง">
+                        <input class="form-control" type="text" id="CusFirstname" name="CusFirstname" maxlength="50" placeholder="กรุณากรอกชื่อจริง">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-address-card"></i></span>
+                            <span class="input-group-text" id="CFN"><i class="fas fa-address-card" id="CFN"></i></span>
                         </div>
-                        <input class="form-control" type="text" id="CusLastname" name="CusLastname" placeholder="กรุณากรอกนามสกุล">
+                        <input class="form-control" type="text" id="CusLastname" name="CusLastname" maxlength="50" placeholder="กรุณากรอกนามสกุล">
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" align="right">
+                    <p id="StatusFullname" />
                 </div>
             </div>
 
@@ -71,7 +76,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="CT"><i class="fas fa-phone-alt" id="CT"></i></span>
                         </div>
-                        <input class="form-control" type="tel" id="CusTel" name="CusTel" placeholder="กรุุณากรอกเบอร์โทรศัพท์" onchange="CheckTelnall()">
+                        <input class="form-control" type="tel" id="CusTel" name="CusTel" placeholder="กรุุณากรอกเบอร์โทรศัพท์" maxlength="10" onchange="CheckTelnall()">
                     </div>
                 </div>
             </div>
@@ -87,7 +92,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="CEM"><i class="fas fa-envelope" id="CEM"></i></span>
                         </div>
-                        <input class="form-control" type="email" id="getEmail" name="getEmail" placeholder="กรุุณากรอกอีเมลล์ติดต่อ" onchange="CheckEmailnull()">
+                        <input class="form-control" type="email" id="getEmail" name="getEmail" placeholder="กรุุณากรอกอีเมลล์ติดต่อ" maxlength="30" onchange="CheckEmailnull()">
                         <div class="input-group-append">
                             <select id="Email" class="form-control input-group-text" onchange="CheckEmailnull()">
                                 <option value="@@outlook.com">@@outlook.com</option>
@@ -97,7 +102,7 @@
                             </select>
                         </div>
                     </div>
-                    <input type="hidden" name="CusEmail" id="CusEmail" value="" />
+                    <input type="hidden" name="CusEmail" id="CusEmail" maxlength="50" value="" />
                 </div>
             </div>
             <div class="row">
@@ -119,11 +124,11 @@
     </div>
 </div>
 <script>
-    var chkusername, chktel, chkemail;
+    var chkusername, chktel, chkemail, chkfullname;
     function CheckUsernull() {
-        if (document.getElementById('CusId').value == "") {
+        if (document.getElementById('CusUsername').value == "") {
             $("#StatusUser").html('');
-            $("#CusId").css("border-color", "#ced4da");
+            $("#CusUsername").css("border-color", "#ced4da");
             $("#CID").css("border-color", "#ced4da");
         } else {
             UserCheck();
@@ -133,30 +138,75 @@
         $("#StatusUser").html('<font color="Gold"><i class="fas fa-spinner"></i> กำลังตรวจสอบ...</font>');
         $.post("@Url.Action("CheckUsernameAvilability", "Customer")",
             {
-                userdata: $("#CusId").val()
+                userdata: $("#CusUsername").val()
             },
         function (data) {
             if (data == 0) {
                 $("#StatusUser").html('<font color="Green"><i class="fas fa-check"></i> สามารถใช้ชื่อผู้ใช้งานนี้ได้ </font>');
-                $("#CusId").css("border-color", "Green");
+                $("#CusUsername").css("border-color", "Green");
                 $("#CID").css("border-color", "Green");
                 chkusername = true;
             }
             else {
                 $("#StatusUser").html('<font color="Red"><i class="fas fa-times"></i> ไม่สามารถใช้ชื่อผู้ใช้งานนี้ได้ !</font>');
-                $("#CusId").css("border-color", "Red");
+                $("#CusUsername").css("border-color", "Red");
                 $("#CID").css("border-color", "Red");
                 chkusername = false;
             }
         });
     }
+
+    @*function CheckFullnamenull() {
+        if (document.getElementById("CusFirstname").value == "" && document.getElementById("CusLastname").value == "") {
+            $("#StatusFullname").html('');
+            $("#CusFirstname").css("border-color", "#ced4da");
+            $("#CusLastname").css("border-color", "#ced4da");
+            $("#CFN").css("border-color", "#ced4da");
+        } else {
+            FullnameCheck();
+        }
+    }*@
+
+    @*function FullnameCheck() {
+        $("#StatusFullname").html('<font color="Gold"><i class="fas fa-spinner"></i> กำลังตรวจสอบ...</font>');
+        $.post("@Url.Action("CheckFullnameAvilability", "Customer")",
+            {
+                fullnamedata: $("#CusFirstname").val() + $("#CusLastname").val()
+            },
+        function (data) {
+            if (data == 0) {
+                $("#StatusFullname").html('<font color="Green"><i class="fas fa-check"></i> สามารถใช้ชื่อผู้ใช้งานนี้ได้ </font>');
+                $("#CusFirstname").css("border-color", "Green");
+                $("#CusLastname").css("border-color", "Green");
+                $("#CFN").css("border-color", "Green");
+                chkfullname = true;
+            }
+            else {
+                $("#StatusFullname").html('<font color="Red"><i class="fas fa-times"></i> ไม่สามารถใช้ชื่อผู้ใช้งานนี้ได้ !</font>');
+                $("#CusFirstname").css("border-color", "Red");
+                $("#CusLastname").css("border-color", "Red");
+                $("#CFN").css("border-color", "Red");
+                chkfullname = false;
+            }
+        });
+    }*@
+
     function CheckTelnall() {
         if (document.getElementById('CusTel').value == "") {
             $("#StatusTel").html('');
             $("#CusTel").css("border-color", "#ced4da");
             $("#CT").css("border-color", "#ced4da");
         } else {
-            TelCheck();
+            var phonenumber = /^\d{10}$/;
+            if (document.getElementById("CusTel").value.match(phonenumber)) {
+                TelCheck();
+            } else {
+                $("#StatusTel").html('<font color="#17a2b8"><i class="fas fa-info-circle"></i> กรุณากรอกเบอร์โทรศัพท์เฉพาะ (ตัวเลข) ให้ครบ 10 หลัก </font>');
+                $("#CusTel").css("border-color", "#17a2b8");
+                $("#CT").css("border-color", "#17a2b8");
+                chktel = false;
+            }
+            
         }
     }
     function TelCheck() {
@@ -189,7 +239,7 @@
             $("#Email").css("border-color", "#ced4da");
             $("#CusEmail").html('');
         } else {
-            
+
             var value = $("#getEmail").val();
             if (value.match(/@@/g) != null) {
                 $("#StatusEmail").html('<font color="#17a2b8"><i class="fas fa-info-circle"></i> สามารถเลือก@@ Email ได้ในลิสต์ ไม่ต้องใส่ @@ เพิ่ม</font>');
@@ -229,20 +279,26 @@
     }
 
     function Register() {
-        if (chkusername == true && chktel == true && chkemail == true) {
-            RegistertoDB();
-        } else if (chkusername == false) {
-            toastr.error('Username ผิดพลาดกรุณาตรวจสอบใหม่อีกครั้ง', 'ไม่สำเร็จ !', { timeOut: 3000, "closeButton": true });
-            document.getElementById("CusId").focus();
-        } else if (chktel == false) {
-            toastr.error('เบอร์โทรศัพท์ผิดพลาดกรุณาตรวจสอบใหม่อีกครั้ง', 'ไม่สำเร็จ !', { timeOut: 3000, "closeButton": true });
-            document.getElementById("CusTel").focus();
-        } else if (chkemail == false) {
-            toastr.error('อีเมลล์ติดต่อผิดพลาดกรุณาตรวจสอบใหม่อีกครั้ง', 'ไม่สำเร็จ !', { timeOut: 3000, "closeButton": true });
-            document.getElementById("getEmail").focus();
+        if (document.getElementById("CusUsername").value == "" || document.getElementById("CusPassword").value == "" || document.getElementById("CusFirstname").value == "" || document.getElementById("CusLastname").value == "" || document.getElementById("CusAddress").value == "" || document.getElementById("CusTel").value == "" || document.getElementById("getEmail").value == "") {
+            toastr.error('กรุณาตรวจสอบใหม่อีกครั้ง', 'ข้อมูลไม่ครบถ้วน !', { timeOut: 3000, "closeButton": true });
+            document.getElementById("CusUsername").focus();
         } else {
-            toastr.error('ข้อมูลผิดพลาดกรุณาตรวจสอบใหม่อีกครั้ง', 'ไม่สำเร็จ !', { timeOut: 3000, "closeButton": true });
-            document.getElementById("CusId").focus();
+            if (chkusername == true && chktel == true && chkemail == true) {
+                RegistertoDB();
+            } else if (chkusername == false) {
+                toastr.error('Username ผิดพลาดกรุณาตรวจสอบใหม่อีกครั้ง', 'ไม่สำเร็จ !', { timeOut: 3000, "closeButton": true });
+                document.getElementById("CusUsername").focus();
+            } else if (chktel == false) {
+                toastr.error('เบอร์โทรศัพท์ผิดพลาดกรุณาตรวจสอบใหม่อีกครั้ง', 'ไม่สำเร็จ !', { timeOut: 3000, "closeButton": true });
+                document.getElementById("CusTel").focus();
+            } else if (chkemail == false) {
+                toastr.error('อีเมลล์ติดต่อผิดพลาดกรุณาตรวจสอบใหม่อีกครั้ง', 'ไม่สำเร็จ !', { timeOut: 3000, "closeButton": true });
+                document.getElementById("getEmail").focus();
+            } else {
+                toastr.error('ข้อมูลผิดพลาดกรุณาตรวจสอบใหม่อีกครั้ง', 'ไม่สำเร็จ !', { timeOut: 3000, "closeButton": true });
+                document.getElementById("CusUsername").focus();
+            }
+
         }
 
     }
@@ -265,9 +321,11 @@
         CheckUsernull();
         CheckTelnall();
         CheckEmailnull();
+        //CheckFullnamenull();
         chkusername = false;
         chktel = false;
         chkemail = false;
+        //chkfullname = false;
         $("#CusEmail").html('');
 
     }

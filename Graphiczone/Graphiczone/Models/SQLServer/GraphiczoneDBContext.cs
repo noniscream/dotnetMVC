@@ -37,7 +37,8 @@ namespace Graphiczone.Models.SQLServer
         {
             modelBuilder.Entity<Customer>(entity =>
             {
-                entity.HasKey(e => e.CusId);
+                entity.HasKey(e => e.CusId)
+                    .HasName("PK_Customer_1");
 
                 entity.Property(e => e.CusId)
                     .HasColumnName("cus_id")
@@ -79,6 +80,10 @@ namespace Graphiczone.Models.SQLServer
                     .HasColumnName("cus_username")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<OrderDetailPrint>(entity =>
@@ -90,6 +95,10 @@ namespace Graphiczone.Models.SQLServer
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .IsFixedLength();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.OrPrintId)
                     .HasColumnName("orPrint_id")
@@ -148,6 +157,10 @@ namespace Graphiczone.Models.SQLServer
                     .IsUnicode(false)
                     .IsFixedLength();
 
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedOnAdd();
+
                 entity.Property(e => e.OrPrintDate)
                     .HasColumnName("orPrint_date")
                     .HasColumnType("date");
@@ -170,27 +183,21 @@ namespace Graphiczone.Models.SQLServer
                     .WithMany(p => p.OrderPrint)
                     .HasForeignKey(d => d.CusId)
                     .HasConstraintName("FK_OrderPrint_Customer");
-
-                entity.HasOne(d => d.OrPrint)
-                    .WithOne(p => p.OrderPrint)
-                    .HasForeignKey<OrderPrint>(d => d.OrPrintId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderPrint_ProofPayment");
-
-                entity.HasOne(d => d.OrPrintNavigation)
-                    .WithOne(p => p.OrderPrint)
-                    .HasForeignKey<OrderPrint>(d => d.OrPrintId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderPrint_Shipping");
             });
 
             modelBuilder.Entity<Print>(entity =>
             {
+                entity.HasKey(e => e.PrintId);
+
                 entity.Property(e => e.PrintId)
                     .HasColumnName("print_id")
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .IsFixedLength();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.PrintName)
                     .HasColumnName("print_name")
@@ -227,6 +234,10 @@ namespace Graphiczone.Models.SQLServer
                     .IsUnicode(false)
                     .IsFixedLength();
 
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedOnAdd();
+
                 entity.Property(e => e.PrfPayBank)
                     .HasColumnName("prfPay_bank")
                     .HasMaxLength(50)
@@ -254,6 +265,12 @@ namespace Graphiczone.Models.SQLServer
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .IsFixedLength();
+
+                entity.HasOne(d => d.OrPrint)
+                    .WithOne(p => p.ProofPayment)
+                    .HasForeignKey<ProofPayment>(d => d.OrPrintId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ProofPayment_OrderPrint");
             });
 
             modelBuilder.Entity<Shipping>(entity =>
@@ -265,6 +282,10 @@ namespace Graphiczone.Models.SQLServer
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .IsFixedLength();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.ShippingDate)
                     .HasColumnName("shipping_date")
@@ -280,6 +301,12 @@ namespace Graphiczone.Models.SQLServer
                     .IsUnicode(false)
                     .IsFixedLength();
 
+                entity.HasOne(d => d.OrPrint)
+                    .WithOne(p => p.Shipping)
+                    .HasForeignKey<Shipping>(d => d.OrPrintId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Shipping_OrderPrint");
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Shipping)
                     .HasForeignKey(d => d.UserId)
@@ -288,11 +315,18 @@ namespace Graphiczone.Models.SQLServer
 
             modelBuilder.Entity<TypePrint>(entity =>
             {
+                entity.HasKey(e => e.TypePrintId)
+                    .HasName("PK_typePrint");
+
                 entity.Property(e => e.TypePrintId)
                     .HasColumnName("typePrint_id")
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .IsFixedLength();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.TypePrintName)
                     .HasColumnName("typePrint_name")
@@ -302,11 +336,17 @@ namespace Graphiczone.Models.SQLServer
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.HasKey(e => e.UserId);
+
                 entity.Property(e => e.UserId)
                     .HasColumnName("user_id")
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .IsFixedLength();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.UserAddress)
                     .HasColumnName("user_address")

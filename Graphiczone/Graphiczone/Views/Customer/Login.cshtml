@@ -1,8 +1,73 @@
 ﻿
 @{
     ViewData["Title"] = "Login";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_authLayout.cshtml";
 }
 
-<h1>Login</h1>
+<div align="center" style="margin-bottom:2%"><h1>เข้าสู่ระบบ</h1></div>
+<div class="container">
+    <form id="Login">
+        <div class="form-group">
+            <div class="row" style="margin-bottom:5px">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="CID"><i class="fas fa-user-alt" id="CID"></i></span>
+                        </div>
+                        <input class="form-control" type="text" id="CusUsername" name="CusUsername" placeholder="กรุณากรอกชื่อผู้ใช้งาน" maxlength="50">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row" style="margin-bottom:5px">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="CPW"><i class="fas fa-lock" id="CPW"></i></span>
+                        </div>
+                        <input class="form-control" type="password" id="CusPassword" name="CusPassword" placeholder="กรุณากรอกรหัสผ่าน" maxlength="50">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="form-group">
+        <div class="row">
+            <button class="btn btn-success form-control" type="submit" onclick="Login()"><i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ</button>
+        </div>
+    </div>
+</div>
+<script>
+    function Login() {
+        if (document.getElementById("CusUsername").value == "" || document.getElementById("CusPassword").value == "") {
+            toastr.error('กรุณากรอกข้อมูลให้ครบถ้วน', 'ไม่สำเร็จ', { timeOut: 3000, "closeButton": true });
+            document.getElementById("CusUsername").focus();
+        } else {
+            LogintoDB();
+        }
+    }
+    function LogintoDB() {
+        var data = $("#Login").serialize();
+        $.ajax({
+            type: "post",
+            data: data,
+            url: "../Customer/LoginAuth",
+            success: function (result) {
+                if (result == 1) {
+                    toastr.success('เข้าสู่ระบบสำเร็จ', 'สำเร็จ', { timeOut: 3000, "closeButton": true });
+                    window.location.href = "../Customer/Manager";
+                    Reset();
+                } else {
+                    toastr.error('Username หรือ Password ไม่ถูกต้องกรุณาตรวจใหม่อีกครั้ง', 'ไม่สำเร็จ', { timeOut: 3000, "closeButton": true });
+                    document.getElementById("CusUsername").focus();
+                }
 
+            }
+        });
+    }
+
+    function Reset() {
+        document.getElementById("Login").reset();
+    }
+</script>

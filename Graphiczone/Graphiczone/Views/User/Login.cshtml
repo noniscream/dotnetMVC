@@ -1,0 +1,134 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- toastr -->
+    <link href="~/lib/toastr.js/toastr.css" rel="stylesheet" />
+    <script src="~/lib/toastr.js/toastr.min.js"></script>
+
+    <script>
+        function Login() {
+            if (document.getElementById("UserUsername").value == "" || document.getElementById("UserPassword").value == "") {
+                toastr.error('กรุณากรอกข้อมูลให้ครบถ้วน', 'ไม่สำเร็จ', { timeOut: 3000, "closeButton": true });
+                document.getElementById("UserUsername").focus();
+            } else {
+                LogintoDB();
+            }
+        }
+        function LogintoDB() {
+            var data = $("#Login").serialize();
+            $.ajax({
+                type: "post",
+                data: data,
+                url: "../User/LoginAuth",
+                success: function (result) {
+                    if (result == 1) {
+                        toastr.success('เข้าสู่ระบบสำเร็จ', 'สำเร็จ', { timeOut: 3000, "closeButton": true });
+                        setTimeout(function GotoLogin() {
+                            window.location.href = ("Index");
+                        }, 0);
+                        Reset();
+                    } else {
+                        toastr.error('Username หรือ Password ไม่ถูกต้องกรุณาตรวจใหม่อีกครั้ง', 'ไม่สำเร็จ', { timeOut: 3000, "closeButton": true });
+                        document.getElementById("UserUsername").focus();
+                    }
+
+                }
+            });
+        }
+
+
+
+        function Reset() {
+            document.getElementById("Login").reset();
+        }
+
+        function showpassword() {
+            var x = document.getElementById("UserPassword");
+            if (x.type == "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+                y.class("fas fa-eye")
+ 
+            }
+        }
+    </script>
+    <style>
+        #userlogin{
+            top:20vh;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row" >
+            <div class="col-md-6 offset-md-3"id="userlogin">
+                <div >
+                    <div class="card" >
+                        <div class="card-header" align="center">
+                            <label>เข้าสู่ระบบพนักงาน</label>
+                        </div>
+                        <div class="card-body">
+                            <form id="Login">
+                                <div class="form-group">
+                                    <div class="row" style="margin-bottom:5px">
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                                                </div>
+                                                <input class="form-control" type="text" name="UserUsername" id="UserUsername" placeholder="กรุณากรอกบัญชีผู้ใช้งาน" value="admin" maxlength="50" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row" style="margin-bottom:5px">
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                                </div>
+                                                <input class="form-control" type="password" name="UserPassword" id="UserPassword" placeholder="กรุณากรอกรหัสผ่าน" value="123456" maxlength="50" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                <input type="checkbox" onclick="showpassword()" /> Show Password
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="form-group">
+                                <div class="row">
+                                    <button class="btn btn-info form-control badge-pill" type="submit" onclick="Login()"><i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

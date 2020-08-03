@@ -69,3 +69,52 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.progress {
+    counter-reset: step;
+    counter-increment: step 0;
+}
+
+#progress li {
+    list-style-type: none;
+    float: left;
+    width: 23.60%;
+    position: relative;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+    #progress li:before {
+        content: counter(step);
+        counter-increment: step;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        border: 1px solid #ddd;
+        display: block;
+        text-align: center;
+        margin: 0 auto 10px auto;
+        border-radius: 50%;
+        letter-spacing: 0px;
+    }
+.table-head, .table-row {
+    display: table;
+    width: 100%;
+    margin: 10px auto;
+    background: transparent;
+    padding: 12px 0;
+    box-shadow: 0 1px 4px 0 rgba(0,0,50,0.3);
+}
+
+.table-cell {
+    display: table-cell;
+    width: 15%;
+    text-align: center;
+    padding: 5px 0;
+    border-right: 1px solid #d6d4d4;
+    vertical-align: middle;
+    color: #00189f;
+}
+.last-cell {
+    border-right: none;
+}

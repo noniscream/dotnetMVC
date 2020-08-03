@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Http
+
+<ul class="nav flex-column">
+    <li class="nav-item">
+        <div class="card">
+            <div class="card-body">
+                @if (Context.Session.GetString("UserUsername") != null)
+                {
+                    <label><i class="fas fa-user-alt"></i> : @Context.Session.GetString("UserUsername") </label>
+
+                    <div align="right">
+                        <a class="btn btn-danger badge-pill" href="/User/Logout" style="font-size:12px"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</a>
+                    </div>
+                }
+                else
+                {
+
+                }
+            </div>
+        </div>
+        <hr class="bg-white" />
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" href="/User/Index">หน้าแรก</a>
+        <hr class="bg-white" />
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" href="/User/Index">รายการสั่งทำ</a>
+        <hr class="bg-white" />
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" href="/User/Index">รายการแจ้งชำระเงิน</a>
+        <hr class="bg-white" />
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" href="/User/Index">รายการยืนยันการชำระเงิน</a>
+        <hr class="bg-white" />
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" href="/OrderPrint/ListWorkStatus">รายการสถานะงาน</a>
+        <hr class="bg-white" />
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" href="/User/Index">รายการการส่งมอบ</a>
+        <hr class="bg-white" />
+    </li>
+</ul>

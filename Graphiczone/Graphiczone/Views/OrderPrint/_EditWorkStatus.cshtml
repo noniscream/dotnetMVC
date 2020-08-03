@@ -1,0 +1,106 @@
+﻿
+    <div class="modal fade" id="Edit">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>ข้อมูลรายการสั่งทำที่ : @ViewBag.OrderPrintId</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width:50%"></div>
+                    </div>
+                    <hr class="bg-info" />
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>สั่งทำโดย : คุณ @ViewBag.CusFullname</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>สั่งเมื่อวันที่ : @ViewBag.OrderDate</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>กำหนดรับวันที่ : @ViewBag.OrderDue</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 offset-3">
+                                        <label>เหลือเวลาอีก : @ViewBag.TotalDate วัน</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="table-box">
+                                            <div class="table-row">
+                                                <div class="table-cell">
+                                                    <p>รหัสรายการ</p>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <p>ชื่อรายการ</p>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <p>พื้นที่รวม</p>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <p>ราคาต่อหน่วย</p>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <p>จำนวน</p>
+                                                </div>
+                                                <div class="table-cell last-cell">
+                                                    <p>รวมเป็นเงิน</p>
+                                                </div>
+                                            </div>
+                                            @foreach (var x in ViewBag.OrderList)
+                                            {
+                                                <div class="table-row">
+                                                <div class="table-cell">
+                                                    <p>@x.OrdPrintId</p>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <small>@ViewBag.PrintName ( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <p>
+                                                        @{
+                                                            var sumarea = x.OrdPrintWidth * x.OrdPrintHeight;
+                                                        }
+                                                        @sumarea
+                                                    </p>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <p>@x.OrdPrintPriceset</p>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <p>@x.OrdPrintNum</p>
+                                                </div>
+                                                <div class="table-cell last-cell">
+                                                    <p>@x.OrdPrintTotal</p>
+                                                </div>
+                                            </div>
+                                            }
+                                        <div class="table-row">
+                                            <div class="table-cell last-cell" align="right">
+                                                รวมเป็นเงิน : @ViewBag.PriceTotal บาท
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-time"></i>ปิดหน้าต่าง</button>
+                </div>
+            </div>
+        </div>
+    </div>

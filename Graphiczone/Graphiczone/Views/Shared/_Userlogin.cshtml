@@ -1,0 +1,14 @@
+﻿@using Microsoft.AspNetCore.Http
+
+<ul class="navbar-nav">
+    @if (Context.Session.GetString("UserUsername") != null)
+    {
+        @Html.ActionLink("ออกจากระบบ", "Logout", "User", null, new { @class = "btn btn-danger" })
+    }
+    else
+    {
+        <li class="nav-item">
+            @Html.ActionLink("เข้าสู่ระบบ", "Login", "User", null, new { @class = "btn btn-outline-success" })
+        </li>
+    }
+</ul>

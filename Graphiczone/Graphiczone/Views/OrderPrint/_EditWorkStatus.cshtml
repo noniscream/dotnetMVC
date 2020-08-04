@@ -4,13 +4,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5>ข้อมูลรายการสั่งทำที่ : @ViewBag.OrderPrintId</h5>
+                    <input type="hidden" name="OrderPrintId" id="OrderPrintId" value="@ViewBag.OrderPrintId" />
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width:50%"></div>
+                        <div class="progress-bar" role="progressbar" style="width:50%;background-color:gold"></div>
                     </div>
                     <hr class="bg-info" />
                     <div class="card">
@@ -23,15 +24,15 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label>สั่งเมื่อวันที่ : @ViewBag.OrderDate</label>
+                                        <label>สั่งเมื่อวันที่ : @ViewBag.OrderDate.ToString("dd MMM yyyy")</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <label>กำหนดรับวันที่ : @ViewBag.OrderDue</label>
+                                        <label>กำหนดรับวันที่ : @ViewBag.OrderDue.ToString("dd MMM yyyy")</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 offset-3">
-                                        <label>เหลือเวลาอีก : @ViewBag.TotalDate วัน</label>
+                                        <label>เหลือเวลาอีก : @ViewBag.TotalDate.ToString("d") วัน</label>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -60,36 +61,39 @@
                                             @foreach (var x in ViewBag.OrderList)
                                             {
                                                 <div class="table-row">
-                                                <div class="table-cell">
-                                                    <p>@x.OrdPrintId</p>
+                                                    <div class="table-cell">
+                                                        <p>@x.OrdPrintId</p>
+                                                    </div>
+                                                    <div class="table-cell">
+                                                        <small>@ViewBag.PrintName ( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
+                                                    </div>
+                                                    <div class="table-cell">
+                                                        <p>
+                                                            @{
+                                                                var sumarea = x.OrdPrintWidth * x.OrdPrintHeight;
+                                                            }
+                                                            @sumarea
+                                                        </p>
+                                                    </div>
+                                                    <div class="table-cell">
+                                                        <p>@x.OrdPrintPriceset</p>
+                                                    </div>
+                                                    <div class="table-cell">
+                                                        <p>@x.OrdPrintNum</p>
+                                                    </div>
+                                                    <div class="table-cell last-cell">
+                                                        <p>@x.OrdPrintTotal</p>
+                                                    </div>
                                                 </div>
-                                                <div class="table-cell">
-                                                    <small>@ViewBag.PrintName ( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
-                                                </div>
-                                                <div class="table-cell">
-                                                    <p>
-                                                        @{
-                                                            var sumarea = x.OrdPrintWidth * x.OrdPrintHeight;
-                                                        }
-                                                        @sumarea
-                                                    </p>
-                                                </div>
-                                                <div class="table-cell">
-                                                    <p>@x.OrdPrintPriceset</p>
-                                                </div>
-                                                <div class="table-cell">
-                                                    <p>@x.OrdPrintNum</p>
-                                                </div>
-                                                <div class="table-cell last-cell">
-                                                    <p>@x.OrdPrintTotal</p>
-                                                </div>
-                                            </div>
                                             }
-                                        <div class="table-row">
-                                            <div class="table-cell last-cell" align="right">
-                                                รวมเป็นเงิน : @ViewBag.PriceTotal บาท
+                                            <div class="table-row">
+                                                <div class="table-cell last-cell" align="right">
+                                                    รวมเป็นเงิน : @ViewBag.PriceTotal บาท
+                                                </div>
                                             </div>
-                                        </div>
+                                            <div align="center" style="margin-top:2%">
+                                                <button type="button" class="btn btn-outline-success badge-pill" onclick="editworkstatus()">ผลิตเสร็จสิ้นแล้ว</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -104,3 +108,28 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function editworkstatus() {
+            var OrPrintId = document.getElementById("OrderPrintId").value;
+            var OrPrintStatus = 2;
+            var Progressbar = $('.progress-bar')
+            $.ajax({
+                type: "post",
+                data: { OrPrintId, OrPrintStatus },
+                url: "/OrderPrint/update",
+                success: function (result) {
+                    if (result == 1) {
+                        Progressbar.css('width', 700);
+                        Progressbar.css('background-color', "green");
+                        toastr.success("เปลี่ยนแปลงสถานะรายการสั่งทำที่ : @ViewBag.OrderPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                        setTimeout(function fetch() {
+                            window.location.href = ("/OrderPrint/ListWorkStatus");
+                        },3000);
+                    } else {
+                        toastr.error("รายการสั่งทำที่ : @ViewBag.OrderPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    }
+                }
+            })
+        }
+    </script>

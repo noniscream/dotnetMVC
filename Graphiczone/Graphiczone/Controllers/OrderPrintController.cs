@@ -6,6 +6,7 @@ using Graphiczone.Models;
 using Graphiczone.Models.SQLServer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Graphiczone.Controllers
 {
@@ -38,7 +39,7 @@ namespace Graphiczone.Controllers
             }
             else
             {
-                var seachData = _graphiczoneDBContext.OrderPrint.ToList();
+                var seachData = _graphiczoneDBContext.OrderPrint.Where(x=>x.OrPrintStatus == 1).ToList();
                 return View(seachData);
             }
         }
@@ -57,7 +58,7 @@ namespace Graphiczone.Controllers
                 var seachData2 = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
                 if(seachData2 != null)
                 {
-                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).ToList();
+                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id ).ToList();
                     ViewBag.OrderList = orderDetailPrints;
                     ViewBag.OrderPrintId = seachData.OrPrintId;
                     ViewBag.OrderDate = seachData2.OrPrintDate;
@@ -71,6 +72,23 @@ namespace Graphiczone.Controllers
                 }
                 return PartialView("_EditWorkStatus",seachData);
             }
+        }
+        [HttpPost]
+        public JsonResult update(OrderPrint orderPrint)
+        {
+            var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
+            if( searchData != null)
+            {
+                searchData.OrPrintStatus = orderPrint.OrPrintStatus;
+                _graphiczoneDBContext.SaveChanges();
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
+            
+            
         }
     }
 }

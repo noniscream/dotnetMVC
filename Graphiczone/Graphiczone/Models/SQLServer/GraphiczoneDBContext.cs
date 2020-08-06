@@ -116,6 +116,10 @@ namespace Graphiczone.Models.SQLServer
 
                 entity.Property(e => e.OrdPrintHeight).HasColumnName("ordPrint_height");
 
+                entity.Property(e => e.OrdPrintName)
+                    .HasColumnName("ordPrint_name")
+                    .HasColumnType("text");
+
                 entity.Property(e => e.OrdPrintNum).HasColumnName("ordPrint_num");
 
                 entity.Property(e => e.OrdPrintPriceset).HasColumnName("ordPrint_priceset");

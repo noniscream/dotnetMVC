@@ -4,13 +4,13 @@
 // Write your JavaScript code.
 
 $(function () {
-    var PlaceHolderElement = $('#PlaceHolderHere');
+    var x1 = $('#PlaceHolderHere');
     $('button[data-toggle="ajax-modal"]').click(function (event) {
         var url = $(this).data('url');
         var decodeUrl = decodeURIComponent(url);
         $.get(decodeUrl).done(function (data) {
-            PlaceHolderElement.html(data);
-            PlaceHolderElement.find('.modal').modal('show');
+            x1.html(data);
+            x1.find('.modal').modal('show');
         })
     })
 })

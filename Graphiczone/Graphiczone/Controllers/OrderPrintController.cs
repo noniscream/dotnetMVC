@@ -39,6 +39,7 @@ namespace Graphiczone.Controllers
             }
             else
             {
+
                 var seachData = _graphiczoneDBContext.OrderPrint.Where(x=>x.OrPrintStatus == 1).ToList();
                 return View(seachData);
             }

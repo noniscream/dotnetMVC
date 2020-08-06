@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace Graphiczone.Models.SQLServer
 {
@@ -13,5 +15,6 @@ namespace Graphiczone.Models.SQLServer
 
         public virtual OrderPrint OrPrint { get; set; }
         public virtual User User { get; set; }
+
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-    <div class="modal fade" id="Edit">
+    <div class="modal fade" id="EditWorkStatus">
         <div class="modal-dialog modal-xl modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
@@ -11,7 +11,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width:50%;background-color:gold"></div>
+                        <div class="progress-bar" role="progressbar"></div>
                     </div>
                     <hr class="bg-info" />
                     <div class="card">
@@ -24,15 +24,15 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label>สั่งเมื่อวันที่ : @ViewBag.OrderDate.ToString("dd MMM yyyy")</label>
+                                        <label>สั่งเมื่อวันที่ : @ViewBag.OrderDate.ToString("dd MMMM yyyy")</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <label>กำหนดรับวันที่ : @ViewBag.OrderDue.ToString("dd MMM yyyy")</label>
+                                        <label>กำหนดรับวันที่ : @ViewBag.OrderDue.ToString("dd MMMM yyyy")</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 offset-3">
-                                        <label>เหลือเวลาอีก : @ViewBag.TotalDate.ToString("d") วัน</label>
+                                        <label>เหลือเวลาอีก : @ViewBag.TotalDate.ToString("dd") วัน</label>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -65,6 +65,7 @@
                                                         <p>@x.OrdPrintId</p>
                                                     </div>
                                                     <div class="table-cell">
+                                                        <p>@x.OrdPrintName</p>
                                                         <small>@ViewBag.PrintName ( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
                                                     </div>
                                                     <div class="table-cell">
@@ -76,23 +77,23 @@
                                                         </p>
                                                     </div>
                                                     <div class="table-cell">
-                                                        <p>@x.OrdPrintPriceset</p>
+                                                        <p>@x.OrdPrintPriceset.ToString("#,###.00")</p>
                                                     </div>
                                                     <div class="table-cell">
-                                                        <p>@x.OrdPrintNum</p>
+                                                        <p>@x.OrdPrintNum.ToString("#,###")</p>
                                                     </div>
                                                     <div class="table-cell last-cell">
-                                                        <p>@x.OrdPrintTotal</p>
+                                                        <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
                                                     </div>
                                                 </div>
                                             }
                                             <div class="table-row">
                                                 <div class="table-cell last-cell" align="right">
-                                                    รวมเป็นเงิน : @ViewBag.PriceTotal บาท
+                                                    รวมเป็นเงิน : @ViewBag.PriceTotal.ToString("#,###.00") บาท
                                                 </div>
                                             </div>
                                             <div align="center" style="margin-top:2%">
-                                                <button type="button" class="btn btn-outline-success badge-pill" onclick="editworkstatus()">ผลิตเสร็จสิ้นแล้ว</button>
+                                                <button type="button" class="btn btn-outline-success badge-pill" onclick="check()">ผลิตเสร็จสิ้นแล้ว</button>
                                             </div>
                                         </div>
                                     </div>
@@ -109,7 +110,41 @@
         </div>
     </div>
 
+
+
     <script>
+        $(document).ready(function getProgress() {
+            var width = 0;
+            var move = setInterval(x, 0);
+            function x() {
+                if (width == 50) {
+                    $('.progress-bar').css('background-color', "gold");
+                    clearInterval(move);
+                } else {
+                    width++;
+                    $('.progress-bar').css('width', width + '%');
+
+                }
+            }
+        });
+        function check() {
+            swal({
+                title: "กรุณายืนยันการทำรายการ",
+                text: "คุณต้องการเปลี่ยนแปลงสถานะงาน รายการที่ : @ViewBag.OrderPrintId ใช่หรือไม่",
+                icon: "warning",
+                buttons:["ยกเลิก","ยืนยัน"],
+            }).then((willupdate) => {
+                if (willupdate) {
+                    editworkstatus();
+                } else {
+                    swal({
+                        title: "ยกเลิกสำเร็จ",
+                        text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
+                        icon:"success",
+                    });
+                }
+            })
+        }
         function editworkstatus() {
             var OrPrintId = document.getElementById("OrderPrintId").value;
             var OrPrintStatus = 2;
@@ -120,7 +155,7 @@
                 url: "/OrderPrint/update",
                 success: function (result) {
                     if (result == 1) {
-                        Progressbar.css('width', 700);
+                        Progressbar.css('width', 70+'%');
                         Progressbar.css('background-color', "green");
                         toastr.success("เปลี่ยนแปลงสถานะรายการสั่งทำที่ : @ViewBag.OrderPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
                         setTimeout(function fetch() {

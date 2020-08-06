@@ -16,6 +16,7 @@ namespace Graphiczone.Models.SQLServer
         public double? OrdPrintTotal { get; set; }
         public string PrintId { get; set; }
         public string OrPrintId { get; set; }
+        public string OrdPrintName { get; set; }
 
         public virtual OrderPrint OrPrint { get; set; }
         public virtual Print Print { get; set; }

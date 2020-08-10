@@ -10,10 +10,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="progress">
+                    <!--<div class="progress">
                         <div class="progress-bar" role="progressbar"></div>
                     </div>
-                    <hr class="bg-info" />
+                    <hr class="bg-info" />-->
                     <div class="card">
                         <div class="card-body">
                             <div class="container">
@@ -30,11 +30,11 @@
                                         <label>กำหนดรับวันที่ : @ViewBag.OrderDue.ToString("dd MMMM yyyy")</label>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <!--<div class="row">
                                     <div class="col-md-6 offset-3">
                                         <label>เหลือเวลาอีก : @ViewBag.TotalDate.ToString("dd") วัน</label>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="table-box">
@@ -87,11 +87,9 @@
                                                     </div>
                                                 </div>
                                             }
-                                            <div class="table-row">
-                                                <div class="table-cell last-cell" align="right">
-                                                    รวมเป็นเงิน : @ViewBag.PriceTotal.ToString("#,###.00") บาท
-                                                </div>
-                                            </div>
+                                        <div class="alert alert-success" align="center">
+                                            <h5>รวมเป็นเงิน : <b>@ViewBag.PriceTotal.ToString("#,###.00")</b> บาท</h5>
+                                        </div>
                                             <div align="center" style="margin-top:2%">
                                                 <button type="button" class="btn btn-outline-success badge-pill" onclick="check()">ผลิตเสร็จสิ้นแล้ว</button>
                                             </div>

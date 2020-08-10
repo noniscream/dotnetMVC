@@ -9,7 +9,7 @@
                     <label><i class="fas fa-user-alt"></i> : @Context.Session.GetString("UserUsername") </label>
 
                     <div align="right">
-                        <a class="btn btn-danger badge-pill" href="/User/Logout" style="font-size:12px"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</a>
+                        <a class="btn btn-danger badge-pill" href="/User/Logout" style="font-size:12px;box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.75);"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</a>
                     </div>
                 }
                 else
@@ -21,27 +21,31 @@
         <hr class="bg-white" />
     </li>
     <li class="nav-item">
-        <a class="nav-link text-white" href="/User/Index">หน้าแรก</a>
+        <a class="nav-link text-white" href="/User/Index"><i class="fas fa-home" style="color:#f50057"></i> หน้าแรก</a>
         <hr class="bg-white" />
     </li>
     <li class="nav-item">
-        <a class="nav-link text-white" href="/User/Index">รายการสั่งทำ</a>
+        <a class="nav-link text-white" href="/OrderPrint/ListWorkAll"><i class="far fa-list-alt" style="color:#0094ff"></i> รายการสั่งทำทั้งหมด</a>
         <hr class="bg-white" />
     </li>
     <li class="nav-item">
-        <a class="nav-link text-white" href="/User/Index">รายการแจ้งชำระเงิน</a>
+        <a class="nav-link text-white" href="/User/Index"><i class="fas fa-shopping-cart" style="color:#651fff"></i> รายการสั่งทำ</a>
         <hr class="bg-white" />
     </li>
     <li class="nav-item">
-        <a class="nav-link text-white" href="/User/Index">รายการยืนยันการชำระเงิน</a>
+        <a class="nav-link text-white" href="/User/Index"><i class="fab fa-cc-visa" style="color:#FF5252"></i> แจ้งหลักฐานการชำระเงิน</a>
         <hr class="bg-white" />
     </li>
     <li class="nav-item">
-        <a class="nav-link text-white" href="/OrderPrint/ListWorkStatus">รายการสถานะงาน</a>
+        <a class="nav-link text-white" href="/User/Index"><i class="fas fa-qrcode" style="color:#1de9b6"></i> ยืนยันการชำระเงิน</a>
         <hr class="bg-white" />
     </li>
     <li class="nav-item">
-        <a class="nav-link text-white" href="/Shipping/ListWorkShipping">รายการการส่งมอบ</a>
+        <a class="nav-link text-white" href="/OrderPrint/ListWorkStatus"><i class="fas fa-clipboard-check" style="color:#536DFE"></i> อัพเดตสถานะงาน</a>
+        <hr class="bg-white" />
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" href="/Shipping/ListWorkShipping"><i class="fas fa-shipping-fast" style="color:#FFC107"></i> บันทึกการส่งมอบ</a>
         <hr class="bg-white" />
     </li>
 </ul>

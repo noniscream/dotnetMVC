@@ -8,21 +8,33 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 
+    <script src="~/sweetalert/sweetalert.min.js"></script>
+
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/smart_wizard.css" rel="stylesheet" />
+
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
 
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap" rel="stylesheet">
 </head>
 <body style="font-family: 'Prompt', sans-serif;">
 
-    <partial name="_header" />
+    <partial name="_Adminheader" />
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div class="container-fluid">
+        <div class="row mt-5">
+            <div class="col-md-3 bg-dark p-5">
+                <partial name="_Adminmenu" />
+            </div>
+            <div class="col-md-9 p-5 pt-2">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
     </div>
 
-    <partial name="_footer" />
+    <partial name="_Adminfooter" />
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

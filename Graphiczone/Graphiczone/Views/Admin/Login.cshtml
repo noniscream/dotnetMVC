@@ -36,13 +36,13 @@
             $.ajax({
                 type: "post",
                 data: data,
-                url: "../User/LoginAuth",
+                url: "../Admin/LoginAuth",
                 success: function (result) {
                     if (result == 1) {
                         toastr.success('เข้าสู่ระบบสำเร็จ', 'สำเร็จ', { timeOut: 3000, "closeButton": true });
                         setTimeout(function GotoLogin() {
                             window.location.href = ("Index");
-                        }, 0);
+                        }, 1000);
                         Reset();
                     } else {
                         toastr.error('Username หรือ Password ไม่ถูกต้องกรุณาตรวจใหม่อีกครั้ง', 'ไม่สำเร็จ', { timeOut: 3000, "closeButton": true });
@@ -78,12 +78,12 @@
 </head>
 <body class="bg-light" style="font-family: 'Prompt', sans-serif;">
     <div class="container">
-        <div class="row" >
-            <div class="col-md-6 offset-md-3"id="userlogin">
-                <div >
+        <div class="row">
+            <div class="col-md-6 offset-md-3" id="userlogin">
+                <div>
                     <div class="card" style="box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.75);">
                         <div class="card-header" align="center">
-                            <label>เข้าสู่ระบบพนักงาน</label>
+                            <label>เข้าสู่ระบบเจ้าของกิจการ</label>
                         </div>
                         <div class="card-body">
                             <form id="Login">
@@ -94,7 +94,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
                                                 </div>
-                                                <input class="form-control" type="text" name="UserUsername" id="UserUsername" placeholder="กรุณากรอกบัญชีผู้ใช้งาน" value="employee" maxlength="50" />
+                                                <input class="form-control" type="text" name="UserUsername" id="UserUsername" placeholder="กรุณากรอกบัญชีผู้ใช้งาน" value="admin" maxlength="50" />
                                             </div>
                                         </div>
                                     </div>
@@ -106,7 +106,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                                 </div>
-                                                <input class="form-control" type="password" name="UserPassword" id="UserPassword" placeholder="กรุณากรอกรหัสผ่าน" value="123123" maxlength="50" />
+                                                <input class="form-control" type="password" name="UserPassword" id="UserPassword" placeholder="กรุณากรอกรหัสผ่าน" value="123456" maxlength="50" />
                                             </div>
                                         </div>
                                     </div>
@@ -124,7 +124,7 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6 offset-3">
-                                        <button class="btn btn-light form-control badge-pill " type="submit" onclick="Login()" style="color:#4800ff;box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.75);"><i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ</button>
+                                        <button class="btn btn-light form-control badge-pill " type="submit" onclick="Login()" style="color:#ff0000;box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.75);"><i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ</button>
                                     </div>
                                 </div>
                             </div>

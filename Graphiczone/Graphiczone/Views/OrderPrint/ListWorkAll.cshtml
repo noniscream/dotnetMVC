@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<Graphiczone.Models.SQLServer.OrderPrint>
 @{
-    ViewData["Title"] = "ListWorkStatus";
+    ViewData["Title"] = "ListWorkAll";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
+
 <style>
     .table-head, .table-row {
         display: table;
@@ -27,11 +28,13 @@
     var strStatus = "";
     var strColorStatus = "";
 }
-<div class="table-head" style="background-color:#FFC107">
+
+<div class="table-head" style="background-color:#0094ff">
     <div class="table-cell">
-        <p class="text-dark" style="font-size:2rem">รายการสถานะส่งมอบ</p>
+        <p class="text-white" style="font-size:2rem">รายการสั่งทำทั้งหมด</p>
     </div>
 </div>
+
 
 <div id="PlaceHolderHere"></div>
 
@@ -47,10 +50,10 @@
             <p>วันที่รับสินค้า</p>
         </div>
         <div class="table-cell">
-            <p>สถานะชำระเงิน</p>
+            <p>สถานะ</p>
         </div>
         <div class="table-cell last-cell">
-            <p>ยืนยันสถานะงาน</p>
+            <p>จัดการสถานะ</p>
         </div>
     </div>
     @foreach (var item in Model)
@@ -60,10 +63,10 @@
                 <p>@item.OrPrintId</p>
             </div>
             <div class="table-cell">
-                <p>@item.OrPrintDate.Value.ToString("dd MMM yyyy")</p>
+                <p>@item.OrPrintDate.Value.Date.ToString("dd MMM yyyy")</p>
             </div>
             <div class="table-cell">
-                <p>@item.OrPrintDue.Value.ToString("dd MMM yyyy")</p>
+                <p>@item.OrPrintDue.Value.Date.ToString("dd MMM yyyy")</p>
             </div>
             <div class="table-cell">
                 @if (item.OrPrintStatus == 0)
@@ -89,10 +92,7 @@
                 <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
             </div>
             <div class="table-cell last-cell">
-                <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
-                        data-target="#EditWorkShipping" data-url="@Url.Action($"EditWorkShipping/{item.OrPrintId}")">
-                    บันทึกการส่งมอบ
-                </button>
+                <a href="@Url.Content("/OrderPrint/GetWorkDetail?id=")@item.OrPrintId">content</a>
             </div>
         </div>
     }

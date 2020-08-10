@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 
-<ul class="navbar-nav">
+<ul class="navbar-nav" >
     @if (Context.Session.GetString("UserUsername") != null)
     {
         @Html.ActionLink("ออกจากระบบ", "Logout", "User", null, new { @class = "btn btn-danger" })

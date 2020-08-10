@@ -10,10 +10,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="progress">
+                <!--<div class="progress">
                     <div class="progress-bar" role="progressbar"></div>
                 </div>
-                <hr class="bg-info" />
+                <hr class="bg-info" />-->
 
                 <div class="card">
                     <h5 class="card-header">บันทึกการส่งมอบ</h5>
@@ -30,17 +30,22 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
-                                            <input class="form-control" type="date" name="ShippingDate" id="ShippingDate" />
+                                            <input class="form-control" type="date" name="ShippingDate" id="ShippingDate" min='@ViewBag.GetDateForPicker.ToString("yyyy-MM-dd")' max='@ViewBag.GetDueForPicker.ToString("yyyy-MM-dd")' required="required" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input type="file" name="Uploadfile" id="Uploadfile" />
+                                        <input type="file" name="Uploadfile" id="Uploadfile" required="required" />
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top:5px">
+                                    <div class="col-md-12" align="right">
+                                        <p id="StatusImg"></p>
                                     </div>
                                 </div>
                                 <div align="center" style="margin-top:2%">
-                                    <button type="submit" class="btn btn-outline-success badge-pill">บันทึก</button>
+                                    <button type="submit" id="btnSave" class="btn btn-outline-success badge-pill">บันทึก</button>
                                 </div>
                             </form>
                             <!--<div align="center" style="margin-top:2%">
@@ -67,11 +72,11 @@
                                     <label>กำหนดรับวันที่ : @ViewBag.OrderDue.ToString("dd MMMM yyyy")</label>
                                 </div>
                             </div>
-                            <div class="row">
+                            <!--<div class="row">
                                 <div class="col-md-6 offset-3">
                                     <label>เหลือเวลาอีก : @ViewBag.TotalDate.ToString("dd") วัน</label>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-box">
@@ -147,7 +152,25 @@
 
 
 <script>
-        $(document).ready(function getProgress() {
+    ShippingDate.step = new Date().toISOString().split("T")[0];
+
+    $(function () {
+        $("#Uploadfile").change(function () {
+            $("#StatusImg").html('<font color="Gold"><i class="fas fa-time"></i> กำลังตรวจสอบ </font>');
+            var filetype = ["jpeg", "jpg", "gif", "png", "bmp"];
+            
+            if ($.inArray($(this).val().split('.').pop().toLowerCase(), filetype) == -1) {
+                $("#StatusImg").html('<font color="Red"><i class="fas fa-times"></i> ไฟล์ไม่ถูกต้อง ! ไม่สามารถใช้ไฟล์นี้ได้ </font>');
+                $("#Uploadfile").val("");
+                $("#btnSave").attr('disabled', true);
+            } else {
+                $("#StatusImg").html('<font color="Green"><i class="fas fa-check"></i> ไฟล์ถูกต้อง สามารถใช้ไฟล์นี้ได้ </font>');
+                $("#btnSave").attr('disabled', false);
+            }
+        })
+    })
+
+        @*$(document).ready(function getProgress() {
             var width = 0;
             var move = setInterval(x, 0);
             function x() {
@@ -233,5 +256,5 @@
                     }
                 }
             })
-        }
+        }*@
 </script>

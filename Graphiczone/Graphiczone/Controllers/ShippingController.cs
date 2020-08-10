@@ -58,6 +58,8 @@ namespace Graphiczone.Controllers
                     ViewBag.OrderList = orderDetailPrints;
                     ViewBag.OrderPrintId = seachData.OrPrintId;
                     ViewBag.OrderDate = seachData2.OrPrintDate;
+                    ViewBag.GetDateForPicker = seachData2.OrPrintDate.Value.AddYears(-543);
+                    ViewBag.GetDueForPicker = seachData2.OrPrintDue.Value.AddYears(-543);
                     ViewBag.OrderDue = seachData2.OrPrintDue;
                     var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
                     ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
@@ -131,14 +133,18 @@ namespace Graphiczone.Controllers
 
                 string fileName = Path.GetFileNameWithoutExtension(Uploadfile.FileName);
                 string extension = Path.GetExtension(Uploadfile.FileName);
-                fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                shipping.ShippingFile = "images/" + fileName;
-                fileName = Path.Combine(wwwRootPath, "images", fileName);
-
-
-                using (var fileStream = new FileStream(fileName, FileMode.Create))
+                
+                if(extension == ".jpg" || extension==".png" || extension == ".gif")
                 {
-                    await Uploadfile.CopyToAsync(fileStream);
+                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    shipping.ShippingFile = "images/" + fileName;
+                    fileName = Path.Combine(wwwRootPath, "images", fileName);
+
+
+                    using (var fileStream = new FileStream(fileName, FileMode.Create))
+                    {
+                        await Uploadfile.CopyToAsync(fileStream);
+                    }
                 }
 
                 _graphiczoneDBContext.Shipping.Add(shipping);

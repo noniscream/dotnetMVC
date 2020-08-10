@@ -31,6 +31,56 @@ namespace Graphiczone.Controllers
 
         }
 
+        public IActionResult ListWorkAll()
+        {
+            if (HttpContext.Session.GetString("UserUsername") == null)
+            {
+                return RedirectToAction("");
+            }
+            else
+            {
+                var searchData = _graphiczoneDBContext.OrderPrint.ToList();
+                return View(searchData);
+            }
+        }
+        [HttpGet]
+        public IActionResult GetWorkDetail(string id)
+        {
+            if(id == "0")
+            {
+                return View();
+            }
+            else
+            {
+                var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+                if(searchData != null)
+                {
+                    ViewBag.OrPrintId = searchData.OrPrintId;
+                    var searchDataProofpayment = _graphiczoneDBContext.ProofPayment.Where(x => x.OrPrintId == id).FirstOrDefault();
+                    if(searchDataProofpayment != null)
+                    {
+                        ViewBag.getPayCode = searchDataProofpayment.PrfPayId;
+                        ViewBag.getPayBank = searchDataProofpayment.PrfPayBank;
+                        ViewBag.getPayDate = searchDataProofpayment.PrfPayDate.Value.ToString("dd MMm yyyy");
+                        ViewBag.getPayTime = searchDataProofpayment.PrfPayTime;
+                        ViewBag.getImgCode = searchDataProofpayment.PrfPayFile;
+                        ViewBag.getPayDetail = searchDataProofpayment.PrfPayDetail;
+                    }
+                    else
+                    {
+                        ViewBag.getPayDate = "";
+                    }
+                    return View("GetWorkDetail", searchData);
+                }
+                else
+                {
+                    ViewBag.OrPrintId = "xx";
+                }
+            }
+            return View();
+
+        }
+
         public IActionResult ListWorkStatus()
         {
             if (HttpContext.Session.GetString("UserUsername") == null)
@@ -46,7 +96,7 @@ namespace Graphiczone.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(string id = "0")
+        public IActionResult Edit(string id)
         {
             if (id == "0")
             {

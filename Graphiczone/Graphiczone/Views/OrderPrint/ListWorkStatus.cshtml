@@ -25,8 +25,9 @@
     </style>
 @{ 
     var strStatus = "";
+    var strColorStatus = "";
 }
-<div class="table-head" style="background:linear-gradient(to right,#ff007d,#0094ff)">
+<div class="table-head" style="background-color:#536DFE">
     <div class="table-cell">
         <p class="text-white" style="font-size:2rem">รายการสถานะงาน</p>
     </div>
@@ -65,7 +66,27 @@
                 <p>@item.OrPrintDue.Value.Date.ToString("dd MMM yyyy")</p>
             </div>
             <div class="table-cell">
-                <p>@if (@item.OrPrintStatus == 1) { strStatus = "ชำระเงินแล้ว"; } else { strStatus = "ค้างชำระ"; } @strStatus</p>
+                @if (item.OrPrintStatus == 0)
+                {
+                    strStatus = "ค้างชำระ";
+                    strColorStatus = "danger";
+                }
+                else if (item.OrPrintStatus == 1)
+                {
+                    strStatus = "ชำระเงินแล้ว";
+                    strColorStatus = "success";
+                }
+                else if (item.OrPrintStatus == 2)
+                {
+                    strStatus = "ผลิตเสร็จแล้ว";
+                    strColorStatus = "primary";
+                }
+                else if (item.OrPrintStatus == 3)
+                {
+                    strStatus = "จัดส่งเรียบร้อยแล้ว";
+                    strColorStatus = "warning";
+                }
+                <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
             </div>
             <div class="table-cell last-cell">
                 <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"

@@ -6,7 +6,10 @@
     <style>
         
     </style>
-
+@{ 
+    var strColorPaystatus = "";
+    var strPaystatrus = "";
+}
     <div class="row" style="margin-bottom:2%">
         <div class="col-md-12">
             <div class="accordion" id="accordionExample">
@@ -14,13 +17,90 @@
                     <div class="card-header" id="headingThree">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                รายละเอียดการสั่งทำ
+                                รายละเอียดการสั่งทำที่ @ViewBag.OrPrintId
+                                <input type="hidden" name="OrPrintId" id="OrPrintId" value="@ViewBag.OrPrintId" />
                             </button>
                         </h2>
                     </div>
                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                         <div class="card-body">
+                            <h5>ข้อมูลลูกค้า</h5>
+                            <hr class="bg-light" />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    ชื่อ - นามสกุล (ลูกค้า) : @ViewBag.CusFullname
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    เบอร์ติดต่อ : @ViewBag.CusTel
+                                </div>
+                                <div class="col-md-6">
+                                    อีเมลล์ : @ViewBag.CusEmail
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    ที่อยู่ : @ViewBag.CusAddress
+                                </div>
+                            </div>
 
+                            <h5 style="margin-top:5%">รายละเอียดการสั่ง</h5>
+                            <hr class="bg-light" />
+                            <div class="table-box">
+                                <div class="table-row">
+                                    <div class="table-cell">
+                                        <p>รหัสรายการ</p>
+                                    </div>
+                                    <div class="table-cell">
+                                        <p>ชื่อรายการ</p>
+                                    </div>
+                                    <div class="table-cell">
+                                        <p>พื้นที่รวม</p>
+                                    </div>
+                                    <div class="table-cell">
+                                        <p>ราคาต่อหน่วย</p>
+                                    </div>
+                                    <div class="table-cell">
+                                        <p>จำนวน</p>
+                                    </div>
+                                    <div class="table-cell last-cell">
+                                        <p>รวมเป็นเงิน</p>
+                                    </div>
+                                </div>
+                                @foreach (var x in ViewBag.OrPrintDetail)
+                                {
+                                    <div class="table-row">
+                                        <div class="table-cell">
+                                            <p>@x.OrdPrintId</p>
+                                        </div>
+                                        <div class="table-cell">
+                                            <p>@x.OrdPrintName</p>
+                                            <small>@ViewBag.PrintName ( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
+                                        </div>
+                                        <div class="table-cell">
+                                            <p>
+                                                @{
+                                                    var sumarea = x.OrdPrintWidth * x.OrdPrintHeight;
+                                                }
+                                                @sumarea
+                                            </p>
+                                        </div>
+                                        <div class="table-cell">
+                                            <p>@x.OrdPrintPriceset.ToString("#,###.00")</p>
+                                        </div>
+                                        <div class="table-cell">
+                                            <p>@x.OrdPrintNum.ToString("#,###")</p>
+                                        </div>
+                                        <div class="table-cell last-cell">
+                                            <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="alert alert-success" align="center">
+                                    <h5>รวมเป็นเงิน : <b>@ViewBag.PriceTotal.ToString("#,###.00")</b> บาท</h5>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,6 +124,17 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="payment" role="tabpanel" aria-labelledby="payment-tab">
                     <form action="/" method="post" id="paymentform">
+                        @if(Model.OrPrintStatus == 0)
+                        {
+                            strColorPaystatus = "danger";
+                            strPaystatrus = "ยังไม่ยืนยันหลักฐานการชำระเงิน";
+                        }
+                        else
+                        {
+                            strColorPaystatus = "success";
+                            strPaystatrus = "ยืนยันหลักฐานการชำระเงินเรียบร้อย";
+                        }
+                        <div class="alert alert-@strColorPaystatus" role="alert">@strPaystatrus</div>
                         <div class="form-group" style="margin-top:2%">
                             <div class="row" style="margin-bottom:5px">
                                 <div class="col-md-12" align="center">
@@ -105,12 +196,19 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <button class="btn btn-outline-info form-control" type="submit">ยืนยันการชำระ</button>
-                                </div>
-                                <div class="col-md-6">
-                                    <button class="btn btn-danger form-control" type="reset">ลบหลักฐาน</button>
-                                </div>
+                                @if (Model.OrPrintStatus == 0 && ViewBag.getPayCode != null)
+                                {
+                                    <div class="col-md-6">
+                                        <button class="btn btn-outline-info form-control" onclick="savepayment()">ยืนยันการชำระ</button>
+                                    </div>
+                                }
+                                @if (ViewBag.getPayCode != null)
+                                {
+                                    <div class="col-md-6">
+                                        <button class="btn btn-danger form-control" onclick="deletepayment()">ลบหลักฐาน</button>
+                                    </div>
+                                }
+
                             </div>
                         </div>
                     </form>
@@ -120,3 +218,18 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function savepayment() {
+            var OrPrintId = document.getElementById("OrPrintId").value;
+            var OrPrintStatus = 1;
+            $.ajax({
+                type: "post",
+                data: { OrPrintId, OrPrintStatus },
+                url: "/OrderPrint/updatepayment",
+                success: function (result) {
+                    alert("xxxx");
+                }
+            })
+        }
+    </script>

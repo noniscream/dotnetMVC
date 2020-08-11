@@ -56,6 +56,22 @@ namespace Graphiczone.Controllers
                 if(searchData != null)
                 {
                     ViewBag.OrPrintId = searchData.OrPrintId;
+                    var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == searchData.CusId).FirstOrDefault();
+                    ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
+                    ViewBag.CusAddress = cusname.CusAddress;
+                    ViewBag.CusTel = cusname.CusTel;
+                    ViewBag.CusEmail = cusname.CusEmail;
+                    ViewBag.OrderDate = searchData.OrPrintDate;
+                    ViewBag.OrderDue = searchData.OrPrintDue;
+                    var searchDataOrDetail = _graphiczoneDBContext.OrderDetailPrint.Where(ord => ord.OrPrintId == id).FirstOrDefault();
+                    if(searchDataOrDetail != null)
+                    {
+                        List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.Where(ord => ord.OrPrintId == id).ToList();
+                        ViewBag.OrPrintDetail = orderDetailPrints;
+                        var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == searchDataOrDetail.PrintId).FirstOrDefault();
+                        ViewBag.PrintName = printname.PrintName;
+                        ViewBag.PriceTotal = searchData.OrPrintTotal;
+                    }
                     var searchDataProofpayment = _graphiczoneDBContext.ProofPayment.Where(x => x.OrPrintId == id).FirstOrDefault();
                     if(searchDataProofpayment != null)
                     {
@@ -78,6 +94,24 @@ namespace Graphiczone.Controllers
                 }
             }
             return View();
+
+        }
+
+        [HttpPost]
+        public JsonResult updatepayment(OrderPrint orderPrint)
+        {
+            var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
+            if (searchData != null)
+            {
+                searchData.OrPrintStatus = orderPrint.OrPrintStatus;
+                _graphiczoneDBContext.SaveChanges();
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
+
 
         }
 

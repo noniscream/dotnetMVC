@@ -296,7 +296,7 @@ namespace Graphiczone.Controllers
             }
         }
 
-        public IActionResult ListWorkStatus()
+        public IActionResult ListWorkStatus(string id)
         {
             if (HttpContext.Session.GetString("UserUsername") == null)
             {
@@ -304,9 +304,16 @@ namespace Graphiczone.Controllers
             }
             else
             {
-
-                var seachData = _graphiczoneDBContext.OrderPrint.Where(x=>x.OrPrintStatus == 1).ToList();
-                return View(seachData);
+                if(id != null)
+                {
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 1 && x.OrPrintId == id).ToList();
+                    return View(searchData);
+                }
+                else
+                {
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 1 && id == null).ToList();
+                    return View(searchData);
+                }
             }
         }
 

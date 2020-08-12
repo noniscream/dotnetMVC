@@ -22,6 +22,14 @@
             vertical-align: middle;
             color: #00189f;
         }
+        #roworder:hover {
+            border-left: solid 7px;
+            border-left-color: #536DFE;
+            border-right: solid 7px;
+            border-right-color: #536DFE;
+            font-weight: bold;
+            color: #536DFE !important;
+        }
     </style>
 @{ 
     var strStatus = "";
@@ -35,8 +43,25 @@
 
 <div id="PlaceHolderHere"></div>
 
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("ListWorkStatus", "OrderPrint", FormMethod.Get))
+        {
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-secondary text-white badge-pill" id="SDT"><i class="fas fa-search" id="SDT"></i></span>
+                </div>
+                <input class="form-control" type="text" id="id" name="id" placeholder="ข้อมูลที่ต้องการค้นหา" onchange="searchData()">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary badge-pill" onclick="searchData()">ค้นหา</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
 <div class="table-box">
-    <div class="table-row">
+    <div class="table-row" style="font-weight:bold;">
         <div class="table-cell">
             <p>รหัสสั่งทำ</p>
         </div>
@@ -55,7 +80,7 @@
     </div>
     @foreach (var item in Model)
     {
-        <div class="table-row">
+        <div class="table-row" id="roworder">
             <div class="table-cell">
                 <p>@item.OrPrintId</p>
             </div>

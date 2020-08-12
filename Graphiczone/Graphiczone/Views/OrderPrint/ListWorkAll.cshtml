@@ -23,6 +23,14 @@
         vertical-align: middle;
         color: #00189f;
     }
+    #roworder:hover {
+        border-left: solid 7px;
+        border-left-color: #0094ff;
+        border-right: solid 7px;
+        border-right-color: #0094ff;
+        font-weight: bold;
+        color: #0094ff !important;
+    }
 </style>
 @{
     var strStatus = "";
@@ -54,8 +62,8 @@
     </div>
 </div>
 
-<div class="table-box">
-    <div class="table-row">
+<div class="table-box" >
+    <div class="table-row" style="font-weight:bold;">
         <div class="table-cell">
             <p>รหัสสั่งทำ</p>
         </div>
@@ -74,7 +82,7 @@
     </div>
     @foreach (var item in Model)
     {
-        <div class="table-row">
+        <div class="table-row" id="roworder">
             <div class="table-cell">
                 <p>@item.OrPrintId</p>
             </div>

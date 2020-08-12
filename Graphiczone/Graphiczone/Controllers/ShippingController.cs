@@ -28,7 +28,7 @@ namespace Graphiczone.Controllers
             return View();
         }
 
-        public IActionResult ListWorkShipping()
+        public IActionResult ListWorkShipping(string id)
         {
             if (HttpContext.Session.GetString("UserUsername") == null)
             {
@@ -36,9 +36,16 @@ namespace Graphiczone.Controllers
             }
             else
             {
-
-                var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2).ToList();
-                return View(searchData);
+                if (id != null)
+                {
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2 && x.OrPrintId == id).ToList();
+                    return View(searchData);
+                }
+                else
+                {
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2 && id == null).ToList();
+                    return View(searchData);
+                }
             }
         }
         public IActionResult EditWorkShipping(string id = "0")

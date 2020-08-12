@@ -35,7 +35,7 @@ namespace Graphiczone.Controllers
 
         }
 
-        public IActionResult ListWorkAll()
+        public IActionResult ListWorkAll(string id)
         {
             if (HttpContext.Session.GetString("UserUsername") == null)
             {
@@ -43,7 +43,7 @@ namespace Graphiczone.Controllers
             }
             else
             {
-                var searchData = _graphiczoneDBContext.OrderPrint.ToList();
+                var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id || id == null ).ToList();
                 return View(searchData);
             }
         }

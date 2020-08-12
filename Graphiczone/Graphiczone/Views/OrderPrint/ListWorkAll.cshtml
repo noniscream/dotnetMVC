@@ -35,8 +35,24 @@
     </div>
 </div>
 
-
 <div id="PlaceHolderHere"></div>
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("ListWorkAll", "OrderPrint", FormMethod.Get))
+        {
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-secondary text-white badge-pill" id="SDT"><i class="fas fa-search" id="SDT"></i></span>
+                </div>
+                <input class="form-control" type="text" id="id" name="id" placeholder="ข้อมูลที่ต้องการค้นหา" onchange="searchData()">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary badge-pill" onclick="searchData()">ค้นหา</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
 
 <div class="table-box">
     <div class="table-row">

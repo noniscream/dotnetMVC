@@ -3,21 +3,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="card login-logout-tabs">
-    <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs justify-content-center">
-            <li class="nav-item">
-                <a class="nav-link text-left" href="/Customer/Login">เข้าสู่ระบบ</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-right" href="/Customer/Register">สมัครสมาชิก</a>
-            </li>
-        </ul>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card login-logout-tabs">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs justify-content-center">
+                        <li class="nav-item">
+                            <a class="nav-link text-left" href="/Customer/Login">เข้าสู่ระบบ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-right" href="/Customer/Register">สมัครสมาชิก</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-        @RenderBody()
-    </div>
-</div>
 
 @section Scripts{
     @RenderSection("Scripts", required: false);

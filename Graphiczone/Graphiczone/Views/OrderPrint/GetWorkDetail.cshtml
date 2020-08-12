@@ -4,11 +4,28 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
     <style>
-        
+        .xs{
+            position:relative;
+            font-weight:bold;
+            cursor:pointer;
+            text-decoration:underline;
+        }
+        .xs .img{
+            position:absolute;
+            transform:translate();
+            visibility:hidden;
+            z-index:1;
+            width:300px;
+        }
+        .xs:hover .img{
+            visibility:visible;
+        }
     </style>
 @{ 
-    var strColorPaystatus = "";
-    var strPaystatrus = "";
+    var strColorstatus = "";
+    var strStatrus = "";
+    var strIcon = "";
+    var strDis = "";
 }
     <div class="row" style="margin-bottom:2%">
         <div class="col-md-12">
@@ -75,8 +92,9 @@
                                             <p>@x.OrdPrintId</p>
                                         </div>
                                         <div class="table-cell">
-                                            <p>@x.OrdPrintName</p>
+                                            <span class="xs">@x.OrdPrintName <img class="img" id="showImg" src="/@x.OrdPrintFile"/></span><br />
                                             <small>@ViewBag.PrintName ( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
+                                            
                                         </div>
                                         <div class="table-cell">
                                             <p>
@@ -96,7 +114,7 @@
                                             <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
                                         </div>
                                     </div>
-                                }
+                                                    }
                                 <div class="alert alert-success" align="center">
                                     <h5>รวมเป็นเงิน : <b>@ViewBag.PriceTotal.ToString("#,###.00")</b> บาท</h5>
                                 </div>
@@ -123,18 +141,20 @@
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="payment" role="tabpanel" aria-labelledby="payment-tab">
-                    <form action="/" method="post" id="paymentform">
-                        @if(Model.OrPrintStatus == 0)
+                    <form id="paymentform">
+                        @if (Model.OrPrintStatus == 0)
                         {
-                            strColorPaystatus = "danger";
-                            strPaystatrus = "ยังไม่ยืนยันหลักฐานการชำระเงิน";
+                            strColorstatus = "danger";
+                            strStatrus = "ยังไม่ยืนยันหลักฐานการชำระเงิน";
+                            strIcon = "fas fa-times";
                         }
                         else
                         {
-                            strColorPaystatus = "success";
-                            strPaystatrus = "ยืนยันหลักฐานการชำระเงินเรียบร้อย";
+                            strColorstatus = "success";
+                            strStatrus = "ยืนยันหลักฐานการชำระเงินเรียบร้อย";
+                            strIcon = "fas fa-check";
                         }
-                        <div class="alert alert-@strColorPaystatus" role="alert">@strPaystatrus</div>
+                        <div class="alert alert-@strColorstatus" role="alert"><i class="@strIcon"></i> @strStatrus</div>
                         <div class="form-group" style="margin-top:2%">
                             <div class="row" style="margin-bottom:5px">
                                 <div class="col-md-12" align="center">
@@ -189,37 +209,200 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
                                         </div>
-                                        <textarea class="form-control" id="PrfPayDetail" name="PrfPayDetail" value="@ViewBag.getPayDetail" readonly></textarea>
+                                        <input class="form-control" type="text" name="PrfPayDetail" id="PrfPayDetail" value="@ViewBag.getPayDetail" readonly />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="row">
-                                @if (Model.OrPrintStatus == 0 && ViewBag.getPayCode != null)
-                                {
-                                    <div class="col-md-6">
-                                        <button class="btn btn-outline-info form-control" onclick="savepayment()">ยืนยันการชำระ</button>
-                                    </div>
-                                }
-                                @if (ViewBag.getPayCode != null)
-                                {
-                                    <div class="col-md-6">
-                                        <button class="btn btn-danger form-control" onclick="deletepayment()">ลบหลักฐาน</button>
-                                    </div>
-                                }
+                    </form>
+                    <div class="form-group">
+                        <div class="row">
+                            @if (Model.OrPrintStatus == 0 && ViewBag.getPayCode != null)
+                            {
+                                <div class="col-md-6">
+                                    <button class="btn btn-outline-info form-control" onclick="checksavepayment()">ยืนยันการชำระ</button>
+                                </div>
+                            }
+                            @if (ViewBag.getPayCode != null)
+                            {
+                                <div class="col-md-6">
+                                    <button class="btn btn-danger form-control" onclick="checkdeletepayment()">ลบหลักฐาน</button>
+                                </div>
+                            }
 
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="work" role="tabpanel" aria-labelledby="work-tab">
+                    <form id="workstatusform">
+                        @if (Model.OrPrintStatus == 1)
+                        {
+                            strColorstatus = "info";
+                            strStatrus = "กำลังดำเนินการผลิต";
+                            strIcon = "fas fa-info";
+                        }
+                        else if (Model.OrPrintStatus == 2)
+                        {
+                            strColorstatus = "success";
+                            strStatrus = "ผลิตเสร็จเรียบร้อย";
+                            strIcon = "fas fa-check";
+                        }
+                        else
+                        {
+
+                        }
+
+                        <div class="alert alert-@strColorstatus" role="alert"><i class="@strIcon"></i> @strStatrus</div>
+                        <div class="form-group" style="margin-top:2%">
+                            <div class="row" style="margin-bottom:5px">
+                                <div class="col-md-6">
+                                    วันที่สั่ง : @ViewBag.OrPrintDate.ToString("dd MMM yyyy")
+                                </div>
+                                <div class="col-md-6">
+                                    วันครบกำหนดรับ : @ViewBag.OrPrintDue.ToString("dd MMM yyyy")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row" style="margin-bottom:5px">
+                                <div class="col-md-12">
+                                    เหลือเวลาอีก : @ViewBag.OrPrintTotalDate วัน
+                                </div>
                             </div>
                         </div>
                     </form>
+                    <div class="form-group">
+                        <div class="row">
+                            @if (Model.OrPrintStatus == 1 && ViewBag.getPayCode != null)
+                            {
+                                <div class="col-md-12">
+                                    <button class="btn btn-outline-success form-control" name="btnWorksave" id="btnWorksave" onclick="checksaveworkstatus()">ผลิตเสร็จสิ้น</button>
+                                </div>
+                            }
+                            @if (Model.OrPrintStatus == 2 || ViewBag.getShippingImg != null)
+                            {
+                                <div class="col-md-12">
+                                    <button class="btn btn-warning form-control" name="btnWorkedit" id="btnWorkedit" onclick="checkeditworkstatus()">แก้ไขเป็นกำลังผลิตอยู่</button>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
                 </div>
-                <div class="tab-pane fade" id="work" role="tabpanel" aria-labelledby="work-tab">...</div>
-                <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">...</div>
+                <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
+                    <form id="updateShipping" action="/OrderPrint/upload" method="post" enctype="multipart/form-data" onsubmit="return updateData(this)">
+                        @if (Model.OrPrintStatus == 1)
+                        {
+                            strColorstatus = "info";
+                            strStatrus = "กำลังดำเนินการผลิต";
+                            strIcon = "fas fa-info";
+                        }
+                        else if (Model.OrPrintStatus == 2)
+                        {
+                            strColorstatus = "info";
+                            strStatrus = "รอส่งมอบ";
+                            strIcon = "fas fa-info";
+                        }
+                        else if (Model.OrPrintStatus == 3)
+                        {
+                            strColorstatus = "success";
+                            strStatrus = "ส่งมอบเรียบร้อยแล้ว";
+                            strIcon = "fas fa-check";
+                        }
+
+                        <div class="alert alert-@strColorstatus" role="alert"><i class="@strIcon"></i> @strStatrus</div>
+
+                        <input type="hidden" name="OrPrintId" id="OrPrintId" value="@ViewBag.OrPrintId" />
+                        <input type="hidden" name="OrPrintStatus" id="OrPrintStatus" value="3" />
+
+                        @if (Model.OrPrintStatus == 2)
+                        {
+                            strDis = "";
+                        }
+                        else
+                        {
+                            strDis = "disabled";
+                        }
+                        <div class="row" style="margin-bottom:2%">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                    </div>
+                                    <input @strDis class="form-control" type="date" name="ShippingDate" id="ShippingDate" min='@ViewBag.getDatePayForPicker' max='@ViewBag.GetDueForPicker' required="required" value="@ViewBag.getShippingDate" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input @strDis type="file" name="Uploadfile" id="Uploadfile" required="required" value="@ViewBag.getShippingImg" />
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px">
+                            <div class="col-md-12" align="right">
+                                <p id="StatusImg"></p>
+                            </div>
+                        </div>
+                        @if (ViewBag.getShippingImg != null || Model.OrPrintStatus == 3)
+                        {
+                            <div class="row" style="margin-bottom:2%">
+                                <div class="col-md-12" align="center">
+                                    <img src="/@ViewBag.getShippingImg" alt="รูปส่งมอบของ @ViewBag.OrPrintId" />
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+
+                        }
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button hidden class="btn btn-outline-success form-control" name="btnSave" id="btnSave" type="submit" onclick="saveshipping()">บันทึกการส่งมอบ</button>
+                        </div>
+                        @if (Model.OrPrintStatus == 2 && ViewBag.getPayCode != null && ViewBag.getShippingImg == null)
+                        {
+                            <div class="col-md-12">
+                                <button class="btn btn-outline-success form-control" name="btnSave" id="btnSave" type="submit" onclick="saveshipping()">บันทึกการส่งมอบ</button>
+                            </div>
+                        }
+                    </div>
+
+                    </form>
+                    <div class="row">
+                        @if (Model.OrPrintStatus == 3 || ViewBag.getShippingImg != null)
+                        {
+                            <div class="col-md-6">
+                                <button class="btn btn-warning form-control" name="btnEdit" id="btnEdit" onclick="editshipping()">แก้ไข</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-danger form-control" name="btnDelete" id="btnDelete" onclick="deleteshipping()">ลบ</button>
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        function checksavepayment() {
+            swal({
+                title: "กรุณายืนยันการทำรายการ",
+                text: "คุณต้องการเปลี่ยนแปลงสถานะการชำระเงิน รายการที่ : @ViewBag.OrPrintId ใช่หรือไม่",
+                icon: "warning",
+                buttons:["ยกเลิก","ยืนยัน"],
+            }).then((willupdate) => {
+                if (willupdate) {
+                    savepayment();
+                } else {
+                    swal({
+                        title: "ยกเลิกสำเร็จ",
+                        text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
+                        icon:"success",
+                    });
+                }
+            })
+        }
         function savepayment() {
             var OrPrintId = document.getElementById("OrPrintId").value;
             var OrPrintStatus = 1;
@@ -228,7 +411,174 @@
                 data: { OrPrintId, OrPrintStatus },
                 url: "/OrderPrint/updatepayment",
                 success: function (result) {
-                    alert("xxxx");
+                    if (result == 1) {
+                        toastr.success("ยืนยันการแจ้งชำระเงินรายการสั่งทำที่ : @ViewBag.OrPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                        setTimeout(function load() {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        toastr.error("รายการสั่งทำที่ : @ViewBag.OrPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    }
+                }
+            })
+        }
+        function checksaveworkstatus() {
+            swal({
+                title: "กรุณายืนยันการทำรายการ",
+                text: "คุณต้องการเปลี่ยนแปลงสถานะงาน รายการที่ : @ViewBag.OrPrintId ใช่หรือไม่",
+                icon: "warning",
+                buttons:["ยกเลิก","ยืนยัน"],
+            }).then((willupdate) => {
+                if (willupdate) {
+                    saveworkstatus();
+                } else {
+                    swal({
+                        title: "ยกเลิกสำเร็จ",
+                        text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
+                        icon:"success",
+                    });
+                }
+            })
+        }
+        function saveworkstatus() {
+            var OrPrintId = document.getElementById("OrPrintId").value;
+            var OrPrintStatus = 2;
+            $.ajax({
+                type: "post",
+                data: { OrPrintId, OrPrintStatus },
+                url: "/OrderPrint/updateworkstatus",
+                success: function (result) {
+                    if (result == 1) {
+                        toastr.success("บันทึกสถานะรายการสั่งทำที่ : @ViewBag.OrPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                        setTimeout(function load() {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        toastr.error("รายการสั่งทำที่ : @ViewBag.OrPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    }
+                }
+            })
+        }
+
+        ShippingDate.step = new Date().toISOString().split("T")[0];
+
+        $(function () {
+            $("#Uploadfile").change(function () {
+                $("#StatusImg").html('<font color="Gold"><i class="fas fa-time"></i> กำลังตรวจสอบ </font>');
+                var filetype = ["jpeg", "jpg", "gif", "png", "bmp"];
+
+                if ($.inArray($(this).val().split('.').pop().toLowerCase(), filetype) == -1) {
+                    $("#StatusImg").html('<font color="Red"><i class="fas fa-times"></i> ไฟล์ไม่ถูกต้อง ! ไม่สามารถใช้ไฟล์นี้ได้ </font>');
+                    $("#Uploadfile").val("");
+                    $("#btnSave").attr('disabled', true);
+                } else {
+                    $("#StatusImg").html('<font color="Green"><i class="fas fa-check"></i> ไฟล์ถูกต้อง สามารถใช้ไฟล์นี้ได้ </font>');
+                    $("#btnSave").attr('disabled', false);
+                }
+            })
+        })
+
+        function editshipping() {
+            document.getElementById("ShippingDate").disabled = false;
+            document.getElementById("Uploadfile").disabled = false;
+            document.getElementById("btnEdit").hidden = true;
+            document.getElementById("btnDelete").hidden = true;
+            document.getElementById("Uploadfile").required = false;
+            $("#btnSave").attr('hidden', false);
+        }
+
+        function deleteshipping() {
+            var OrPrintId = document.getElementById("OrPrintId").value;
+            var OrPrintStatus = 2;
+            $.ajax({
+                type: "post",
+                data: { OrPrintId, OrPrintStatus },
+                url: "/OrderPrint/deleteshipping",
+                success: function (result) {
+                    if (result == 1) {
+                        toastr.success("ลบข้อมูลการส่งมอบ : @ViewBag.OrPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                        setTimeout(function load() {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        toastr.error("รายการสั่งทำที่ : @ViewBag.OrPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    }
+                }
+            })
+        }
+
+        function checkeditworkstatus() {
+            swal({
+                title: "กรุณายืนยันการทำรายการ",
+                text: "การแก้ไขสถานะงานมีผลทำให้ข้อมูลส่วนอื่น ๆ ถูกลบไปด้วย ! คุณต้องการเปลี่ยนแปลงสถานะงาน รายการที่ : @ViewBag.OrPrintId ใช่หรือไม่",
+                icon: "warning",
+                buttons:["ยกเลิก","ยืนยัน"],
+            }).then((willupdate) => {
+                if (willupdate) {
+                    editworkstatus();
+                } else {
+                    swal({
+                        title: "ยกเลิกสำเร็จ",
+                        text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
+                        icon:"success",
+                    });
+                }
+            })
+        }
+        function editworkstatus() {
+            var OrPrintId = document.getElementById("OrPrintId").value;
+            var OrPrintStatus = 1;
+            $.ajax({
+                type: "post",
+                data: { OrPrintId, OrPrintStatus },
+                url: "/OrderPrint/deleteworkstatus",
+                success: function (result) {
+                    if (result == 1) {
+                        toastr.success("แก้ไขสถานะงาน : @ViewBag.OrPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                        setTimeout(function load() {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        toastr.error("รายการสั่งทำที่ : @ViewBag.OrPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    }
+                }
+            })
+        }
+        function checkdeletepayment() {
+            swal({
+                title: "กรุณายืนยันการทำรายการ",
+                text: "การแก้ไขสถานะงานมีผลทำให้ข้อมูลส่วนอื่น ๆ ถูกลบไปด้วย ! คุณต้องการเปลี่ยนแปลงสถานะงาน รายการที่ : @ViewBag.OrPrintId ใช่หรือไม่",
+                icon: "warning",
+                buttons:["ยกเลิก","ยืนยัน"],
+            }).then((willupdate) => {
+                if (willupdate) {
+                    deletepayment();
+                } else {
+                    swal({
+                        title: "ยกเลิกสำเร็จ",
+                        text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
+                        icon:"success",
+                    });
+                }
+            })
+        }
+
+        function deletepayment() {
+            var OrPrintId = document.getElementById("OrPrintId").value;
+            var OrPrintStatus = 0;
+            $.ajax({
+                type: "post",
+                data: { OrPrintId, OrPrintStatus },
+                url: "/OrderPrint/deletepayment",
+                success: function (result) {
+                    if (result == 1) {
+                        toastr.success("ลบหลักฐานการแจ้งชำระเงิน : @ViewBag.OrPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                        setTimeout(function load() {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        toastr.error("รายการสั่งทำที่ : @ViewBag.OrPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    }
                 }
             })
         }

@@ -59,7 +59,13 @@ namespace Graphiczone.Controllers
                     ViewBag.OrderPrintId = seachData.OrPrintId;
                     ViewBag.OrderDate = seachData2.OrPrintDate;
                     ViewBag.GetDateForPicker = seachData2.OrPrintDate.Value.AddYears(-543);
-                    ViewBag.GetDueForPicker = seachData2.OrPrintDue.Value.AddYears(-543);
+                    var searchDataProofpay = _graphiczoneDBContext.ProofPayment.Where(x => x.OrPrintId == id).FirstOrDefault();
+                    if (searchDataProofpay != null)
+                    {
+                        ViewBag.getDatePayForPicker = searchDataProofpay.PrfPayDate.Value.AddYears(-543).ToString("yyyy-MM-dd");
+                    }
+                    ViewBag.getDueForPicker = seachData2.OrPrintDue.Value.AddYears(-543).ToString("yyyy-MM-dd");
+                    //ViewBag.GetDueForPicker = seachData2.OrPrintDue.Value.AddYears(-543);
                     ViewBag.OrderDue = seachData2.OrPrintDue;
                     var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
                     ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;

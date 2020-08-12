@@ -1,4 +1,23 @@
-﻿
+﻿<style>
+    .xs {
+        position: relative;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+        .xs .img {
+            position: absolute;
+            transform: translate();
+            visibility: hidden;
+            z-index: 1;
+            width: 300px;
+        }
+
+        .xs:hover .img {
+            visibility: visible;
+        }
+</style>
 <div class="modal fade" id="EditWorkShipping">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
@@ -30,7 +49,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
-                                            <input class="form-control" type="date" name="ShippingDate" id="ShippingDate" min='@ViewBag.GetDateForPicker.ToString("yyyy-MM-dd")' max='@ViewBag.GetDueForPicker.ToString("yyyy-MM-dd")' required="required" />
+                                            <input class="form-control" type="date" name="ShippingDate" id="ShippingDate" min='@ViewBag.getDatePayForPicker' max='@ViewBag.GetDueForPicker' required="required" />
                                         </div>
                                     </div>
                                 </div>
@@ -107,7 +126,7 @@
                                                     <p>@x.OrdPrintId</p>
                                                 </div>
                                                 <div class="table-cell">
-                                                    <p>@x.OrdPrintName</p>
+                                                    <span class="xs">@x.OrdPrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span><br />
                                                     <small>@ViewBag.PrintName ( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
                                                 </div>
                                                 <div class="table-cell">

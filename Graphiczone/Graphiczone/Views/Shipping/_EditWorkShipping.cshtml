@@ -11,7 +11,8 @@
             transform: translate();
             visibility: hidden;
             z-index: 1;
-            width: 300px;
+            max-width: 100%;
+            height: auto;
         }
 
         .xs:hover .img {
@@ -41,7 +42,7 @@
                             <form id="updateShipping" action="/Shipping/upload" method="post" enctype="multipart/form-data" onsubmit="return updateData(this)">
 
                                 <input type="hidden" name="OrPrintId" id="OrPrintId" value="@ViewBag.OrderPrintId" />
-                                <input type="hidden" name="OrPrintStatus" id="OrPrintStatus" value="3" />
+                                <input type="hidden" name="OrPrintStatus" id="OrPrintStatus" value="4" />
 
                                 <div class="row" style="margin-bottom:2%">
                                     <div class="col-md-12">
@@ -126,7 +127,7 @@
                                                     <p>@x.OrdPrintId</p>
                                                 </div>
                                                 <div class="table-cell">
-                                                    <span class="xs">@x.OrdPrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span><br />
+                                                    <a href="/@x.OrdPrintFile" target="_blank"><span class="xs">@x.OrdPrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span><br /></a>
                                                     <small>@ViewBag.PrintName ( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
                                                 </div>
                                                 <div class="table-cell">

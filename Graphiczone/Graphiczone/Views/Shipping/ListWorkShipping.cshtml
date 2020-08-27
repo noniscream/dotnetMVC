@@ -9,7 +9,7 @@
         width: 100%;
         margin: 10px auto;
         background: transparent;
-        padding: 12px 0;
+        padding: 2px 0;
         box-shadow: 0 1px 4px 0 rgba(0,0,50,0.3);
     }
 
@@ -98,17 +98,22 @@
                 }
                 else if (item.OrPrintStatus == 1)
                 {
+                    strStatus = "แจ้งชำระแล้วรอยืนยัน";
+                    strColorStatus = "info";
+                }
+                else if (item.OrPrintStatus == 2)
+                {
                     strStatus = "ชำระเงินแล้ว";
                     strColorStatus = "success";
                 }
-                else if (item.OrPrintStatus == 2)
+                else if (item.OrPrintStatus == 3)
                 {
                     strStatus = "ผลิตเสร็จแล้ว";
                     strColorStatus = "primary";
                 }
-                else if (item.OrPrintStatus == 3)
+                else if (item.OrPrintStatus == 4)
                 {
-                    strStatus = "จัดส่งเรียบร้อยแล้ว";
+                    strStatus = "ส่งมอบแล้ว";
                     strColorStatus = "warning";
                 }
                 <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>

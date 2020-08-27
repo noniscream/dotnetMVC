@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="https://image.makewebeasy.net/makeweb/0/7vXsOzZZi/attach_file/favicon/favicon_20171207074525-0.ico" type="image/ico" />
+    <title>@ViewData["Title"] - Graphiczone</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <script src="~/sweetalert/sweetalert.min.js"></script>
+
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/smart_wizard.css" rel="stylesheet" />
+
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@100;300;500&display=swap" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body style="font-family: 'Sarabun', sans-serif;">
+
+    <partial name="_Reportheader" />
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 p-5 pt-2">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
+
+    @*<partial name="_Userfooter" />*@
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- toastr -->
+    <link href="~/lib/toastr.js/toastr.css" rel="stylesheet" />
+    <script src="~/lib/toastr.js/toastr.min.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

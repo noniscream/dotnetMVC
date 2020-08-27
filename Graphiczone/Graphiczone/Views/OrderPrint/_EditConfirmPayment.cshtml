@@ -1,0 +1,171 @@
+﻿
+@{
+    ViewData["Title"] = "_EditConfirmPayment";
+}
+
+<!-- Modal -->
+<div class="modal fade" id="EditConfirmPayment">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>ข้อมูลรายการสั่งทำที่ : @ViewBag.OrderPrintId</h5>
+                <input type="hidden" name="OrderPrintId" id="OrderPrintId" value="@ViewBag.OrderPrintId" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar"></div>
+                </div>
+                <hr class="bg-info" />
+                <div class="card">
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>สั่งทำโดย : คุณ @ViewBag.CusFullname</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>สั่งเมื่อวันที่ : @ViewBag.Orderdate.ToString("dd MMMM yyyy")</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>กำหนดรับวันที่ : @ViewBag.Orderdue.ToString("dd MMMM yyyy")</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-box">
+                                        <div class="table-row">
+                                            <div class="table-cell">
+                                                <p>รหัสรายการ</p>
+                                            </div>
+                                            <div class="table-cell">
+                                                <p>ชื่อรายการ</p>
+                                            </div>
+                                            <div class="table-cell">
+                                                <p>พื้นที่รวม</p>
+                                            </div>
+                                            <div class="table-cell">
+                                                <p>ราคาต่อหน่วย</p>
+                                            </div>
+                                            <div class="table-cell">
+                                                <p>จำนวน</p>
+                                            </div>
+                                            <div class="table-cell last-cell">
+                                                <p>รวมเป็นเงิน</p>
+                                            </div>
+                                        </div>
+                                        @{
+                                            var totalprice = 0;
+                                        }
+
+                                        @foreach (var x in ViewBag.OrderList)
+                                        {
+                                            <div class="table-row">
+                                                <div class="table-cell">
+                                                    <p>@x.OrdPrintId</p>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <p>@x.OrdPrintName</p>
+                                                    <small>@ViewBag.PrintName ( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <p>
+                                                        @{
+                                                            var sumarea = x.OrdPrintWidth * x.OrdPrintHeight;
+                                                        }
+                                                        @sumarea
+                                                    </p>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <p>@x.OrdPrintPriceset.ToString("#,###.00")</p>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <p>@x.OrdPrintNum.ToString("#,###")</p>
+                                                </div>
+                                                <div class="table-cell last-cell">
+                                                    <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
+                                                </div>
+                                            </div>
+                                            totalprice = totalprice + @Convert.ToInt32(x.OrdPrintTotal);
+                                        }
+
+                                        <div class="table-row">
+                                            <div class="table-cell last-cell" align="right">
+                                                รวมเป็นเงิน : @totalprice.ToString("#,###.00") บาท
+                                            </div>
+                                        </div>
+                                        <div class="table-row">
+                                            <div class="table-cell last-cell" align="right">
+                                                <div>
+                                                    <h4 align="center">หลักฐานการชำระเงิน</h4>
+                                                </div>
+                                                <img src="/@ViewBag.ProofFile" />
+                                            </div>
+                                        </div>
+                                        <div align="center" style="margin-top:2%">
+                                            <button type="button" class="btn btn-outline-success badge-pill" onclick="check()">ชำระเงินเรียบร้อยแล้ว</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-time"></i>ปิดหน้าต่าง</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+     function check() {
+            swal({
+                title: "กรุณายืนยันการทำรายการ",
+                text: "คุณต้องการยืนยันการชำระเงิน รายการที่ : @ViewBag.OrderPrintId ใช่หรือไม่",
+                icon: "warning",
+                buttons:["ยกเลิก","ยืนยัน"],
+            }).then((willupdate) => {
+                if (willupdate) {
+                    editconfirmpayment();
+                } else {
+                    swal({
+                        title: "ยกเลิกสำเร็จ",
+                        text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
+                        icon:"success",
+                    });
+                }
+            })
+        }
+
+    function editconfirmpayment() {
+            var OrPrintId = document.getElementById("OrderPrintId").value;
+            var OrPrintStatus = 2;
+            var Progressbar = $('.progress-bar')
+            $.ajax({
+                type: "post",
+                data: { OrPrintId, OrPrintStatus },
+                url: "/OrderPrint/updateconfirmpayment",
+                success: function (result) {
+                    console.log(result);
+                    if (result == 1) {
+                        Progressbar.css('width', 70+'%');
+                        Progressbar.css('background-color', "green");
+                        toastr.success("ยืนยันการชำระเงินรายการสั่งทำที่ : @ViewBag.OrderPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                        setTimeout(function fetch() {
+                            window.location.href = ("/OrderPrint/ConfirmPayment");
+                        },3000);
+                    } else {
+                        toastr.error("รายการสั่งทำที่ : @ViewBag.OrderPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    }
+                }
+            })
+        }
+</script>

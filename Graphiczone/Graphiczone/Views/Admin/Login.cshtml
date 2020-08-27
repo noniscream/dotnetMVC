@@ -8,7 +8,9 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
+    <link rel="icon" href="https://image.makewebeasy.net/makeweb/0/7vXsOzZZi/attach_file/favicon/favicon_20171207074525-0.ico" type="image/ico" />
+
+    <title>Login Admin</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 
@@ -42,7 +44,7 @@
                         toastr.success('เข้าสู่ระบบสำเร็จ', 'สำเร็จ', { timeOut: 3000, "closeButton": true });
                         setTimeout(function GotoLogin() {
                             window.location.href = ("Index");
-                        }, 1000);
+                        }, 1500);
                         Reset();
                     } else {
                         toastr.error('Username หรือ Password ไม่ถูกต้องกรุณาตรวจใหม่อีกครั้ง', 'ไม่สำเร็จ', { timeOut: 3000, "closeButton": true });

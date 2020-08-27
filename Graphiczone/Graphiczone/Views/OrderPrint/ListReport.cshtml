@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewData["Title"] = "ListReport";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>รายงาน</h1>
+<hr class="bg-secondary" />
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form>
+            <div class="form-group">
+                <div class="row" style="margin-bottom:5px">
+                    <div class="col-md-6">
+                        <label>ตั้งแต่ : </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="CID"><i class="far fa-calendar-check text-success" id="CID"></i></span>
+                            </div>
+                            <input class="form-control" type="date" id="datestart" name="datestart">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>ถึง : </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="CID"><i class="fas fa-calendar-check text-danger" id="CID"></i></span>
+                            </div>
+                            <input class="form-control" type="date" id="dateend" name="dateend">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row" style="margin-bottom:5px">
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row" style="margin-bottom:5px">
+                    <div class="col-md-3">
+                        <input class="btn badge-pill" type="radio" name="typereport" id="working" value="5" />
+                        <label>กำลังผลิตอยู่</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="btn badge-pill" type="radio" name="typereport" id="workdone" value="6" />
+                        <label>ผลิตเสร็จแล้ว</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="btn badge-pill" type="radio" name="typereport" id="shipping" value="7" />
+                        <label>กำลังจัดส่ง</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="btn badge-pill" type="radio" name="typereport" id="shippingfinish" value="8" />
+                        <label>จัดส่งเสร็จแล้ว</label>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <button class="btn btn-outline-primary badge-pill" onclick="searchreport()">ดูรายงาน</button>
+    </div>
+</div>
+
+<script>
+    var radvalue = 0;
+    function searchreport() {
+        checktype();
+        var datestart = document.getElementById("datestart").value;
+        var dateend = document.getElementById("dateend").value;
+        $.ajax({
+            type: "post",
+            data: { radvalue, datestart, dateend },
+            url: "/OrderPrint/Report",
+            success: function (result) {
+                if (result == 0) {
+                    alert("0");
+                } else if (result == 5) {
+                    window.open('@Url.Action("Reportworking","OrderPrint")')
+                } else if (result == 6) {
+                    window.open('@Url.Action("Reportworkdone","OrderPrint")')
+                }
+            }
+        })
+    }
+
+    function checktype() {
+        var working = document.getElementById("working");
+        var success = document.getElementById("workdone");
+        if (working.checked == true) {
+            radvalue = 5;
+        } else if (success.checked == true) {
+            radvalue = 6;
+        }
+    }
+</script>

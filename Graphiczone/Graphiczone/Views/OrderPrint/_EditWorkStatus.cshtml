@@ -11,7 +11,8 @@
             transform: translate();
             visibility: hidden;
             z-index: 1;
-            width: 300px;
+            max-width:100%;
+            height:auto;
         }
 
         .xs:hover .img {
@@ -84,7 +85,9 @@
                                                         <p>@x.OrdPrintId</p>
                                                     </div>
                                                     <div class="table-cell">
-                                                        <span class="xs">@x.OrdPrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span><br />
+                                                        <a href="/@x.OrdPrintFile" target="_blank">
+                                                            <span class="xs">@x.OrdPrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span><br />
+                                                        </a>
                                                         <small>@ViewBag.PrintName ( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
                                                     </div>
                                                     <div class="table-cell">
@@ -164,7 +167,7 @@
         }
         function editworkstatus() {
             var OrPrintId = document.getElementById("OrderPrintId").value;
-            var OrPrintStatus = 2;
+            var OrPrintStatus = 3;
             var Progressbar = $('.progress-bar')
             $.ajax({
                 type: "post",

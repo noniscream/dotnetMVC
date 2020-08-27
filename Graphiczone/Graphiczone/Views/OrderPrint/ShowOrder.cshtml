@@ -1,0 +1,109 @@
+﻿@model IEnumerable<Graphiczone.Models.SQLServer.OrderPrint>
+@{
+    ViewData["Title"] = "ShowOrder";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+    <style>
+        .table-head, .table-row {
+            display: table;
+            width: 100%;
+            margin: 10px auto;
+            background: transparent;
+            padding: 12px 0;
+            box-shadow: 0 1px 4px 0 rgba(0,0,50,0.3);
+        }
+
+        .table-cell {
+            display: table-cell;
+            width: 15%;
+            text-align: center;
+            padding: 5px 0;
+            border-right: 1px solid #d6d4d4;
+            vertical-align: middle;
+            color: #00189f;
+        }
+    </style>
+@{
+    var strStatus = "";
+    var strColorStatus = "";
+}
+
+<div class="table-head" style="background:linear-gradient(to right,#ff007d,#0094ff)">
+    <div class="table-cell">
+        <p class="text-white" style="font-size:2rem">รายการสั่งทำทั้งหมด</p>
+    </div>
+</div>
+
+<div id="PlaceHolderHere"></div>
+
+@*<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("ListWorkAll", "OrderPrint", FormMethod.Get))
+        {
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-secondary text-white badge-pill" id="SDT"><i class="fas fa-search" id="SDT"></i></span>
+                </div>
+                <input class="form-control" type="text" id="id" name="id" placeholder="ข้อมูลที่ต้องการค้นหา" onchange="searchData()">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary badge-pill" onclick="searchData()">ค้นหา</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>*@
+
+<div class="table-box">
+    <div class="table-row" style="font-weight:bold;">
+        <div class="table-cell">
+            <p>รหัสสั่งทำ</p>
+        </div>
+        <div class="table-cell">
+            <p>วันที่สั่งทำ</p>
+        </div>
+        <div class="table-cell">
+            <p>วันที่รับสินค้า</p>
+        </div>
+        <div class="table-cell">
+            <p>สถานะ</p>
+        </div>
+        @*<div class="table-cell last-cell">
+            <p>จัดการสถานะ</p>
+        </div>*@
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="table-row">
+            <div class="table-cell">
+                <p>@item.OrPrintId</p>
+            </div>
+            <div class="table-cell">
+                <p>@item.OrPrintDate.Value.Date.ToString("dd MMM yyyy")</p>
+            </div>
+            <div class="table-cell">
+                <p>@item.OrPrintDue.Value.Date.ToString("dd MMM yyyy")</p>
+            </div>
+            <div class="table-cell">
+                <p>
+                    @if (@item.OrPrintStatus == 0)
+                    {
+                        strStatus = "ค้างชำระเงิน";
+                    }
+                    else if (@item.OrPrintStatus == 1)
+                    {
+                        strStatus = "รอยืนยันการชำระ";
+                    }
+                    else if (@item.OrPrintStatus == 2)
+                    {
+                        strStatus = "ชำระเงินแล้ว";
+                    }
+                    @strStatus
+                </p>
+            </div>
+            @*<div class="table-cell last-cell">
+                <a class="btn text-dark badge-pill" style="background-color:#ffc107;box-shadow: 1px 2px 2px 0px rgba(0,0,0,0.75);" href="@Url.Content("/OrderPrint/GetWorkDetail?id=")@item.OrPrintId"><b>จัดการ</b></a>
+            </div>*@
+        </div>
+    }
+</div>

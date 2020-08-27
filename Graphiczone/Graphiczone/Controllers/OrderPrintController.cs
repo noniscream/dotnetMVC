@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.WebPages;
 using Graphiczone.Models;
 using Graphiczone.Models.SQLServer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient.Server;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace Graphiczone.Controllers
 {
@@ -139,6 +143,96 @@ namespace Graphiczone.Controllers
 
 
         }
+
+
+        // เฟม
+
+        public IActionResult ConfirmPayment()
+        {
+            var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 1).ToList();
+            return View(seachData);
+        }
+
+        public IActionResult ListConfirmPayment()
+        {
+            var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2 && x.CusId == "GCUS0011").ToList();
+            return View(seachData);
+        }
+
+        public IActionResult ShowOrder()
+        {
+            var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == "GCUS0011").ToList();
+            return View(searchData);
+        }
+        [HttpGet]
+        public IActionResult ListConfirmPaymentDetail(string id)
+        {
+            var seachData = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+            var seachData2 = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+            if (seachData2 != null)
+            {
+                List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).ToList();
+                ViewBag.OrderList = orderDetailPrints;
+                ViewBag.OrderPrintId = seachData.OrPrintId;
+                ViewBag.OrderDate = seachData2.OrPrintDate;
+                ViewBag.OrderDue = seachData2.OrPrintDue;
+                var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
+                ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
+                ViewBag.TotalDate = seachData2.OrPrintDue - DateTime.Now;
+                var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
+                var prooffile = _graphiczoneDBContext.ProofPayment.Where(a => a.OrPrintId == seachData2.OrPrintId).FirstOrDefault();
+                //ViewBag.PrintName = printname.PrintName;
+                ViewBag.PriceTotal = seachData2.OrPrintTotal;
+                ViewBag.ProofFile = prooffile.PrfPayFile;
+            }
+
+            return PartialView("_ListConfirmPaymentDetail", seachData);
+        }
+
+        [HttpGet]
+        public IActionResult EditConfirmPayment(string id)
+        {
+            var seachData = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+            var seachData2 = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+            if (seachData2 != null)
+            {
+                List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).ToList();
+                ViewBag.OrderList = orderDetailPrints;
+                ViewBag.OrderPrintId = seachData.OrPrintId;
+                ViewBag.OrderDate = seachData2.OrPrintDate;
+                ViewBag.OrderDue = seachData2.OrPrintDue;
+                var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
+                ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
+                ViewBag.TotalDate = seachData2.OrPrintDue - DateTime.Now;
+                var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
+                var prooffile = _graphiczoneDBContext.ProofPayment.Where(a => a.OrPrintId == seachData2.OrPrintId).FirstOrDefault();
+                //ViewBag.PrintName = printname.PrintName;
+                ViewBag.PriceTotal = seachData2.OrPrintTotal;
+                ViewBag.ProofFile = prooffile.PrfPayFile;
+            }
+
+            return PartialView("_EditConfirmPayment", seachData);
+        }
+
+        [HttpPost]
+        public JsonResult updateconfirmpayment(OrderPrint orderPrint)
+        {
+            var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
+            if (searchData != null)
+            {
+                searchData.OrPrintStatus = orderPrint.OrPrintStatus;
+                _graphiczoneDBContext.SaveChanges();
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
+
+
+        }
+
+        // เฟม
 
         [HttpPost]
         public JsonResult updateworkstatus(OrderPrint orderPrint)
@@ -306,12 +400,12 @@ namespace Graphiczone.Controllers
             {
                 if(id != null)
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 1 && x.OrPrintId == id).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2 && x.OrPrintId == id).ToList();
                     return View(searchData);
                 }
                 else
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 1 && id == null).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2 && id == null).ToList();
                     return View(searchData);
                 }
             }
@@ -346,6 +440,7 @@ namespace Graphiczone.Controllers
                 return PartialView("_EditWorkStatus",seachData);
             }
         }
+
         [HttpPost]
         public JsonResult update(OrderPrint orderPrint)
         {
@@ -362,6 +457,77 @@ namespace Graphiczone.Controllers
             }
             
             
+        }
+
+        public ViewResult ListReport()
+        {
+            return View();
+        }
+
+        public IActionResult Report(int radvalue, DateTime datestart, DateTime dateend)
+        {
+
+            if (radvalue == 0)
+            {
+                return Json(0);
+            }
+            else if (radvalue == 1)
+            {
+                return Json(1);
+            }
+            else if (radvalue == 2)
+            {
+                return Json(2);
+            }
+            else if (radvalue == 3)
+            {
+                return Json(3);
+            }
+            else if(radvalue == 4)
+            {
+                return Json(4);
+            }
+            else if(radvalue == 5)
+            {
+                return Json(5);
+            }
+            else if (radvalue == 6)
+            {
+                return Json(6);
+            }
+            else
+            {
+                return View();
+            }
+
+        }
+
+        public IActionResult ReportWorking()
+        {
+            
+            var searchReWorking = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 1 ).ToList();
+            if(searchReWorking != null)
+            {
+                List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
+                ViewBag.list = orderDetailPrints;
+                List<Print> prints = _graphiczoneDBContext.Print.ToList();
+                ViewBag.listprint = prints;
+            }
+
+            return View("../Report/ReportWorking", searchReWorking);
+        }
+
+        public IActionResult ReportWorkdone()
+        {
+            var searchReWorkdone = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2).ToList();
+            if (searchReWorkdone != null)
+            {
+                List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
+                ViewBag.list = orderDetailPrints;
+                List<Print> prints = _graphiczoneDBContext.Print.ToList();
+                ViewBag.listprint = prints;
+            }
+            return View("../Report/ReportWorkdone", searchReWorkdone);
         }
     }
 }

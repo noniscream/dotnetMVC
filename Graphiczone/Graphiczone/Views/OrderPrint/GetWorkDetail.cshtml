@@ -10,16 +10,18 @@
             cursor:pointer;
             text-decoration:underline;
         }
-        .xs .img{
-            position:absolute;
-            transform:translate();
-            visibility:hidden;
-            z-index:1;
-            width:300px;
-        }
-        .xs:hover .img{
-            visibility:visible;
-        }
+            .xs .img {
+                position: absolute;
+                transform: translate();
+                visibility: hidden;
+                z-index: 1;
+                max-width: 100%;
+                height: auto;
+            }
+            .xs:hover .img {
+                visibility: visible;
+                
+            }
     </style>
 @{ 
     var strColorstatus = "";
@@ -92,7 +94,7 @@
                                             <p>@x.OrdPrintId</p>
                                         </div>
                                         <div class="table-cell">
-                                            <span class="xs">@x.OrdPrintName <img class="img" id="showImg" src="/@x.OrdPrintFile"/></span><br />
+                                            <a href="/@x.OrdPrintFile" target="_blank"><span class="xs">@x.OrdPrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span></a><br />
                                             <small>@ViewBag.PrintName ( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
                                             
                                         </div>
@@ -146,6 +148,12 @@
                         {
                             strColorstatus = "danger";
                             strStatrus = "ยังไม่ยืนยันหลักฐานการชำระเงิน";
+                            strIcon = "fas fa-times";
+                        }
+                        else if (Model.OrPrintStatus == 1)
+                        {
+                            strColorstatus = "warning";
+                            strStatrus = "แจ้งชำระแล้วรอยืนยัน";
                             strIcon = "fas fa-times";
                         }
                         else
@@ -217,7 +225,7 @@
                     </form>
                     <div class="form-group">
                         <div class="row">
-                            @if (Model.OrPrintStatus == 0 && ViewBag.getPayCode != null)
+                            @if (Model.OrPrintStatus == 1 && ViewBag.getPayCode != null)
                             {
                                 <div class="col-md-6">
                                     <button class="btn btn-outline-info form-control" onclick="checksavepayment()">ยืนยันการชำระ</button>
@@ -235,13 +243,13 @@
                 </div>
                 <div class="tab-pane fade" id="work" role="tabpanel" aria-labelledby="work-tab">
                     <form id="workstatusform">
-                        @if (Model.OrPrintStatus == 1)
+                        @if (Model.OrPrintStatus == 2)
                         {
                             strColorstatus = "info";
                             strStatrus = "กำลังดำเนินการผลิต";
                             strIcon = "fas fa-info";
                         }
-                        else if (Model.OrPrintStatus == 2)
+                        else if (Model.OrPrintStatus == 3)
                         {
                             strColorstatus = "success";
                             strStatrus = "ผลิตเสร็จเรียบร้อย";
@@ -273,13 +281,13 @@
                     </form>
                     <div class="form-group">
                         <div class="row">
-                            @if (Model.OrPrintStatus == 1 && ViewBag.getPayCode != null)
+                            @if (Model.OrPrintStatus == 2 && ViewBag.getPayCode != null)
                             {
                                 <div class="col-md-12">
                                     <button class="btn btn-outline-success form-control" name="btnWorksave" id="btnWorksave" onclick="checksaveworkstatus()">ผลิตเสร็จสิ้น</button>
                                 </div>
                             }
-                            @if (Model.OrPrintStatus == 2 || ViewBag.getShippingImg != null)
+                            @if (Model.OrPrintStatus == 3 || ViewBag.getShippingImg != null)
                             {
                                 <div class="col-md-12">
                                     <button class="btn btn-warning form-control" name="btnWorkedit" id="btnWorkedit" onclick="checkeditworkstatus()">แก้ไขเป็นกำลังผลิตอยู่</button>
@@ -291,19 +299,19 @@
                 </div>
                 <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
                     <form id="updateShipping" action="/OrderPrint/upload" method="post" enctype="multipart/form-data" onsubmit="return updateData(this)">
-                        @if (Model.OrPrintStatus == 1)
+                        @if (Model.OrPrintStatus == 2)
                         {
                             strColorstatus = "info";
                             strStatrus = "กำลังดำเนินการผลิต";
                             strIcon = "fas fa-info";
                         }
-                        else if (Model.OrPrintStatus == 2)
+                        else if (Model.OrPrintStatus == 3)
                         {
                             strColorstatus = "info";
                             strStatrus = "รอส่งมอบ";
                             strIcon = "fas fa-info";
                         }
-                        else if (Model.OrPrintStatus == 3)
+                        else if (Model.OrPrintStatus == 4)
                         {
                             strColorstatus = "success";
                             strStatrus = "ส่งมอบเรียบร้อยแล้ว";
@@ -313,9 +321,9 @@
                         <div class="alert alert-@strColorstatus" role="alert"><i class="@strIcon"></i> @strStatrus</div>
 
                         <input type="hidden" name="OrPrintId" id="OrPrintId" value="@ViewBag.OrPrintId" />
-                        <input type="hidden" name="OrPrintStatus" id="OrPrintStatus" value="3" />
+                        <input type="hidden" name="OrPrintStatus" id="OrPrintStatus" value="4" />
 
-                        @if (Model.OrPrintStatus == 2)
+                        @if (Model.OrPrintStatus == 3)
                         {
                             strDis = "";
                         }
@@ -359,7 +367,7 @@
                         <div class="col-md-12">
                             <button hidden class="btn btn-outline-success form-control" name="btnSave" id="btnSave" type="submit" onclick="saveshipping()">บันทึกการส่งมอบ</button>
                         </div>
-                        @if (Model.OrPrintStatus == 2 && ViewBag.getPayCode != null && ViewBag.getShippingImg == null)
+                        @if (Model.OrPrintStatus == 3 && ViewBag.getPayCode != null && ViewBag.getShippingImg == null)
                         {
                             <div class="col-md-12">
                                 <button class="btn btn-outline-success form-control" name="btnSave" id="btnSave" type="submit" onclick="saveshipping()">บันทึกการส่งมอบ</button>
@@ -369,7 +377,7 @@
 
                     </form>
                     <div class="row">
-                        @if (Model.OrPrintStatus == 3 || ViewBag.getShippingImg != null)
+                        @if (Model.OrPrintStatus == 4 || ViewBag.getShippingImg != null)
                         {
                             <div class="col-md-6">
                                 <button class="btn btn-warning form-control" name="btnEdit" id="btnEdit" onclick="editshipping()">แก้ไข</button>
@@ -405,7 +413,7 @@
         }
         function savepayment() {
             var OrPrintId = document.getElementById("OrPrintId").value;
-            var OrPrintStatus = 1;
+            var OrPrintStatus = 2;
             $.ajax({
                 type: "post",
                 data: { OrPrintId, OrPrintStatus },
@@ -442,7 +450,7 @@
         }
         function saveworkstatus() {
             var OrPrintId = document.getElementById("OrPrintId").value;
-            var OrPrintStatus = 2;
+            var OrPrintStatus = 3;
             $.ajax({
                 type: "post",
                 data: { OrPrintId, OrPrintStatus },
@@ -489,7 +497,7 @@
 
         function deleteshipping() {
             var OrPrintId = document.getElementById("OrPrintId").value;
-            var OrPrintStatus = 2;
+            var OrPrintStatus = 3;
             $.ajax({
                 type: "post",
                 data: { OrPrintId, OrPrintStatus },
@@ -527,7 +535,7 @@
         }
         function editworkstatus() {
             var OrPrintId = document.getElementById("OrPrintId").value;
-            var OrPrintStatus = 1;
+            var OrPrintStatus = 2;
             $.ajax({
                 type: "post",
                 data: { OrPrintId, OrPrintStatus },

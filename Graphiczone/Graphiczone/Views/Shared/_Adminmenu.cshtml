@@ -1,46 +1,34 @@
 ﻿@using Microsoft.AspNetCore.Http
 
-    <ul class="nav flex-column">
-        <li class="nav-item">
-            <div class="card">
-                <div class="card-body">
-                    @if (Context.Session.GetString("AdminUsername") != null)
-                    {
-        <label><i class="fas fa-user-alt"></i> : @Context.Session.GetString("AdminUsername") </label>
+<ul class="nav flex-column">
+    <li class="nav-item">
+        <div class="card" style="box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.75);">
+            <div class="card-body">
+                @if (Context.Session.GetString("AdminUsername") != null)
+                {
+    <label><i class="fas fa-user-alt"></i> : @Context.Session.GetString("AdminUsername") </label>
 
-                        <div align="right">
-                            <a class="btn btn-danger badge-pill" href="/Admin/Logout" style="font-size:12px;box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.75);"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</a>
-                        </div>}
-                    else
-                    {
+                    <div align="right">
+                        <a class="btn btn-danger badge-pill" href="/Admin/Logout" style="font-size:12px;box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.75);"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</a>
+                    </div>}
+                else
+                {
 
-                    }
-                </div>
+                }
             </div>
-            <hr class="bg-white" />
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" href="/Admin/Index"><i class="fas fa-home" style="color:#f50057"></i> หน้าแรก</a>
-            <hr class="bg-white" />
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" href="/Admin/Index"><i class="fas fa-wallet" style="color:#0026ff"></i> รายงานยอดขาย</a>
-            <hr class="bg-white" />
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" href="/Admin/Index"><i class="fab fa-creative-commons-nc" style="color:#ff0000"></i> รายงานสถานะค้างชำระ</a>
-            <hr class="bg-white" />
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" href="/Admin/Index"><i class="fas fa-hand-holding-usd" style="color:#03cc75"></i> รายงานสถานะรับชำระเงินแล้ว</a>
-            <hr class="bg-white" />
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" href="/Admin/Index"><i class="fas fa-clipboard-check" style="color:#536DFE"></i> รายงานสถานะผลิตเสร็จแล้ว</a>
-            <hr class="bg-white" />
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" href="/Admin/Index"><i class="fas fa-shipping-fast" style="color:#FFC107"></i> รายงานส่งมอบแล้ว</a>
-            <hr class="bg-white" />
-        </li>
-    </ul>
+        </div>
+        <hr class="bg-dark" />
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="/Admin/Index"><i class="fas fa-home" style="color:#f50057"></i> หน้าแรก</a>
+        <hr class="bg-dark" />
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="/Admin/Index"><i class="fas fa-list-alt" style="color:#4cff00"></i> ข้อมูลบริการ</a>
+        <hr class="bg-dark" />
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="/OrderPrint/ListReport"><i class="fas fa-wallet" style="color:#0026ff"></i> รายงานการขาย</a>
+        <hr class="bg-dark" />
+    </li>
+</ul>

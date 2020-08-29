@@ -27,6 +27,7 @@ namespace Graphiczone.Controllers
 
         public ViewResult Login()
         {
+            HttpContext.Session.Clear();
             return View();
         }
 
@@ -68,6 +69,7 @@ namespace Graphiczone.Controllers
 
         public ViewResult Register()
         {
+            HttpContext.Session.Clear();
             return View();
         }
 

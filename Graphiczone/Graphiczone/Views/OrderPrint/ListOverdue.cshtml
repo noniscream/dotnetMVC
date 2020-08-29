@@ -1,43 +1,45 @@
 ﻿@model IEnumerable<Graphiczone.Models.SQLServer.OrderPrint>
 @{
-    ViewData["Title"] = "ListWorkStatus";
+    ViewData["Title"] = "ListOverdue";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
-    <style>
-        .table-head, .table-row {
-            display: table;
-            width: 100%;
-            margin: 7px auto;
-            background: transparent;
-            padding: 2px 0;
-            box-shadow: 0 1px 4px 0 rgba(0,0,50,0.3);
-        }
 
-        .table-cell {
-            display: table-cell;
-            width: 15%;
-            text-align: center;
-            padding: 5px 0;
-            border-right: 1px solid #d6d4d4;
-            vertical-align: middle;
-            color: #00189f;
-        }
-        #roworder:hover {
-            border-left: solid 7px;
-            border-left-color: #536DFE;
-            border-right: solid 7px;
-            border-right-color: #536DFE;
-            font-weight: bold;
-            color: #536DFE !important;
-        }
-    </style>
-@{ 
+<style>
+    .table-head, .table-row {
+        display: table;
+        width: 100%;
+        margin: 7px auto;
+        background: transparent;
+        padding: 2px 0;
+        box-shadow: 0 1px 4px 0 rgba(0,0,50,0.3);
+    }
+
+    .table-cell {
+        display: table-cell;
+        width: 15%;
+        text-align: center;
+        padding: 5px 0;
+        border-right: 1px solid #d6d4d4;
+        vertical-align: middle;
+        color: #00189f;
+    }
+
+    #roworder:hover {
+        border-left: solid 7px;
+        border-left-color: red;
+        border-right: solid 7px;
+        border-right-color: red;
+        font-weight: bold;
+        color: #536DFE !important;
+    }
+</style>
+@{
     var strStatus = "";
     var strColorStatus = "";
 }
-<div class="table-head" style="background-color:#536DFE">
+<div class="table-head" style="background-color:red">
     <div class="table-cell">
-        <p class="text-white" style="font-size:2rem">รายการสถานะงาน</p>
+        <p class="text-white" style="font-size:2rem">รายการที่ยังไม่ชำระเงิน</p>
     </div>
 </div>
 
@@ -45,7 +47,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        @using (Html.BeginForm("ListWorkStatus", "OrderPrint", FormMethod.Get))
+        @using (Html.BeginForm("ListOverdue", "OrderPrint", FormMethod.Get))
         {
             <div class="input-group">
                 <div class="input-group-prepend">
@@ -124,8 +126,8 @@
             </div>
             <div class="table-cell last-cell">
                 <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
-                        data-target="#EditWorkStatus" data-url="@Url.Action($"Edit/{item.OrPrintId}")">
-                    บันทึกสถานะงาน
+                        data-target="#OrderDetailforOverdue" data-url="@Url.Action($"OrderDetailforOverdue/{item.OrPrintId}")">
+                    ดูรายละเอียด
                 </button>
             </div>
         </div>

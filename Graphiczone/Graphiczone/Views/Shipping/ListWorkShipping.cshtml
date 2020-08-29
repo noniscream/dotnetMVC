@@ -7,7 +7,7 @@
     .table-head, .table-row {
         display: table;
         width: 100%;
-        margin: 10px auto;
+        margin: 7px auto;
         background: transparent;
         padding: 2px 0;
         box-shadow: 0 1px 4px 0 rgba(0,0,50,0.3);
@@ -51,7 +51,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text bg-secondary text-white badge-pill" id="SDT"><i class="fas fa-search" id="SDT"></i></span>
                 </div>
-                <input class="form-control" type="text" id="id" name="id" placeholder="ข้อมูลที่ต้องการค้นหา" onchange="searchData()">
+                <input class="form-control" type="text" id="id" name="id" placeholder="ค้นหารหัสสั่งทำ" onchange="searchData()">
                 <div class="input-group-append">
                     <button class="btn btn-secondary badge-pill" onclick="searchData()">ค้นหา</button>
                 </div>
@@ -60,21 +60,25 @@
     </div>
 </div>
 
+<div class="mt-2" align="right">
+    <label class="badge badge-secondary badge-pill"><b>ทั้งหมด @ViewBag.countData รายการ</b></label>
+</div>
+
 <div class="table-box">
-    <div class="table-row" style="font-weight:bold;">
-        <div class="table-cell">
+    <div class="table-row bg-dark" style="font-weight:bold;">
+        <div class="table-cell text-white">
             <p>รหัสสั่งทำ</p>
         </div>
-        <div class="table-cell">
+        <div class="table-cell text-white">
             <p>วันที่สั่งทำ</p>
         </div>
-        <div class="table-cell">
+        <div class="table-cell text-white">
             <p>วันที่รับสินค้า</p>
         </div>
-        <div class="table-cell">
-            <p>สถานะชำระเงิน</p>
+        <div class="table-cell text-white">
+            <p>สถานะ</p>
         </div>
-        <div class="table-cell last-cell">
+        <div class="table-cell last-cell text-white">
             <p>ยืนยันสถานะงาน</p>
         </div>
     </div>

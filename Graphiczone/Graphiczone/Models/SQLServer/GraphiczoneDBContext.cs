@@ -21,6 +21,7 @@ namespace Graphiczone.Models.SQLServer
         public virtual DbSet<Print> Print { get; set; }
         public virtual DbSet<ProofPayment> ProofPayment { get; set; }
         public virtual DbSet<Shipping> Shipping { get; set; }
+        public virtual DbSet<Shop> Shop { get; set; }
         public virtual DbSet<TypePrint> TypePrint { get; set; }
         public virtual DbSet<User> User { get; set; }
 
@@ -37,8 +38,7 @@ namespace Graphiczone.Models.SQLServer
         {
             modelBuilder.Entity<Customer>(entity =>
             {
-                entity.HasKey(e => e.CusId)
-                    .HasName("PK_Customer_1");
+                entity.HasKey(e => e.CusId);
 
                 entity.Property(e => e.CusId)
                     .HasColumnName("cus_id")
@@ -92,7 +92,7 @@ namespace Graphiczone.Models.SQLServer
 
                 entity.Property(e => e.OrdPrintId)
                     .HasColumnName("ordPrint_id")
-                    .HasMaxLength(10)
+                    .HasMaxLength(20)
                     .IsUnicode(false)
                     .IsFixedLength();
 
@@ -102,7 +102,7 @@ namespace Graphiczone.Models.SQLServer
 
                 entity.Property(e => e.OrPrintId)
                     .HasColumnName("orPrint_id")
-                    .HasMaxLength(10)
+                    .HasMaxLength(20)
                     .IsUnicode(false)
                     .IsFixedLength();
 
@@ -115,10 +115,6 @@ namespace Graphiczone.Models.SQLServer
                     .HasColumnType("text");
 
                 entity.Property(e => e.OrdPrintHeight).HasColumnName("ordPrint_height");
-
-                entity.Property(e => e.OrdPrintName)
-                    .HasColumnName("ordPrint_name")
-                    .HasColumnType("text");
 
                 entity.Property(e => e.OrdPrintNum).HasColumnName("ordPrint_num");
 
@@ -137,11 +133,13 @@ namespace Graphiczone.Models.SQLServer
                 entity.HasOne(d => d.OrPrint)
                     .WithMany(p => p.OrderDetailPrint)
                     .HasForeignKey(d => d.OrPrintId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_OrderDetailPrint_OrderPrint");
 
                 entity.HasOne(d => d.Print)
                     .WithMany(p => p.OrderDetailPrint)
                     .HasForeignKey(d => d.PrintId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_OrderDetailPrint_Print");
             });
 
@@ -151,7 +149,7 @@ namespace Graphiczone.Models.SQLServer
 
                 entity.Property(e => e.OrPrintId)
                     .HasColumnName("orPrint_id")
-                    .HasMaxLength(10)
+                    .HasMaxLength(20)
                     .IsUnicode(false)
                     .IsFixedLength();
 
@@ -173,12 +171,6 @@ namespace Graphiczone.Models.SQLServer
                     .HasColumnName("orPrint_due")
                     .HasColumnType("date");
 
-                entity.Property(e => e.OrPrintLocalshipping)
-                    .HasColumnName("orPrint_localshipping")
-                    .HasColumnType("text");
-
-                entity.Property(e => e.OrPrintShipping).HasColumnName("orPrint_shipping");
-
                 entity.Property(e => e.OrPrintStatus).HasColumnName("orPrint_status");
 
                 entity.Property(e => e.OrPrintTotal).HasColumnName("orPrint_total");
@@ -186,6 +178,7 @@ namespace Graphiczone.Models.SQLServer
                 entity.HasOne(d => d.Cus)
                     .WithMany(p => p.OrderPrint)
                     .HasForeignKey(d => d.CusId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_OrderPrint_Customer");
             });
 
@@ -225,6 +218,7 @@ namespace Graphiczone.Models.SQLServer
                 entity.HasOne(d => d.TypePrint)
                     .WithMany(p => p.Print)
                     .HasForeignKey(d => d.TypePrintId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Print_TypePrint");
             });
 
@@ -234,7 +228,7 @@ namespace Graphiczone.Models.SQLServer
 
                 entity.Property(e => e.OrPrintId)
                     .HasColumnName("orPrint_id")
-                    .HasMaxLength(10)
+                    .HasMaxLength(20)
                     .IsUnicode(false)
                     .IsFixedLength();
 
@@ -273,7 +267,6 @@ namespace Graphiczone.Models.SQLServer
                 entity.HasOne(d => d.OrPrint)
                     .WithOne(p => p.ProofPayment)
                     .HasForeignKey<ProofPayment>(d => d.OrPrintId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProofPayment_OrderPrint");
             });
 
@@ -283,7 +276,7 @@ namespace Graphiczone.Models.SQLServer
 
                 entity.Property(e => e.OrPrintId)
                     .HasColumnName("orPrint_id")
-                    .HasMaxLength(10)
+                    .HasMaxLength(20)
                     .IsUnicode(false)
                     .IsFixedLength();
 
@@ -308,19 +301,61 @@ namespace Graphiczone.Models.SQLServer
                 entity.HasOne(d => d.OrPrint)
                     .WithOne(p => p.Shipping)
                     .HasForeignKey<Shipping>(d => d.OrPrintId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Shipping_OrderPrint");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Shipping)
                     .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Shipping_User");
+            });
+
+            modelBuilder.Entity<Shop>(entity =>
+            {
+                entity.Property(e => e.ShopId)
+                    .HasColumnName("shop_id")
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .IsFixedLength();
+
+                entity.Property(e => e.ShopAddress)
+                    .HasColumnName("shop_address")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.ShopEmail)
+                    .HasColumnName("shop_email")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ShopFax)
+                    .HasColumnName("shop_fax")
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .IsFixedLength();
+
+                entity.Property(e => e.ShopLine)
+                    .HasColumnName("shop_line")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ShopLogo)
+                    .HasColumnName("shop_logo")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.ShopName)
+                    .HasColumnName("shop_name")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.ShopTel)
+                    .HasColumnName("shop_tel")
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .IsFixedLength();
             });
 
             modelBuilder.Entity<TypePrint>(entity =>
             {
-                entity.HasKey(e => e.TypePrintId)
-                    .HasName("PK_typePrint");
+                entity.HasKey(e => e.TypePrintId);
 
                 entity.Property(e => e.TypePrintId)
                     .HasColumnName("typePrint_id")

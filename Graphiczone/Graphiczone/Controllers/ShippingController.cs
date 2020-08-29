@@ -39,11 +39,13 @@ namespace Graphiczone.Controllers
                 if (id != null)
                 {
                     var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 3 && x.OrPrintId == id).ToList();
+                    ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
                 else
                 {
                     var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 3 && id == null).ToList();
+                    ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
             }

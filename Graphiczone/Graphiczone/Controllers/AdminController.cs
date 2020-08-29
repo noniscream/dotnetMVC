@@ -38,11 +38,21 @@ namespace Graphiczone.Controllers
                 }
                 //Response.Cookies.Append("LastLogedInTime", DateTime.Now.ToString());
             }
+
+            var searchTotalincome = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null).Sum(y => y.OrPrintTotal);
+            List<OrderPrint> searchCountTotal = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null).ToList();
+            ViewBag.counttotal = searchCountTotal.Count();
+            ViewBag.totalincome = searchTotalincome;
+            var searchIncome = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 2).Sum(y => y.OrPrintTotal);
+            ViewBag.income = searchIncome;
+            var searchCredit = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus < 2).Sum(y => y.OrPrintTotal);
+            ViewBag.credit = searchCredit;
             return View();
         }
 
         public ViewResult Login()
         {
+            HttpContext.Session.Clear();
             return View();
         }
         public IActionResult Logout()
@@ -50,7 +60,7 @@ namespace Graphiczone.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
-        public JsonResult LoginAuth(User user)
+        public IActionResult LoginAuth(User user)
         {
             string username = user.UserUsername;
             string password = user.UserPassword;

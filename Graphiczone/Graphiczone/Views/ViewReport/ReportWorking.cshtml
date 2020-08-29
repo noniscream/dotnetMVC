@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Graphiczone.Models.SQLServer.OrderPrint>
+@{
+    ViewData["Title"] = "ReportWorking";
+    Layout = "~/Views/Shared/_formatReport.cshtml";
+}
+
+<h4 style="top:0;">รายงานสื่อสิ่งพิมพ์ที่กำลังผลิต</h4>
+<h6 align="center"><label>ตั้งแต่ @ViewBag.dateS จนถึง @ViewBag.dateE</label></h6>
+<h6 align="right"><label align="right">วันที่เรียกดู @DateTime.Now.ToString("dddd dd MMMM yyyy")</label></h6>
+
+<table class="table table-striped"  style="margin-top:2px">
+
+    @foreach (var x in Model)
+    {
+        <thead align="left">
+            <tr>
+                <th>รหัสสั่งทำ</th>
+                <th></th>
+                <th>สั่งทำวันที่</th>
+                <th>กำหนดส่งวันที่</th>
+                <th>รหัสลูกค้าที่สั่ง</th>
+            </tr>
+        </thead>
+        <tbody align="left">
+            <tr>
+                <td>@x.OrPrintId</td>
+                <td></td>
+                <td>@x.OrPrintDate.Value.ToString("dd MMM yyyy")</td>
+                <td>@x.OrPrintDue.Value.ToString("dd MMM yyyy")</td>
+                <td>@x.CusId</td>
+            </tr>
+        <thead >
+            <tr>
+                <th align="center">รหัสรายการสั่งทำ</th>
+                <th aling="left">ป้าย</th>
+                <th align="center">พื้นที่รวม (ตร.ม.)</th>
+                <th align="center">จำนวน/หน่วย</th>
+                <th align="center">ราคา</th>
+            </tr>
+        </thead>
+        <tbody >
+            @foreach (var i in ViewBag.list)
+            {
+                if (i.OrPrintId == x.OrPrintId)
+                {
+                    <tr>
+                        <td align="center">@i.OrdPrintId</td>
+                        @foreach (var p in ViewBag.listprint)
+                        {
+                            @if (p.PrintId == i.PrintId)
+                            {
+                                <td align="left">@p.PrintName (@i.OrdPrintWidth X @i.OrdPrintHeight)</td>
+                            }
+                        }
+                        <td align="left">@{var total = i.OrdPrintWidth * i.OrdPrintHeight;} @total.ToString("#,###.000")</td>
+                        <td align="left">@i.OrdPrintNum</td>
+                        <td align="left">@i.OrdPrintTotal.ToString("#,###.00")</td>
+                    </tr>
+                }
+                else
+                {
+
+                }
+            }
+        </tbody>
+        <tbody align="right">
+            <tr>
+                <th colspan="5">รวม : @x.OrPrintTotal.Value.ToString("#,###.00")</th>
+            </tr>
+        </tbody>
+        </tbody>
+    }
+</table>

@@ -1,9 +1,7 @@
 ﻿@model IEnumerable<Graphiczone.Models.SQLServer.OrderPrint>
 
-@{
-    ViewData["Title"] = "ConfirmPayment";
-    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
-}
+@{ ViewData["Title"] = "ConfirmPayment";
+                Layout = "~/Views/Shared/_CustomerLayout.cshtml"; }
 
 <style>
     .table-head, .table-row {
@@ -20,67 +18,126 @@
         width: 15%;
         text-align: center;
         padding: 5px 0;
-        border-right: 1px solid #d6d4d4;
+        vertical-align: middle;
+        color:#00189f;
+    }
+
+    .table-cell-2 {
+        display: table-cell;
+        width: 15%;
+        text-align: center;
+        padding: 5px 0;
+        vertical-align: middle;
+        color: white;
+    }
+
+    .table-cell-1 {
+        display: table-cell;
+        width: 15%;
+        text-align: center;
+        padding: 5px 0;
         vertical-align: middle;
         color: #00189f;
+        border-right: 2px solid #d6d4d4;
     }
 </style>
-@{
-    var strStatus = "";
-}
-<div class="table-head" style="background:linear-gradient(to right,#ff007d,#0094ff)">
-    <div class="table-cell">
-        <p class="text-white" style="font-size:2rem">รายการที่ชำระเงินเรียบร้อยแล้ว</p>
+<div class="row">
+    <div class="col-md-1">
+
+    </div>
+    <div class="col-md-10">
+        @{ var strStatus = ""; }
+        <div class="table-head" style="background:#9D6AB9;">
+            <div class="table-cell">
+                <p class="text-white" style="font-size:2rem">รายการที่ชำระเงินเรียบร้อยแล้ว</p>
+            </div>
+        </div>
+
+        <div id="PlaceHolderHere"></div>
+    </div>
+    <div class="col-md-1">
+
     </div>
 </div>
+<div class="row" style="margin-top:1.5rem;">
+    <div class="col-md-1">
 
-<div id="PlaceHolderHere"></div>
-
-<div class="table-box">
-    <div class="table-row">
-        <div class="table-cell">
-            <p>รหัสสั่งทำ</p>
-        </div>
-        <div class="table-cell">
-            <p>วันที่สั่งทำ</p>
-        </div>
-        <div class="table-cell">
-            <p>วันที่รับสินค้า</p>
-        </div>
-        <div class="table-cell">
-            <p>สถานะชำระเงิน</p>
-        </div>
-        <div class="table-cell last-cell">
-            <p>ดูรายละเอียดบิล</p>
-        </div>
     </div>
+    <div class="col-md-10">
+        @using (Html.BeginForm("ListConfirmPayment", "OrderPrint", FormMethod.Get))
+        {
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text bg-secondary text-white badge-pill" id="SDT"><i class="fas fa-search" id="SDT"></i></span>
+        </div>
+        <input class="form-control" type="text" id="id" name="id" placeholder="ข้อมูลที่ต้องการค้นหา" onchange="searchData()">
+        <div class="input-group-append">
+            <button class="btn btn-secondary badge-pill" onclick="searchData()">ค้นหา</button>
+        </div>
+    </div>}
+    </div>
+    <div class="col-md-1">
 
-    @foreach (var item in Model)
-    {
-        <div class="table-row">
-            <div class="table-cell">
-                <p>@item.OrPrintId</p>
+    </div>
+</div>
+<div class="row" style="margin-top:1.5rem;">
+    <div class="col-md-1">
+
+    </div>
+    <div class="col-md-10">
+        <div class="table-box">
+            <div class="table-row" style="font-size:20px;Background:#484848;">
+                <div class="table-cell-2">
+                    <p>รหัสสั่งทำ</p>
+                </div>
+                <div class="table-cell-2">
+                    <p>วันที่สั่งทำ</p>
+                </div>
+                <div class="table-cell-2">
+                    <p>วันที่รับสินค้า</p>
+                </div>
+                <div class="table-cell-2">
+                    <p>สถานะชำระเงิน</p>
+                </div>
+                <div class="table-cell last-cell" style="color:white;">
+                    <p>ดูรายละเอียดบิล</p>
+                </div>
             </div>
-            <div class="table-cell">
-                <p>@item.OrPrintDate.Value.ToString("dd MMM yyyy")</p>
-            </div>
-            <div class="table-cell">
-                <p>@item.OrPrintDue.Value.ToString("dd MMM yyyy")</p>
-            </div>
-            <div class="table-cell">
-                <p>
-                    @if (@item.OrPrintStatus == 0)
-                    {
-                        strStatus = "ค้างชำระเงิน";
-                    }
-                    else if (@item.OrPrintStatus == 1)
-                    {
-                        strStatus = "รอยืนยันการชำระ";
-                    }
-                    else if (@item.OrPrintStatus == 2)
-                    {
-                        strStatus = "ชำระเงินแล้ว";
-                    }
+
+            @foreach (var item in Model)
+            {
+    <div class="table-row">
+        <div class="table-cell-1">
+            <p>@item.OrPrintId</p>
+        </div>
+        <div class="table-cell-1">
+            <p>@item.OrPrintDate.Value.ToString("dd MMM yyyy")</p>
+        </div>
+        <div class="table-cell-1">
+            <p>@item.OrPrintDue.Value.ToString("dd MMM yyyy")</p>
+        </div>
+        <div class="table-cell-1">
+            <p>
+                @if (@item.OrPrintStatus == 0)
+                {
+                    strStatus = "ค้างชำระเงิน";
+                }
+                else if (@item.OrPrintStatus == 1)
+                {
+                    strStatus = "รอยืนยันการชำระ";
+                }
+                else if (@item.OrPrintStatus == 2)
+                {
+                    strStatus = "ชำระเงินแล้ว";
+                }
+                else if (@item.OrPrintStatus == 3)
+                {
+                    strStatus = "ผลิตเสร็จแล้ว";
+                }
+                else if (@item.OrPrintStatus == 4)
+                {
+                    strStatus = "ส่งมอบแล้ว";
+                }
                 @strStatus
             </p>
         </div>
@@ -90,6 +147,12 @@
                 ดูรายละเอียดบิล
             </button>
         </div>
+    </div>}
+        </div>
     </div>
-}
+    <div class="col-md-1">
+
+    </div>
 </div>
+
+

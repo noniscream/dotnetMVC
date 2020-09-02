@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Graphiczone.Models.SQLServer.User>
+
+@{
+    ViewData["Title"] = "ReportUser";
+    Layout = "~/Views/Shared/_formatReport.cshtml";
+}
+
+    <h4 style="top:0;">รายงานพนักงาน</h4>
+    <h6 align="right"><label align="right">วันที่เรียกดู @DateTime.Now.ToString("dddd dd MMMM yyyy")</label></h6>
+
+    <table class="table table-striped" style="margin-top:2px">
+
+        <thead class="thead-dark">
+            <tr align="center">
+                <th>ชื่อ-นามสกุล</th>
+                <th>ที่อยู่</th>
+                <th>เบอร์โทรศัพท์</th>
+                <th>อีเมล์</th>
+                <th>ตำแหน่ง</th>
+                <th>เงินเดือน</th>
+            </tr>
+        </thead>
+        @foreach (var x in Model)
+        {
+            <tbody align="left" style="margin-top:1rem;">
+                <tr>
+                    <td align="left">@x.UserFirstname  @x.UserLastname</td>
+                    <td align="left">@x.UserAddress</td>
+                    <td align="right">@x.UserTel</td>
+                    <td align="left">@x.UserEmail</td>
+                    <td align="left">@x.UserPosition</td>
+                    <td align="right">@x.UserSalary</td>
+                </tr>
+            </tbody>
+        }
+    </table>
+
+
+

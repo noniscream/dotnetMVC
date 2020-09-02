@@ -18,70 +18,250 @@
         .card {
             box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.75);
         }
+        .shadow-sm{
+            box-shadow: 0 0 1.25rem rgba(11, 37, 75, .05);
+        }
+        .icon-circle{
+            width:60px;
+            height:60px;
+        }
+        .icon-bg-primary{
+            background-color:rgba(0, 123, 255, .1)!important;
+        }
+        .icon-bg-warning {
+            background-color: rgba(255, 136, 0, .1) !important;
+        }
+        .icon-bg-success{
+            background-color:rgba(0, 126, 51, .1)!important;
+        }
+        .icon-bg-danger {
+            background-color: rgba(204,0,0,.1)!important;
+        }
+        .icon-bg-info{
+            background-color:rgba(0,153,204,.1)!important;
+        }
+        .admin-card{
+            border-radius:10px;
+        }
     </style>
-    <h1>Dashboard</h1>
+
+    <div id="PlaceHolderHere"></div>
+
     <div class="container">
-        <div class="row" style="margin-bottom:2%">
-            <div class="col-md-4" style="margin-bottom:2%;color:#0026ff">
-                <div class="card bg-light">
-                    <div class="card-body">
-                        <div class="card-body-icon">
-                            <i class="fas fa-wallet mr-2"></i>
+        <div class="row" style="margin-top:3%">
+            <div class="col-md-3">
+                <div class="card admin-card totalorder-card border-0 shadow-sm shadow-hover">
+                    <div class="card-body d-flex">
+                        <div>
+                            <div class="icon-circle icon-bg-success rounded-circle d-flex align-self-center mr-3">
+                                <i class="fas fa-cart-arrow-down text-success align-self-center mx-auto lead"></i>
+                            </div>
                         </div>
-                        <h5 class="card-title">ยอดขายทั้งหมด @ViewBag.counttotal รายการ</h5>
-                        <div class="display-4">@ViewBag.totalincome.ToString("#,###.00")</div>
+                        <div class="">
+                            <label>รายการสั่งทำทั้งหมด</label>
+                            <p align="right"><label class="badge icon-bg-success badge-pill" style="font-size:1rem;">@ViewBag.totalorder รายการ</label></p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4" style="margin-bottom:2%;color:#03cc75">
-                <div class="card bg-light">
-                    <div class="card-body">
-                        <div class="card-body-icon">
-                            <i class="fas fa-hand-holding-usd mr-2"></i>
+            <div class="col-md-3">
+                <div class="card admin-card totalworking-card border-0 shadow-sm shadow-hover">
+                    <div class="card-body d-flex">
+                        <div>
+                            <div class="icon-circle icon-bg-danger rounded-circle d-flex align-self-center mr-3">
+                                <i class="fas fa-hammer text-danger align-self-center mx-auto lead"></i>
+                            </div>
                         </div>
-                        <h5 class="card-title">ชำระเงินเรียบร้อยแล้ว</h5>
-                        <div class="display-4">@ViewBag.income</div>
+                        <div class="">
+                            <label>สื่อสิ่งพิมพ์ที่ผลิตอยู่</label>
+                            <p align="right"><label class="badge icon-bg-danger badge-pill" style="font-size:1rem;">@ViewBag.totalworking รายการ</label></p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4" style="margin-bottom:2%;color:#ff0000">
-                <div class="card bg-light">
-                    <div class="card-body">
-                        <div class="card-body-icon">
-                            <i class="fab fa-creative-commons-nc mr-2"></i>
+            <div class="col-md-3">
+                <div class="card admin-card totalworkdone-card border-0 shadow-sm shadow-hover">
+                    <div class="card-body d-flex">
+                        <div>
+                            <div class="icon-circle icon-bg-primary rounded-circle d-flex align-self-center mr-3">
+                                <i class="fas fa-clipboard-check text-primary align-self-center mx-auto lead"></i>
+                            </div>
                         </div>
-                        <h5 class="card-title">ค้างชำระเงิน</h5>
-                        <div class="display-4">@ViewBag.credit</div>
+                        <div class="">
+                            <label>สื่อสิ่งพิมพ์ที่ผลิตเสร็จแล้ว</label>
+                            <p align="right"><label class="badge icon-bg-primary badge-pill" style="font-size:1rem;">@ViewBag.totalworkdone รายการ</label></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card admin-card totalshipping-card border-0 shadow-sm shadow-hover">
+                    <div class="card-body d-flex">
+                        <div>
+                            <div class="icon-circle icon-bg-warning rounded-circle d-flex align-self-center mr-3">
+                                <i class="fas fa-shipping-fast text-warning align-self-center mx-auto lead"></i>
+                            </div>
+                        </div>
+                        <div class="">
+                            <label>สื่อสิ่งพิมพ์ที่ส่งมอบแล้ว</label>
+                            <p align="right"><label class="badge icon-bg-warning badge-pill" style="font-size:1rem;">@ViewBag.totalshipping รายการ</label></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row text-white" style="margin-bottom:2%">
-            <div class="col-md-12" style="margin-bottom:2%">
-                <div class="card bg-info">
-                    <div class="card-body">
-                        <div class="card-body-icon">
-                            <i class="fas fa-wallet mr-2"></i>
+        <hr class="bg-light" />
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card admin-card border-0 shadow-sm shadow-hover">
+                    <div class="card-body d-flex">
+                        <div>
+                            <div class="icon-circle icon-bg-info rounded-circle d-flex align-self-center mr-3 mt-3">
+                                <i class="fas fa-chart-line text-info align-self-center mx-auto lead"></i>
+                            </div>
                         </div>
-                        <h5 class="card-title">รายการสั่งทั้งหมด</h5>
-                        <div class="display-4">800 รายการ</div>
-                        <div class="align-text-bottom text-right">รายละเอียดเพิ่มเติม</div>
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>รายได้ทั้งหมด : @ViewBag.totalorder รายการ</label>
+                                </div>
+                            </div>
+                            <hr class="bg-info" />
+                            <div class="row">
+                                <div class="col-md-12" align="right">
+                                    <label>เป็นเงิน : @ViewBag.totalincome.ToString("#,###.00") บาท</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card admin-card border-0 shadow-sm shadow-hover">
+                    <div class="card-body d-flex">
+                        <div>
+                            <div class="icon-circle icon-bg-success rounded-circle d-flex align-self-center mr-3 mt-3">
+                                <i class="fas fa-dollar-sign text-primary align-self-center mx-auto lead"></i>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>รายการที่ชำระเงินแล้ว : @ViewBag.countpayment รายการ</label>
+                                </div>
+                            </div>
+                            <hr class="bg-success" />
+                            <div class="row">
+                                <div class="col-md-12" align="right">
+                                    <label>เป็นเงิน : @ViewBag.totalpayment.ToString("#,###.00") บาท</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card admin-card border-0 shadow-sm shadow-hover">
+                    <div class="card-body d-flex">
+                        <div>
+                            <div class="icon-circle icon-bg-danger rounded-circle d-flex align-self-center mr-3 mt-3">
+                                <i class="fab fa-creative-commons-nc text-warning align-self-center mx-auto lead"></i>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>รายการที่ค้างชำระ : @ViewBag.countcredit รายการ</label>
+                                </div>
+                            </div>
+                            <hr class="bg-danger" />
+                            <div class="row">
+                                <div class="col-md-12" align="right">
+                                    <label>เป็นเงิน : @ViewBag.totalcredit.ToString("#,###.00") บาท</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row text-white" style="margin-bottom:2%">
-            <div class="col-md-6" style="margin-bottom:2%">
-                <div class="card bg-info">
-                    <div class="card-body">
-                        <div class="card-body-icon">
-                            <i class="fas fa-wallet mr-2"></i>
+        <hr class="bg-light" />
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card admin-card border-0 shadow-sm shadow-hover">
+                    <label class="card-header admin-card bg-white">
+                        <i class="fas fa-history"></i> รายการสั่งทำล่าสุด
+                        <span align="right"><p align="right" class="badge icon-bg-primary badge-pill"> @ViewBag.countOrLatest รายการ</p></span>
+                    </label>
+
+                    <div class="card-body d-flex">
+                        <table class="table table-striped">
+                            <thead class="bg-dark text-white">
+                                <tr>
+                                    <th>รหัสสั่งทำ</th>
+                                    <th>สั่งวันที่</th>
+                                    <th>กำหนดส่งวันที่</th>
+                                    <th>ชื่อผู้สั่ง</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableOrlastest">
+                                @if (ViewBag.listOrLatest != null)
+                                {
+                                    @foreach (var x in ViewBag.listOrLatest)
+                                    {
+                                        <tr>
+                                            <td>@x.OrPrintId</td>
+                                            <td>@x.OrPrintDate.ToString("dd MMMyyyy")</td>
+                                            <td>@x.OrPrintDue.ToString("dd MMM yyyy")</td>
+                                            @foreach (var i in ViewBag.listCustomer)
+                                            {
+                                                @if (x.CusId == i.CusId)
+                                                {
+                                                    <td>@i.CusFirstname</td>
+                                                }
+                                            }
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card admin-card border-0 shadow-sm shadow-hover" onclick="aa()">
+                    <label class="card-header admin-card bg-white">
+                        <i class="fas fa-coins"></i> ค่าใช้จ่ายให้กับพนักงาน
+                    </label>
+                    <div class="card-body d-flex">
+                        <div>
+                            <div class="icon-circle icon-bg-primary rounded-circle d-flex align-self-center mr-3 mt-3">
+                                <i class="fas fa-user-alt text-primary align-self-center mx-auto lead"></i>
+                            </div>
                         </div>
-                        <h5 class="card-title">รายการสั่งทั้งหมด</h5>
-                        <div class="display-4">800 รายการ</div>
-                        <div class="align-text-bottom text-right">รายละเอียดเพิ่มเติม</div>
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>พนักงานทั้งหมด : @ViewBag.countemployee คน</label>
+                                </div>
+                            </div>
+                            <hr class="bg-info" />
+                            <div class="row">
+                                <div class="col-md-12" align="right">
+                                    <label>เป็นเงิน : @ViewBag.totalemployee.ToString("#,###.00") บาท/เดือน</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+
+    </script>

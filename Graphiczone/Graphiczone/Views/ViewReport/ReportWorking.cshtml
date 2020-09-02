@@ -8,7 +8,7 @@
 <h6 align="center"><label>ตั้งแต่ @ViewBag.dateS จนถึง @ViewBag.dateE</label></h6>
 <h6 align="right"><label align="right">วันที่เรียกดู @DateTime.Now.ToString("dddd dd MMMM yyyy")</label></h6>
 
-<table class="table table-striped"  style="margin-top:2px">
+<table class="table table-striped"  style="margin-top:50px">
 
     @foreach (var x in Model)
     {
@@ -52,9 +52,9 @@
                                 <td align="left">@p.PrintName (@i.OrdPrintWidth X @i.OrdPrintHeight)</td>
                             }
                         }
-                        <td align="left">@{var total = i.OrdPrintWidth * i.OrdPrintHeight;} @total.ToString("#,###.000")</td>
-                        <td align="left">@i.OrdPrintNum</td>
-                        <td align="left">@i.OrdPrintTotal.ToString("#,###.00")</td>
+                        <td align="right">@{var total = i.OrdPrintWidth * i.OrdPrintHeight;} @total.ToString("#,###.000")</td>
+                        <td align="right">@i.OrdPrintNum</td>
+                        <td align="right">@i.OrdPrintTotal.ToString("#,###.00")</td>
                     </tr>
                 }
                 else

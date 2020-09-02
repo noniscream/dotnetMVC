@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Graphiczone.Models.SQLServer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,23 +37,58 @@ namespace Graphiczone.Controllers
                 {
 
                 }
-                //Response.Cookies.Append("LastLogedInTime", DateTime.Now.ToString());
+            }
+            GraphiczoneDBContext db = new GraphiczoneDBContext();
+            var searchtotalorder = db.OrderPrint.Where(x => x.OrPrintStatus != null).ToList();
+            ViewBag.totalorder = searchtotalorder.Count();
+            var searchtotalworking = db.OrderPrint.Where(x => x.OrPrintStatus == 2).ToList();
+            ViewBag.totalworking = searchtotalworking.Count();
+            var searchtotalworkdone = db.OrderPrint.Where(x => x.OrPrintStatus == 3).ToList();
+            ViewBag.totalworkdone = searchtotalworkdone.Count();
+            var searchtotalshipping = db.OrderPrint.Where(x => x.OrPrintStatus == 4).ToList();
+            ViewBag.totalshipping = searchtotalshipping.Count();
+            var searchtotalincome = db.OrderPrint.Where(x => x.OrPrintStatus >= 0).Sum(x => x.OrPrintTotal);
+            ViewBag.totalincome = searchtotalincome;
+            var searchtotalpayment = db.OrderPrint.Where(x => x.OrPrintStatus >= 2).ToList();
+            ViewBag.countpayment = searchtotalpayment.Count();
+            ViewBag.totalpayment = searchtotalpayment.Sum(x => x.OrPrintTotal);
+            var searchtotalcredit = db.OrderPrint.Where(x => x.OrPrintStatus < 2).ToList();
+            ViewBag.countcredit = searchtotalcredit.Count();
+            ViewBag.totalcredit = searchtotalcredit.Sum(x => x.OrPrintTotal);
+
+            DateTime date = DateTime.Now;
+            var searchCustomer = db.Customer.ToList();
+            if (searchCustomer != null)
+            {
+                List<Customer> customers = searchCustomer.ToList();
+                ViewBag.listCustomer = customers;
+            }
+            var searchOrLatest = db.OrderPrint.Where(x => x.OrPrintStatus != null && x.OrPrintDate == date).OrderByDescending(x => x.OrPrintId);
+            if(searchOrLatest != null)
+            {
+                List<OrderPrint> orderPrints = searchOrLatest.ToList();
+                ViewBag.countOrLatest = searchOrLatest.Count();
+                ViewBag.listOrLatest = orderPrints;
+            }
+            else
+            {
+                ViewBag.listOrLatest = null;
             }
 
-            var searchTotalincome = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null).Sum(y => y.OrPrintTotal);
-            List<OrderPrint> searchCountTotal = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null).ToList();
-            ViewBag.counttotal = searchCountTotal.Count();
-            ViewBag.totalincome = searchTotalincome;
-            var searchIncome = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 2).Sum(y => y.OrPrintTotal);
-            ViewBag.income = searchIncome;
-            var searchCredit = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus < 2).Sum(y => y.OrPrintTotal);
-            ViewBag.credit = searchCredit;
+            var serachEmployee = db.User.ToList();
+            if(serachEmployee != null)
+            {
+                ViewBag.countemployee = serachEmployee.Count();
+                ViewBag.totalemployee = serachEmployee.Sum(x => x.UserSalary);
+            }
+
+
+            
             return View();
         }
 
         public ViewResult Login()
         {
-            HttpContext.Session.Clear();
             return View();
         }
         public IActionResult Logout()
@@ -74,6 +110,16 @@ namespace Graphiczone.Controllers
             {
                 return Json(0);
             }
+        }
+
+        public IActionResult Product(string id)
+        {
+            return View();
+        }
+
+        public IActionResult Employee()
+        {
+            return View();
         }
     }
 }

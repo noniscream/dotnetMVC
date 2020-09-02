@@ -7,32 +7,243 @@
     <title>@ViewData["Title"] - Graphiczone</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-
     <script src="~/sweetalert/sweetalert.min.js"></script>
-
     <link href="~/css/site.css" rel="stylesheet" />
-    @*<link href="~/css/smart_wizard.css" rel="stylesheet" />
-
-    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />*@
-
+    <link href="~/css/smart_wizard.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap" rel="stylesheet">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Nosifer' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Rye' rel='stylesheet'>
+    <style>
+        .over-flow-icon-btn {
+            --bg-color: #ca4026;
+            text-decoration: none;
+            background-color: var(--bg-color,#ca4026);
+            padding: 12px 16px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            font-family: Arial,Arial, Helvetica, sans-serif;
+            border-radius: 4px;
+            text-shadow: 0 0 8px var(--bg-color,#ca4026);
+            box-shadow: 0 0 4px var(--bg-color,#ca4026);
+            
+        } .over-flow-icon-btn i {
+                -webkit-text-stroke-color: var(--bg-color,#ca4026);
+                -webkit-text-stroke-width: 0.02em;
+                font-size: 4rem;
+            }.over-flow-icon-btn:hover {
+                text-shadow: 0 0 36px var(--bg-color,#ca4026);
+                box-shadow: 0 0 14px var(--bg-color,#ca4026);
+                color:white;
+            }
+          .over-flow-icon-btn1 {
+            --bg-color: #478FCD;
+            text-decoration: none;
+            background-color: var(--bg-color,#478FCD);
+            padding: 12px 16px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            font-family: Arial,Arial, Helvetica, sans-serif;
+            border-radius: 4px;
+            text-shadow: 0 0 8px var(--bg-color,#478FCD);
+            box-shadow: 0 0 4px var(--bg-color,#478FCD);
+        }
+
+            .over-flow-icon-btn1 i {
+                -webkit-text-stroke-color: var(--bg-color,#478FCD);
+                -webkit-text-stroke-width: 0.02em;
+                font-size: 4rem;
+            }
+        .over-flow-icon-btn1:hover {
+            text-shadow: 0 0 36px var(--bg-color,#ca4026);
+            box-shadow: 0 0 14px var(--bg-color,#ca4026);
+            color: white;
+        }.over-flow-icon-btn2 {
+            --bg-color: #FFA614;
+            text-decoration: none;
+            background-color: var(--bg-color,#FFA614);
+            padding: 12px 16px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            font-family: Arial,Arial, Helvetica, sans-serif;
+            border-radius: 4px;
+            text-shadow: 0 0 8px var(--bg-color,#FFA614);
+            box-shadow: 0 0 4px var(--bg-color,#FFA614);
+        }
+
+            .over-flow-icon-btn2 i {
+                -webkit-text-stroke-color: var(--bg-color,#FFA614);
+                -webkit-text-stroke-width: 0.02em;
+                font-size: 4rem;
+            }
+        .over-flow-icon-btn2:hover {
+            text-shadow: 0 0 36px var(--bg-color,#ca4026);
+            box-shadow: 0 0 14px var(--bg-color,#ca4026);
+            color: white;
+        }
+
+        .over-flow-icon-btn3 {
+            --bg-color: #5EAA5F;
+            text-decoration: none;
+            background-color: var(--bg-color,#5EAA5F);
+            padding: 12px 16px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            font-family: Arial,Arial, Helvetica, sans-serif;
+            border-radius: 4px;
+            text-shadow: 0 0 8px var(--bg-color,#5EAA5F);
+            box-shadow: 0 0 4px var(--bg-color,#5EAA5F);
+        }
+
+            .over-flow-icon-btn3 i {
+                -webkit-text-stroke-color: var(--bg-color,#5EAA5F);
+                -webkit-text-stroke-width: 0.02em;
+                font-size: 4rem;
+            }
+        .over-flow-icon-btn3:hover {
+            text-shadow: 0 0 36px var(--bg-color,#ca4026);
+            box-shadow: 0 0 14px var(--bg-color,#ca4026);
+            color: white;
+        }
+
+        .over-flow-icon-btn4 {
+            --bg-color: #9D6AB9;
+            text-decoration: none;
+            background-color: var(--bg-color,#9D6AB9);
+            padding: 12px 16px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            font-family: Arial,Arial, Helvetica, sans-serif;
+            border-radius: 4px;
+            text-shadow: 0 0 8px var(--bg-color,#9D6AB9);
+            box-shadow: 0 0 4px var(--bg-color,#9D6AB9);
+        }
+
+            .over-flow-icon-btn4 i {
+                -webkit-text-stroke-color: var(--bg-color,#9D6AB9);
+                -webkit-text-stroke-width: 0.02em;
+                font-size: 4rem;
+            }
+        .over-flow-icon-btn4:hover {
+            text-shadow: 0 0 36px var(--bg-color,#ca4026);
+            box-shadow: 0 0 14px var(--bg-color,#ca4026);
+            color: white;
+        }
+
+        .over-flow-icon-btn5 {
+            --bg-color: #1ABCBD;
+            text-decoration: none;
+            background-color: var(--bg-color,#1ABCBD);
+            padding: 12px 16px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            font-family: Arial,Arial, Helvetica, sans-serif;
+            border-radius: 4px;
+            text-shadow: 0 0 8px var(--bg-color,#1ABCBD);
+            box-shadow: 0 0 4px var(--bg-color,#1ABCBD);
+        }
+
+            .over-flow-icon-btn5 i {
+                -webkit-text-stroke-color: var(--bg-color,#1ABCBD);
+                -webkit-text-stroke-width: 0.02em;
+                font-size: 4rem;
+            }
+
+            .over-flow-icon-btn5:hover {
+                text-shadow: 0 0 36px var(--bg-color,#1ABCBD);
+                box-shadow: 0 0 14px var(--bg-color,#1ABCBD);
+                color: white;
+            }
+        .over-flow-icon-btn6 {
+            --bg-color: #ED186B;
+            text-decoration: none;
+            background-color: var(--bg-color,#ED186B);
+            padding: 12px 16px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            font-family: Arial,Arial, Helvetica, sans-serif;
+            border-radius: 4px;
+            text-shadow: 0 0 8px var(--bg-color,#ED186B);
+            box-shadow: 0 0 4px var(--bg-color,#ED186B);
+        }
+
+            .over-flow-icon-btn6 i {
+                -webkit-text-stroke-color: var(--bg-color,#ED186B);
+                -webkit-text-stroke-width: 0.02em;
+                font-size: 4rem;
+            }
+
+            .over-flow-icon-btn6:hover {
+                text-shadow: 0 0 36px var(--bg-color,#ED186B);
+                box-shadow: 0 0 14px var(--bg-color,#ED186B);
+                color: white;
+            }
+    </style>
 </head>
 <body style="font-family: 'Prompt', sans-serif;">
 
     @*<partial name="_Userheader" />*@
-
+    <header style="font-family: 'Prompt', sans-serif;">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/graphiczonelogo.png" style="width:30%; height:30%;" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item" align="right">
+                            <partial name="_login" />
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Service">Service</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Order">Order</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Payment">Payment</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">AboutUs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ContactUs">ContactUs</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
     <div class="container-fluid">
-        <div class="row mt-5">
-            <div class="col-md-2 bg-dark">
+        <div class="row">
+            <div class="col-md-12">
                 <partial name="_Customermenu" />
             </div>
-            <div class="col-md-10 p-5 pt-2">
+        </div>
+        <div class="row">
+            <div class="col-md-12 p-5 pt-2">
                 <main role="main" class="pb-3">
                     @RenderBody()
                 </main>
+                <nav></nav>
             </div>
+
         </div>
     </div>
 

@@ -43,7 +43,7 @@ namespace Graphiczone.Controllers
         }
         public ViewResult Login()
         {
-            HttpContext.Session.Clear();
+            
             return View();
         }
         public IActionResult Logout()

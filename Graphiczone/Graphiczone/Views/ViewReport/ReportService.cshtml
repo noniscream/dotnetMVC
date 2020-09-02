@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Graphiczone.Models.SQLServer.TypePrint>
+@{
+    ViewData["Title"] = "ReportService";
+    Layout = "~/Views/Shared/_formatReport.cshtml";
+}
+
+<h4 style="top:0;">รายงานบริการ</h4>
+<h6 align="right"><label align="right">วันที่เรียกดู @DateTime.Now.ToString("dddd dd MMMM yyyy")</label></h6>
+
+<table class="table table-striped" style="margin-top:2px">
+
+    <thead class="thead-dark">
+        <tr align="center">
+            <th>ประเภทบริการ</th>
+            <th>ชื่อบริการ</th>
+            <th>ราคาต่อ 1 ตร.ม</th>
+            <th>หน่วย</th>
+        </tr>
+    </thead>
+    @foreach (var x in Model)
+    {
+        <tbody align="left" style="margin-top:1rem;">
+            <tr>
+                <td align="left">@x.TypePrintName</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                @foreach (var p in ViewBag.listprint)
+                {
+                    @if (p.TypePrintId == x.TypePrintId)
+                    {
+                    <tr>
+                        <td></td>
+                        <td align="left">@p.PrintName</td>
+                        <td align="right">@p.PrintPrice</td>
+                        <td align="left">@p.PrintUnit</td>
+                    </tr>
+                }
+                }
+                </tr>
+            </tbody>
+        }
+</table>

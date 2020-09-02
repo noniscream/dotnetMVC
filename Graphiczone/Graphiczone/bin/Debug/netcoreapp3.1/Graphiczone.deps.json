@@ -24,6 +24,7 @@
     ".NETCoreApp,Version=v3.1": {
       "Graphiczone/1.0.0": {
         "dependencies": {
+          "Bootstrap.v3.Datetimepicker": "4.17.45",
           "Microsoft.AspNet.Mvc": "5.2.7",
           "Microsoft.AspNetCore.Session": "2.1.1",
           "Microsoft.EntityFrameworkCore": "3.1.6",
@@ -312,7 +313,18 @@
           "Graphiczone.dll": {}
         }
       },
-      "jQuery/1.6.3": {},
+      "bootstrap.less/3.3.5": {
+        "dependencies": {
+          "jQuery": "1.9.1"
+        }
+      },
+      "Bootstrap.v3.Datetimepicker/4.17.45": {
+        "dependencies": {
+          "Moment.js": "2.9.0",
+          "bootstrap.less": "3.3.5"
+        }
+      },
+      "jQuery/1.9.1": {},
       "Microsoft.AspNet.Mvc/5.2.7": {
         "dependencies": {
           "Microsoft.AspNet.Razor": "3.2.7",
@@ -1269,6 +1281,7 @@
           "System.Security.Principal.Windows": "4.5.0"
         }
       },
+      "Moment.js/2.9.0": {},
       "NETStandard.Library/1.6.1": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "2.1.2",
@@ -2411,7 +2424,7 @@
       },
       "toastr/2.1.1": {
         "dependencies": {
-          "jQuery": "1.6.3"
+          "jQuery": "1.9.1"
         }
       },
       "Microsoft.AspNetCore.Antiforgery/3.1.0.0": {
@@ -4036,12 +4049,26 @@
       "serviceable": false,
       "sha512": ""
     },
-    "jQuery/1.6.3": {
+    "bootstrap.less/3.3.5": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-vb0p7+eRmc2evBCT9W7PCUupqWiDMi9/ofBHN99LraRzLY5jPKMeFzFYBoMgwA8TiwRoFDke5hiDDLsvae7qMg==",
-      "path": "jquery/1.6.3",
-      "hashPath": "jquery.1.6.3.nupkg.sha512"
+      "sha512": "sha512-+xxiEyTJdWwO9G7Ig9gHoXl7grsncyQVy1bhWY9L41fSFUayIZYlziGcwB+ORQDzHAZJrCNa+y1bke11wJy0Ug==",
+      "path": "bootstrap.less/3.3.5",
+      "hashPath": "bootstrap.less.3.3.5.nupkg.sha512"
+    },
+    "Bootstrap.v3.Datetimepicker/4.17.45": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0/m8BCfhDRhWdiXm8RAHS0lVfaE64/93tDyINtrf4/cBpXGnVU7o5pFP6FhGhelTX7eH0hpLc8+j2obumhI9oA==",
+      "path": "bootstrap.v3.datetimepicker/4.17.45",
+      "hashPath": "bootstrap.v3.datetimepicker.4.17.45.nupkg.sha512"
+    },
+    "jQuery/1.9.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HiX9icLyiJGgiL5EOIn0d1MBPHVV2M9mzWT4mANdniDNR51RvAFTyKEXEd2+5yQJ4PJ5xePOR61Vjj/omQzYcw==",
+      "path": "jquery/1.9.1",
+      "hashPath": "jquery.1.9.1.nupkg.sha512"
     },
     "Microsoft.AspNet.Mvc/5.2.7": {
       "type": "package",
@@ -4539,6 +4566,13 @@
       "sha512": "sha512-+FWlwd//+Tt56316p00hVePBCouXyEzT86Jb3+AuRotTND0IYn0OO3obs1gnQEs/txEnt+rF2JBGLItTG+Be6A==",
       "path": "microsoft.win32.registry/4.5.0",
       "hashPath": "microsoft.win32.registry.4.5.0.nupkg.sha512"
+    },
+    "Moment.js/2.9.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4rhbvFzmgXp/gjvwjxt9Qjmdz+2CD9T99erXEDtZHlYxaI06F9A4628/Vpxklm8D9RmwJjKjp1244FwEh+a5WQ==",
+      "path": "moment.js/2.9.0",
+      "hashPath": "moment.js.2.9.0.nupkg.sha512"
     },
     "NETStandard.Library/1.6.1": {
       "type": "package",

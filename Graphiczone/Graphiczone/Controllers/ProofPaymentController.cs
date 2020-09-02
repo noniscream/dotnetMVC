@@ -15,43 +15,77 @@ namespace Graphiczone.Controllers
         private readonly GraphiczoneDBContext _graphiczoneDBContext;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ProofPaymentController(GraphiczoneDBContext graphiczoneDBContext , IWebHostEnvironment hostEnvironment)
+        public ProofPaymentController(GraphiczoneDBContext graphiczoneDBContext, IWebHostEnvironment hostEnvironment)
         {
             _graphiczoneDBContext = graphiczoneDBContext;
             this._webHostEnvironment = hostEnvironment;
         }
         public IActionResult Index()
         {
-            return View();
-        }
-        public IActionResult ListProofPayment()
-        {
-            var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0).ToList();
-            return View(seachData);
-        }
-        public IActionResult EditProofPayment(string id)
-        {
-            var seachData = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
-            var seachData2 = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
-            if (seachData2 != null)
+            if (HttpContext.Session.GetString("CusUsername") == null)
             {
-                List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).ToList();
-                ViewBag.OrderList = orderDetailPrints;
-                ViewBag.OrderPrintId = seachData.OrPrintId;
-                ViewBag.OrderDate = seachData2.OrPrintDate;
-                ViewBag.OrderDue = seachData2.OrPrintDue;
-                ViewBag.GetDateForPicker = seachData2.OrPrintDate.Value.AddYears(-543);
-                var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
-                ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
-                ViewBag.TotalDate = seachData2.OrPrintDue - DateTime.Now;
-                var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
-                
-                //ViewBag.PrintName = printname.PrintName;
-                ViewBag.PriceTotal = seachData2.OrPrintTotal;
-                
-                
+                return RedirectToAction("");
             }
-            return PartialView("_EditProofPayment", seachData);
+            else
+            {
+                return View();
+            }
+
+        }
+
+        public IActionResult ListProofPayment(string id)
+        {
+            if (HttpContext.Session.GetString("CusUsername") == null)
+            {
+                return RedirectToAction("");
+            }
+            else
+            {
+                var sessionid = HttpContext.Session.GetString("CusUsername");
+                var getCusId = _graphiczoneDBContext.Customer.Where(x => x.CusUsername == sessionid).FirstOrDefault();
+                var cusId = getCusId.CusId;
+                if (id != null)
+                {
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && x.OrPrintId == id && x.CusId == cusId).ToList();
+                    return View(searchData);
+                }
+                else
+                {
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && id == null && x.CusId == cusId).ToList();
+                    return View(searchData);
+                }
+            }
+        }
+        public IActionResult EditProofPayment(string id = "0")
+        {
+            if (id == "0")
+            {
+                return View();
+            }
+            else
+            {
+                var seachData = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+                var seachData2 = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+                if (seachData2 != null)
+                {
+                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).ToList();
+                    ViewBag.OrderList = orderDetailPrints;
+                    ViewBag.OrderPrintId = seachData.OrPrintId;
+                    ViewBag.OrderDate = seachData2.OrPrintDate;
+                    ViewBag.OrderDue = seachData2.OrPrintDue;
+                    ViewBag.GetDateForPicker = seachData2.OrPrintDate.Value.ToString("yyyy-MM-dd");
+                    ViewBag.getDueForPicker = seachData2.OrPrintDue.Value.ToString("yyyy-MM-dd");
+                    var searchDataOrder = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+                    var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
+                    ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
+                    ViewBag.TotalDate = seachData2.OrPrintDue - DateTime.Now;
+                    var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
+                    ViewBag.PrintName = printname.PrintName;
+                    ViewBag.PriceTotal = seachData2.OrPrintTotal;
+                }
+                return PartialView("_EditProofPayment", seachData);
+            }
+
         }
 
         public IFormFile Uploadfile { get; set; }
@@ -66,10 +100,7 @@ namespace Graphiczone.Controllers
                 searchData.OrPrintStatus = orderPrint.OrPrintStatus;
 
                 proofPayment.OrPrintId = orderPrint.OrPrintId;
-                proofPayment.PrfPayDate = proofPayment.PrfPayDate.Value.AddYears(543);
-                //var sessionid = HttpContext.Session.GetString("UserUsername");
-                //var getUserid = _graphiczoneDBContext.User.Where(x => x.UserUsername == sessionid).FirstOrDefault();
-                //shipping.UserId = getUserid.UserId;
+                proofPayment.PrfPayDate = proofPayment.PrfPayDate.Value.AddYears(-543);
 
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
 
@@ -79,7 +110,7 @@ namespace Graphiczone.Controllers
                 if (extension == ".jpg" || extension == ".png" || extension == ".gif")
                 {
                     fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                    proofPayment.PrfPayFile= "images/" + fileName;
+                    proofPayment.PrfPayFile = "images/" + fileName;
                     fileName = Path.Combine(wwwRootPath, "images", fileName);
 
 

@@ -202,6 +202,60 @@ namespace Graphiczone.Controllers
 
         }
 
+        public IActionResult ListCustomerWorkStatus(string id)
+        {
+            if (HttpContext.Session.GetString("CusUsername") == null)
+            {
+                return RedirectToAction("");
+            }
+            else
+            {
+                var sessionid = HttpContext.Session.GetString("CusUsername");
+                var getCusId = _graphiczoneDBContext.Customer.Where(x => x.CusUsername == sessionid).FirstOrDefault();
+                var cusId = getCusId.CusId;
+                if (id != null)
+                {
+
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 2 && x.OrPrintStatus <= 3 && x.CusId == cusId && x.OrPrintId == id).ToList();
+                    return View(seachData);
+                }
+                else
+                {
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 2 && x.OrPrintStatus <= 3 && x.CusId == cusId && id == null).ToList();
+                    return View(seachData);
+                }
+            }
+
+
+        }
+
+        public IActionResult ListCustomerWorkShipping(string id)
+        {
+            if (HttpContext.Session.GetString("CusUsername") == null)
+            {
+                return RedirectToAction("");
+            }
+            else
+            {
+                var sessionid = HttpContext.Session.GetString("CusUsername");
+                var getCusId = _graphiczoneDBContext.Customer.Where(x => x.CusUsername == sessionid).FirstOrDefault();
+                var cusId = getCusId.CusId;
+                if (id != null)
+                {
+
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 3 && x.OrPrintStatus <= 4 && x.CusId == cusId && x.OrPrintId == id).ToList();
+                    return View(seachData);
+                }
+                else
+                {
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 3 && x.OrPrintStatus <= 4 && x.CusId == cusId && id == null).ToList();
+                    return View(seachData);
+                }
+            }
+
+
+        }
+
         public IActionResult ShowOrder(string id)
         {
             if (HttpContext.Session.GetString("CusUsername") == null)
@@ -224,9 +278,6 @@ namespace Graphiczone.Controllers
                     return View(searchData);
                 }
             }
-
-            //var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == "GCUS0011").ToList();
-            //return View(searchData);
         }
 
         [HttpGet]

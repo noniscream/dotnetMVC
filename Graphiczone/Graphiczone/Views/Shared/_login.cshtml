@@ -4,7 +4,7 @@
         @if (Context.Session.GetString("CusUsername") != null)
         {
         <li class="nav-item">
-            <a href="/Customer/Manager" style="margin:10px">คุณ : @ViewBag.CusUsername</a>
+            <a href="/Customer/Manager" style="margin:10px">คุณ : @Context.Session.GetString("CusUsername") </a>
             @Html.ActionLink("ออกจากระบบ", "Logout", "Customer", null, new { @class = "btn btn-danger" })
         </li>
         }

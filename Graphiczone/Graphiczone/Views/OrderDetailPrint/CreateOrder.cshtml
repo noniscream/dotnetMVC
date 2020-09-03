@@ -10,33 +10,19 @@
         margin-top: 1rem;
     }
 
-    header {
-    }
-
-    .container {
-        margin-top: 1rem;
-    }
-
-    .btn {
-        margin-left: 1rem;
-    }
-
     .card {
         border: #5543ca;
         border-radius: 3px;
         margin-top: 2rem;
         color: black;
-        box-shadow: 2px 2px 15px black;
+        box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.75);
+        border-radius: 10px;
         padding: 1rem;
         text-align: left;
     }
 
     h1 {
         color: #ca4026;
-        border-bottom-style: dashed;
-        border-left-style: dashed;
-        border-right-style: dashed;
-        border-top-style: dashed;
         margin-bottom: 2rem;
     }
 
@@ -93,11 +79,6 @@
         color: white;
     }
 
-    #addorder {
-        color: black;
-        background: white;
-    }
-
     img {
         width: 100%
     }
@@ -106,8 +87,6 @@
         text-align: center;
     }
 </style>
-<header class="text-white text-center">
-</header>
 <div class="container-fluid">
     <div class="table-head" style="background: #ca4026;">
         <div class="table-cell">
@@ -120,7 +99,8 @@
             <div class="card">
                 <div>
                     <div>
-                        <h1>CUMTOMER</h1>
+                        <h1>ข้อมูลลูกค้า</h1>
+                        <hr class="bg-danger" />
                         <p>ชื่อ (คุณ) :  @ViewBag.CusFirstname เบอร์โทร : @ViewBag.CusTel</p>
                         <p>ที่อยู่ : @ViewBag.CusAddress</p>
                         สั่งทำวันที่ : @ViewBag.Date<input type="hidden" name="OrPrintDate" id="OrPrintDate" value="" />
@@ -128,7 +108,7 @@
                         <input type="hidden" name="OrPrintId" id="OrPrintId" value="@Context.Session.GetString("Cart")" />
                         <input type="hidden" name="OrPrintStatus" id="OrPrintStatus" value="0" />
                         <div style="text-align:right;margin-right:1rem;margin-top:2rem;">
-                            <button class="btn btn-danger" id="addorder" onclick="addorder()">เปิดบิล</button>
+                            <button class="btn btn-outline-danger" id="addorder" onclick="addorder()">เปิดบิล</button>
                         </div>
                     </div>
                 </div>
@@ -167,7 +147,8 @@
         <div class="col-md-5">
             <div class="card" style="margin-top:4rem;">
                 <div>
-                    <h1 >ORDER </h1>
+                    <h1>ข้อมูลการสั่งทำ </h1>
+                    <hr class="bg-danger" />
                 </div>
                 <form id="formSaveOrder" name="formSaveOrder" action="/OrderDetailPrint/upload" method="post" enctype="multipart/form-data" onsubmit="return updateData(this)">
                     <div class="contact-form row">
@@ -231,7 +212,8 @@
         <div class="col-md-7">
             <div class="card" style="margin-top:4rem;">
                 <div>
-                    <h1>ORDERLIST</h1>
+                    <h1>รายการสั่งทำ </h1>
+                    <hr class="bg-danger" />
                 </div>
                 <table class="table table-striped" id="list">
                     <thead class="bg-dark text-white">

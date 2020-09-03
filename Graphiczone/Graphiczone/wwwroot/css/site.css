@@ -99,7 +99,7 @@ body {
 .table-head, .table-row {
     display: table;
     width: 100%;
-    margin: 10px auto;
+    margin: 7px auto;
     background: transparent;
     padding: 2px 0;
     box-shadow: 0 1px 4px 0 rgba(0,0,50,0.3);
@@ -117,3 +117,22 @@ body {
 .last-cell {
     border-right: none;
 }
+.xs {
+    position: relative;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+    .xs .img {
+        position: absolute;
+        transform: translate();
+        visibility: hidden;
+        z-index: 1;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .xs:hover .img {
+        visibility: visible;
+    }

@@ -100,7 +100,7 @@ namespace Graphiczone.Controllers
                 searchData.OrPrintStatus = orderPrint.OrPrintStatus;
 
                 proofPayment.OrPrintId = orderPrint.OrPrintId;
-                proofPayment.PrfPayDate = proofPayment.PrfPayDate.Value.AddYears(-543);
+                proofPayment.PrfPayDate = proofPayment.PrfPayDate;
 
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
 

@@ -15,10 +15,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar"></div>
-                </div>
-                <hr class="bg-info" />
                 <div class="card">
                     <div class="card-body">
                         <div class="container">
@@ -38,72 +34,64 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-box">
-                                        <div class="table-row">
-                                            <div class="table-cell">
+                                        <div class="table-row bg-dark">
+                                            <div class="table-cell text-white">
                                                 <p>รหัสรายการ</p>
                                             </div>
-                                            <div class="table-cell">
+                                            <div class="table-cell text-white">
                                                 <p>ชื่อรายการ</p>
                                             </div>
-                                            <div class="table-cell">
+                                            <div class="table-cell text-white">
                                                 <p>พื้นที่รวม</p>
                                             </div>
-                                            <div class="table-cell">
+                                            <div class="table-cell text-white">
                                                 <p>ราคาต่อหน่วย</p>
                                             </div>
-                                            <div class="table-cell">
+                                            <div class="table-cell text-white">
                                                 <p>จำนวน</p>
                                             </div>
-                                            <div class="table-cell last-cell">
+                                            <div class="table-cell last-cell text-white">
                                                 <p>รวมเป็นเงิน</p>
                                             </div>
                                         </div>
-                                        @{
-                                            var totalprice = 0;
-                                        }
+                                        @{ var totalprice = 0; }
 
                                         @foreach (var x in ViewBag.OrderList)
                                         {
-                                            <div class="table-row">
-                                                <div class="table-cell">
-                                                    <p>@x.OrdPrintId</p>
-                                                </div>
-                                                <div class="table-cell">
-                                                    <p>@ViewBag.PrintName</p>
-                                                    <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
-                                                </div>
-                                                <div class="table-cell">
-                                                    <p>
-                                                        @{
-                                                            var sumarea = x.OrdPrintWidth * x.OrdPrintHeight;
-                                                        }
-                                                        @sumarea
-                                                    </p>
-                                                </div>
-                                                <div class="table-cell">
-                                                    <p>@x.OrdPrintPriceset.ToString("#,###.00")</p>
-                                                </div>
-                                                <div class="table-cell">
-                                                    <p>@x.OrdPrintNum.ToString("#,###")</p>
-                                                </div>
-                                                <div class="table-cell last-cell">
-                                                    <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
-                                                </div>
-                                            </div>
-                                            totalprice = totalprice + @Convert.ToInt32(x.OrdPrintTotal);
-                                        }
-
-                                        <div class="table-row">
-                                            <div class="table-cell last-cell" align="right">
-                                                รวมเป็นเงิน : @totalprice.ToString("#,###.00") บาท
-                                            </div>
+                                    <div class="table-row">
+                                        <div class="table-cell">
+                                            <p>@x.OrdPrintId</p>
+                                        </div>
+                                        <div class="table-cell">
+                                            <p>@ViewBag.PrintName</p>
+                                            <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
+                                        </div>
+                                        <div class="table-cell">
+                                            <p>
+                                                @{ var sumarea = x.OrdPrintWidth * x.OrdPrintHeight; }
+                                                @sumarea
+                                            </p>
+                                        </div>
+                                        <div class="table-cell">
+                                            <p>@x.OrdPrintPriceset.ToString("#,###.00")</p>
+                                        </div>
+                                        <div class="table-cell">
+                                            <p>@x.OrdPrintNum.ToString("#,###")</p>
+                                        </div>
+                                        <div class="table-cell last-cell">
+                                            <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
+                                        </div>
+                                    </div>totalprice = totalprice + @Convert.ToInt32(x.OrdPrintTotal);
+                                                }
+                                        <div class="alert alert-success" align="center">
+                                            <h5>รวมเป็นเงิน : <b>@totalprice.ToString("#,###.00")</b> บาท</h5>
                                         </div>
                                         <div class="table-row">
                                             <div class="table-cell last-cell" align="right">
                                                 <div>
                                                     <h4 align="center">หลักฐานการชำระเงิน</h4>
                                                 </div>
-                                                <img src="/@ViewBag.ProofFile" />
+                                                <img src="/@ViewBag.ProofFile" width="374" height="500" />
                                             </div>
                                         </div>
                                         <div align="center" style="margin-top:2%">
@@ -148,7 +136,6 @@
     function editconfirmpayment() {
             var OrPrintId = document.getElementById("OrderPrintId").value;
             var OrPrintStatus = 2;
-            var Progressbar = $('.progress-bar')
             $.ajax({
                 type: "post",
                 data: { OrPrintId, OrPrintStatus },
@@ -156,8 +143,6 @@
                 success: function (result) {
                     console.log(result);
                     if (result == 1) {
-                        Progressbar.css('width', 70+'%');
-                        Progressbar.css('background-color', "green");
                         toastr.success("ยืนยันการชำระเงินรายการสั่งทำที่ : @ViewBag.OrderPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
                         setTimeout(function fetch() {
                             window.location.href = ("/OrderPrint/ConfirmPayment");

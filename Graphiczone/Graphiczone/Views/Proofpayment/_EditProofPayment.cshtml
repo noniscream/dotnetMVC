@@ -13,11 +13,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar"></div>
-                </div>
-                <hr class="bg-info" />
-
                 <div class="card">
                     <h5 class="card-header">แจ้งหลักฐานการชำระเงิน</h5>
                     <div class="card-body">
@@ -31,18 +26,13 @@
                                     <div class="col-md-12">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-university"></i>รหัสอ้างอิงการโอน</span>
+                                                <span class="input-group-text"><i class="fas fa-barcode"></i>  รหัสอ้างอิงการโอน</span>
                                             </div>
-                                            <input class="form-control" type="text" name="PrfPayId" id="PrfPayId" placeholder="กรุณากรอกรหัสอ้างอิงการโอน" required="required" onchange="CheckPrfIdnull()" maxlength="30"/>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12" align="right">
-                                                <p id="StatusPrfId"></p>
-                                            </div>
+                                            <input class="form-control" type="text" name="PrfPayId" id="PrfPayId" placeholder="กรุณากรอกรหัสอ้างอิงการโอน" required="required" maxlength="30"/>
                                         </div>
                                         <div class="input-group" style="margin-top:1%">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-university"></i>ชื่อธนาคาร</span>
+                                                <span class="input-group-text"><i class="fas fa-university"></i>  ชื่อธนาคาร</span>
                                             </div>
                                             <select class="form-control" name="PrfPayBank" id="PrfPayBank" required="required">
                                                 <option value="">เลือกธนาคาร</option>
@@ -61,13 +51,13 @@
                                         </div>
                                         <div class="input-group" style="margin-top:1%">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="far fa-calendar-alt"></i>วันที่โอน</span>
+                                                <span class="input-group-text"><i class="far fa-calendar-alt"></i>  วันที่โอน</span>
                                             </div>
                                             <input class="form-control" type="date" name="PrfPayDate" id="PrfPayDate" min='@ViewBag.GetDateForPicker' max='@ViewBag.getDueForPicker' required="required" />
                                         </div>
                                         <div class="input-group" style="margin-top:1%">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="far fa-calendar-alt">เวลาที่โอน</i></span>
+                                                <span class="input-group-text"><i class="far fa-clock"></i>  เวลาที่โอน</span>
                                             </div>
                                             <input class="form-control" type="time" name="PrfPayTime" id="PrfPayTime" required="required" />
                                         </div>
@@ -93,9 +83,6 @@
                                     <button type="submit" class="btn btn-outline-success badge-pill">บันทึก</button>
                                 </div>
                             </form>
-                            <!--<div align="center" style="margin-top:2%">
-                                <button type="submit" class="btn btn-outline-success badge-pill" onclick="checkdatenull()">บันทึก</button>
-                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -124,24 +111,24 @@
                                 </div>*@
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="table-box">
-                                        <div class="table-row">
-                                            <div class="table-cell">
+                                    <div class="table-box ">
+                                        <div class="table-row bg-dark">
+                                            <div class="table-cell text-white">
                                                 <p>รหัสรายการ</p>
                                             </div>
-                                            <div class="table-cell">
+                                            <div class="table-cell text-white">
                                                 <p>ชื่อรายการ</p>
                                             </div>
-                                            <div class="table-cell">
+                                            <div class="table-cell text-white">
                                                 <p>พื้นที่รวม</p>
                                             </div>
-                                            <div class="table-cell">
+                                            <div class="table-cell text-white">
                                                 <p>ราคาต่อหน่วย</p>
                                             </div>
-                                            <div class="table-cell">
+                                            <div class="table-cell text-white">
                                                 <p>จำนวน</p>
                                             </div>
-                                            <div class="table-cell last-cell">
+                                            <div class="table-cell last-cell text-white">
                                                 <p>รวมเป็นเงิน</p>
                                             </div>
                                         </div>
@@ -197,7 +184,6 @@
 <script>
     PrfPayDate.step = new Date().toISOString().split("T")[0];
 
-
     $(function () {
         $("#Uploadfile").change(function () {
             $("#StatusImg").html('<font color="Gold"><i class="fas fa-time"></i> กำลังตรวจสอบ </font>');
@@ -213,132 +199,5 @@
             }
         })
     })
-     $(document).ready(function getProgress() {
-        var width = 0;
-        var move = setInterval(x, 0);
-        function x() {
-            if (width == 70) {
-                $('.progress-bar').css('background-color', "green");
-                clearInterval(move);
-            } else {
-                width++;
-                $('.progress-bar').css('width', width + '%');
-            }
-        }
-     });
 
-        var chkPrfPayId
-    function CheckPrfIdnull() {
-        if (document.getElementById('PrfPayId').value == "") {
-            $("#StatusPrfId").html('');
-            $("#PrfPayId").css("border-color", "#ced4da");
-            $("#PID").css("border-color", "#ced4da");
-        } else {
-            PrfIdCheck();
-        }
-    }
-    function PrfIdCheck() {
-        $("#StatusPrfId").html('<font color="Gold"><i class="fas fa-spinner"></i> กำลังตรวจสอบ...</font>');
-        $.post("@Url.Action("CheckprfPayIdAvilability", "ProofPayment")",
-            {
-                prfdata: $("#PrfPayId").val()
-            },
-        function (data) {
-            if (data == 0) {
-                $("#StatusPrfId").html('<font color="Green"><i class="fas fa-check"></i> สามารถใช้รหัสอ้างอิงการโอนนี้ได้ </font>');
-                $("#PrfPayId").css("border-color", "Green");
-                $("#PID").css("border-color", "Green");
-                chkPrfPayId = true;
-            }
-            else {
-                $("#StatusPrfId").html('<font color="Red"><i class="fas fa-times"></i> ไม่สามารถใช้รหัสอ้างอิงการโอนนี้ได้ !</font>');
-                $("#PrfPayId").css("border-color", "Red");
-                $("#PID").css("border-color", "Red");
-                chkPrfPayId = false;
-            }
-        });
-    }
-
-    //function Register() {
-    //    if (chkPrfPayId == false) {
-    //        toastr.error('Username ผิดพลาดกรุณาตรวจสอบใหม่อีกครั้ง', 'ไม่สำเร็จ !', { timeOut: 3000, "closeButton": true });
-    //        document.getElementById("PrfPayId").focus();
-    //    } else {
-
-    //    }
-
-    //}
-
-    //function updateData(formData) {
-    //    var ajaxConfig = {
-    //        type: "post",
-    //        url: "/ProofPayment/upload",
-    //        data: new FormData(formData),
-    //        susccess: function (result) {
-    //            toastr.success("xxx", { timeOut: 3000, "closeButton": true });
-    //            setTimeout(function fetch() {
-    //                window.location.href = ("/Shipping/ListWorkShipping");
-    //            }, 3000);
-    //        }
-    //    }
-    //    if ($(formDate).attr('enctype') == "multipart/form-data") {
-    //        ajaxConfig["contentType"] = false;
-    //        ajaxConfig["processData"] = false;
-    //    }
-    //    $.ajax(ajaxConfig);
-    //    return false;
-    //}
-    @*function checkdatenull() {
-        if (document.getElementById("PrfPayDate").value == "") {
-            toastr.error("กรุณากรอกข้อมูลให้ครบถ้วน", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
-        } else {
-            add();
-        }
-    }
-    function add() {
-        swal({
-            title: "กรุณายืนยันการทำรายการ",
-            text: "คุณต้องการบันทึกการส่งมอบ รายการที่ : @ViewBag.OrderPrintId ใช่หรือไม่",
-            icon: "warning",
-            buttons: ["ยกเลิก", "ยืนยัน"],
-        }).then((willupdate) => {
-            if (willupdate) {
-                editproofpayment();
-            } else {
-                swal({
-                    title: "ยกเลิกสำเร็จ",
-                    text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
-                    icon: "success",
-                });
-            }
-        })
-    }
-    function editproofpayment() {
-        var OrPrintId = document.getElementById("OrderPrintId").value;
-        var OrPrintStatus = 3;
-        var Progressbar = $('.progress-bar')
-        var PrfPayDate = document.getElementById("PrfPayDate").value;
-        var PrfPayFile = document.getElementById("Uploadfile").value;
-        var PrfPayId = document.getElementById("PrfPayId").value;
-        var PrfPayBank = document.getElementById("PrfPayBank").value;
-        var PrfPayTime = document.getElementById("PrfPayTime").value;
-        var PrfPayDetail = document.getElementById("PrfPayDetail").value;
-        $.ajax({
-            type: "post",
-            data: { OrPrintId, OrPrintStatus, PrfPayDate, PrfPayFile, PrfPayId, PrfPayBank, PrfPayTime, PrfPayDetail },
-            url: "/ProofPayment/update",
-            success: function (result) {
-                if (result == 1) {
-                    Progressbar.css('width', 100 + '%');
-                    Progressbar.css('background-color', "green");
-                    toastr.success("บันทึกการจัดส่ง รายการสั่งทำที่ : @ViewBag.OrderPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
-                    setTimeout(function fetch() {
-                        window.location.href = ("/Shipping/ListWorkShipping");
-                    }, 3000);
-                } else {
-                    toastr.error("รายการสั่งทำที่ : @ViewBag.OrderPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
-                }
-            }
-        })
-    }*@
 </script>

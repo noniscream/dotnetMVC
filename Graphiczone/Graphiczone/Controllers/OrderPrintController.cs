@@ -161,7 +161,7 @@ namespace Graphiczone.Controllers
 
         // เฟม
 
-        public IActionResult ConfirmPayment()
+        public IActionResult ConfirmPayment(String id)
         {
             if (HttpContext.Session.GetString("UserUsername") == null)
             {
@@ -169,8 +169,19 @@ namespace Graphiczone.Controllers
             }
             else
             {
-                var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 1).ToList();
-                return View(seachData);
+                if(id != null)
+                {
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 1 && x.OrPrintId == id).ToList();
+                    ViewBag.countData = seachData.Count();
+                    return View(seachData);
+                }
+                else
+                {
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 1 && x.OrPrintId != null).ToList();
+                    ViewBag.countData = seachData.Count();
+                    return View(seachData);
+                }
+                
             }
 
         }

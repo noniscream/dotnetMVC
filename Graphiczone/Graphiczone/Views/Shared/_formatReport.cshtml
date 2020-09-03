@@ -18,21 +18,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@100;300;500&display=swap" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-    <script src="html2pdf.bundle.min.js"></script>
+    <script>
+        function topdf() {
+            document.getElementById("download").hidden = true;
+            window.print();
+            setTimeout(function load() {
+                document.getElementById("download").hidden = false;
+            }, 1000);
+        }
+    </script>
 </head>
-<script>
-    function generatePDF() {
-        // Choose the element that our invoice is rendered in.
-        const element = document.getElementById("report");
-        // Choose the element and save the PDF for our user.
-        html2pdf()
-            .from(element)
-            .save();
-    }
-</script>
 <body style="font-family: 'Sarabun', sans-serif;">
-    <button onclick="generatePDF()">Download as PDF</button>
+    <div align="right">
+        <button class="btn btn-primary" id="download" onclick="topdf()"> Download PDF</button>
+    </div>
     <div id="report">
         <partial name="_Reportheader" />
 

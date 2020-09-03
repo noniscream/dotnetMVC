@@ -3,7 +3,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
-    <h1> Menu </h1>
+    <h1> เมนู </h1>
     <hr class="bg-dark" />
     <div class="container">
         <div class="row" style="margin-bottom:2%">
@@ -21,71 +21,55 @@
             </div>
         </div>
         <div class="row" style="margin-bottom:2%">
-            <div class="col-md-4" align="center">
-                <div class="card">
-                    <div class="card-body">
-                        <img src="~/images/icon/icons8-buy-100.png" />
+            <div class="col-md-6" align="center">
+                <a href="/OrderPrint/ListOverdue">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="~/images/icon/icons8-delete-100.png" />
+                        </div>
+                        <div class="card-footer">
+                            <label>รายการที่ยังไม่ชำระเงิน</label>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <label>รายการสั่งทำ</label>
-                    </div>
-                </div>
+                </a>
             </div>
-            <div class="col-md-4" align="center">
-                <div class="card">
-                    <div class="card-body">
-                        <img src="~/images/icon/icons8-visa-100.png" />
+            <div class="col-md-6" align="center">
+                <a href="/OrderPrint/ConfirmPayment">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="~/images/icon/icons8-iphone-spinner-100.png" />
+                        </div>
+                        <div class="card-footer">
+                            <label>รายการที่รอยืนยันการชำระเงิน</label>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <label>รายการแจ้งชำระเงิน</label>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4" align="center">
-                <div class="card">
-                    <div class="card-body">
-                        <img src="~/images/icon/icons8-barcode-100.png" />
-                    </div>
-                    <div class="card-footer">
-                        <label>รายการยืนยันการชำระเงิน</label>
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4" align="center">
+            <div class="col-md-6" align="center">
                 <a href="/OrderPrint/ListWorkStatus">
                     <div class="card">
                         <div class="card-body">
                             <img src="~/images/icon/icons8-purchase-order-100.png" />
                         </div>
                         <div class="card-footer">
-                            <label>รายการสถานะงาน</label>
+                            <label>อัพเดตสถานะงาน</label>
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="col-md-4" align="center">
+            <div class="col-md-6" align="center">
                 <a href="/Shipping/ListWorkShipping">
                     <div class="card">
                         <div class="card-body">
                             <img src="~/images/icon/icons8-in-transit-100.png" />
                         </div>
                         <div class="card-footer">
-                            <label>รายการส่งมอบ</label>
+                            <label>บันทึกการส่งมอบ</label>
                         </div>
                     </div>
                 </a>
-            </div>
-            <div class="col-md-4" align="center">
-                <div class="card">
-                    <div class="card-body">
-                        <img src="~/images/icon/icons8-invoice-100.png" />
-                    </div>
-                    <div class="card-footer">
-                        <label>รายงาน</label>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

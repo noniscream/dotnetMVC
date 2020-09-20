@@ -6,7 +6,7 @@
 
     <div align="center" style="margin-bottom:2%"><h1>สมัครสมาชิก</h1></div>
 
-<div class="container">
+<div class="container-fluid">
     <form id="Register">
         <div class="form-group">
             <div class="row" style="margin-bottom:5px">
@@ -156,41 +156,6 @@
         });
     }
 
-    @*function CheckFullnamenull() {
-        if (document.getElementById("CusFirstname").value == "" && document.getElementById("CusLastname").value == "") {
-            $("#StatusFullname").html('');
-            $("#CusFirstname").css("border-color", "#ced4da");
-            $("#CusLastname").css("border-color", "#ced4da");
-            $("#CFN").css("border-color", "#ced4da");
-        } else {
-            FullnameCheck();
-        }
-    }*@
-
-    @*function FullnameCheck() {
-        $("#StatusFullname").html('<font color="Gold"><i class="fas fa-spinner"></i> กำลังตรวจสอบ...</font>');
-        $.post("@Url.Action("CheckFullnameAvilability", "Customer")",
-            {
-                fullnamedata: $("#CusFirstname").val() + $("#CusLastname").val()
-            },
-        function (data) {
-            if (data == 0) {
-                $("#StatusFullname").html('<font color="Green"><i class="fas fa-check"></i> สามารถใช้ชื่อผู้ใช้งานนี้ได้ </font>');
-                $("#CusFirstname").css("border-color", "Green");
-                $("#CusLastname").css("border-color", "Green");
-                $("#CFN").css("border-color", "Green");
-                chkfullname = true;
-            }
-            else {
-                $("#StatusFullname").html('<font color="Red"><i class="fas fa-times"></i> ไม่สามารถใช้ชื่อผู้ใช้งานนี้ได้ !</font>');
-                $("#CusFirstname").css("border-color", "Red");
-                $("#CusLastname").css("border-color", "Red");
-                $("#CFN").css("border-color", "Red");
-                chkfullname = false;
-            }
-        });
-    }*@
-
     function CheckTelnall() {
         if (document.getElementById('CusTel').value == "") {
             $("#StatusTel").html('');
@@ -325,7 +290,6 @@
         chkusername = false;
         chktel = false;
         chkemail = false;
-        //chkfullname = false;
         $("#CusEmail").html('');
 
     }

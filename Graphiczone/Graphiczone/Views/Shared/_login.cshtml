@@ -1,6 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Http
-
-    <ul class="navbar-nav">
+    <style>
+        .btnlogin {
+            background: #10A44A;
+            color: white;
+        }
+        .btnregis {
+            background: #01ACBD;
+            color: white;
+        }
+    </style>
+    <ul class="navbar-nav" >
         @if (Context.Session.GetString("CusUsername") != null)
         {
         <li class="nav-item">
@@ -11,8 +20,8 @@
         else
         {
         <li class="nav-item">
-            @Html.ActionLink("เข้าสู่ระบบ", "Login", "Customer", null, new { @class = "btn btn-outline-success" })
-            @Html.ActionLink("สมัครสมาชิก", "Register", "Customer", null, new { @class = "btn btn-warning" })
+            @Html.ActionLink("เข้าสู่ระบบ", "Login", "Customer", null, new { @class = "btn btnlogin" })
+            @Html.ActionLink("สมัครสมาชิก", "Register", "Customer", null, new { @class = "btn btnregis" })
         </li>
     }
     </ul>

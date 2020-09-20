@@ -7,22 +7,35 @@
     <title>@ViewData["Title"] - Graphiczone</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+
+    <style>
+        footer {
+            font-size: 18px;
+            color: #69491A;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body style="font-family: 'Prompt', sans-serif;">
-
     <partial name="_header" />
 
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
+    <div style="padding-top:1rem;">
+        <partial name="_footer" />
+    </div>
 
-    <partial name="_footer" />
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

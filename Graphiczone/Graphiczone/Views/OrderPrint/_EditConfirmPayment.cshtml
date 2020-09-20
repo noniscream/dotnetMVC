@@ -1,7 +1,5 @@
 ﻿
-@{
-    ViewData["Title"] = "_EditConfirmPayment";
-}
+@{ ViewData["Title"] = "_EditConfirmPayment"; }
 
 <!-- Modal -->
 <div class="modal fade" id="EditConfirmPayment">
@@ -58,33 +56,33 @@
 
                                         @foreach (var x in ViewBag.OrderList)
                                         {
-                                    <div class="table-row">
-                                        <div class="table-cell">
-                                            <p>@x.OrdPrintId</p>
-                                        </div>
-                                        <div class="table-cell">
-                                            <p>@ViewBag.PrintName</p>
-                                            <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
-                                        </div>
-                                        <div class="table-cell">
-                                            <p>
-                                                @{ var sumarea = x.OrdPrintWidth * x.OrdPrintHeight; }
-                                                @sumarea
-                                            </p>
-                                        </div>
-                                        <div class="table-cell">
-                                            <p>@x.OrdPrintPriceset.ToString("#,###.00")</p>
-                                        </div>
-                                        <div class="table-cell">
-                                            <p>@x.OrdPrintNum.ToString("#,###")</p>
-                                        </div>
-                                        <div class="table-cell last-cell">
-                                            <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
-                                        </div>
-                                    </div>totalprice = totalprice + @Convert.ToInt32(x.OrdPrintTotal);
-                                                }
+                            <div class="table-row">
+                                <div class="table-cell">
+                                    <p>@x.OrdPrintId</p>
+                                </div>
+                                <div class="table-cell">
+                                    <p>@ViewBag.PrintName</p>
+                                    <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
+                                </div>
+                                <div class="table-cell">
+                                    <p>
+                                        @{ var sumarea = x.OrdPrintWidth * x.OrdPrintHeight; }
+                                        @sumarea
+                                    </p>
+                                </div>
+                                <div class="table-cell">
+                                    <p>@x.OrdPrintPriceset.ToString("#,###.00")</p>
+                                </div>
+                                <div class="table-cell">
+                                    <p>@x.OrdPrintNum.ToString("#,###")</p>
+                                </div>
+                                <div class="table-cell last-cell">
+                                    <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
+                                </div>
+                            </div>totalprice = totalprice + @Convert.ToInt32(x.OrdPrintTotal);
+                        }
                                         <div class="alert alert-success" align="center">
-                                            <h5>รวมเป็นเงิน : <b>@totalprice.ToString("#,###.00")</b> บาท</h5>
+                                            <h5>รวมเป็นเงิน : <b>@ViewBag.PriceTotal.ToString("#,###.00")</b> บาท</h5>
                                         </div>
                                         <div class="table-row">
                                             <div class="table-cell last-cell" align="right">
@@ -95,7 +93,8 @@
                                             </div>
                                         </div>
                                         <div align="center" style="margin-top:2%">
-                                            <button type="button" class="btn btn-outline-success badge-pill" onclick="check()">ชำระเงินเรียบร้อยแล้ว</button>
+                                            <button type="button" class="btn btn-outline-success badge-pill" onclick="checkconfirmpayment()">ชำระเงินเรียบร้อยแล้ว</button>
+                                            <button type="button" class="btn btn-outline-danger badge-pill" onclick="checkdeleteconfirmpayment()">ลบรายการชำระเงิน</button>
                                         </div>
                                     </div>
                                 </div>
@@ -114,7 +113,7 @@
 
 <script>
 
-     function check() {
+    function checkconfirmpayment() {
             swal({
                 title: "กรุณายืนยันการทำรายการ",
                 text: "คุณต้องการยืนยันการชำระเงิน รายการที่ : @ViewBag.OrderPrintId ใช่หรือไม่",
@@ -130,7 +129,7 @@
                         icon:"success",
                     });
                 }
-            })
+            }) 
         }
 
     function editconfirmpayment() {
@@ -147,6 +146,44 @@
                         setTimeout(function fetch() {
                             window.location.href = ("/OrderPrint/ConfirmPayment");
                         },3000);
+                    } else {
+                        toastr.error("รายการสั่งทำที่ : @ViewBag.OrderPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    }
+                }
+            })
+    }
+
+    function checkdeleteconfirmpayment() {
+            swal({
+                title: "กรุณายืนยันการทำรายการ",
+                text: "การแก้ไขสถานะงานมีผลทำให้ข้อมูลส่วนอื่น ๆ ถูกลบไปด้วย ! คุณต้องการเปลี่ยนแปลงสถานะงาน รายการที่ : @ViewBag.OrderPrintId ใช่หรือไม่",
+                icon: "warning",
+                buttons:["ยกเลิก","ยืนยัน"],
+            }).then((willupdate) => {
+                if (willupdate) {
+                    deleteconfirmpayment();
+                } else {
+                    swal({
+                        title: "ยกเลิกสำเร็จ",
+                        text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
+                        icon:"success",
+                    });
+                }
+            })
+        }
+        function deleteconfirmpayment() {
+            var OrPrintId = document.getElementById("OrderPrintId").value;
+            var OrPrintStatus = 0;
+            $.ajax({
+                type: "post",
+                data: { OrPrintId, OrPrintStatus },
+                url: "/OrderPrint/deleteconfirmpayment",
+                success: function (result) {
+                    if (result == 1) {
+                        toastr.success("ลบหลักฐานการแจ้งชำระเงิน : @ViewBag.OrderPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                        setTimeout(function load() {
+                            location.reload();
+                        }, 1500);
                     } else {
                         toastr.error("รายการสั่งทำที่ : @ViewBag.OrderPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
                     }

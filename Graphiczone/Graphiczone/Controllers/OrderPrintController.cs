@@ -52,13 +52,13 @@ namespace Graphiczone.Controllers
             {
                 if (id != null)
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && x.OrPrintId == id ).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && x.OrPrintId == id ).OrderByDescending(x=>x.OrPrintStatus == 0).ToList();
                     ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
                 else
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && id == null ).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && id == null ).OrderByDescending(x => x.OrPrintStatus == 0).ToList();
                     ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
@@ -381,6 +381,32 @@ namespace Graphiczone.Controllers
             }
 
 
+        }
+
+        [HttpPost]
+        public JsonResult deleteconfirmpayment(OrderPrint orderPrint, Shipping shipping, ProofPayment proofPayment)
+        {
+            var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
+            var searchData2 = _graphiczoneDBContext.Shipping.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
+            var searchData3 = _graphiczoneDBContext.ProofPayment.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
+            if (searchData != null)
+            {
+                searchData.OrPrintStatus = orderPrint.OrPrintStatus;
+                if (searchData2 != null)
+                {
+                    _graphiczoneDBContext.Remove(searchData2);
+                }
+                if (searchData3 != null)
+                {
+                    _graphiczoneDBContext.Remove(searchData3);
+                }
+                _graphiczoneDBContext.SaveChanges();
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
         }
 
         // เฟม

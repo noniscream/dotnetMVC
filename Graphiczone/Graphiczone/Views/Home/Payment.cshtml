@@ -3,6 +3,149 @@
     ViewData["Title"] = "Payment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+    <style>
+        body  {
+            background: #F0F0F0;
+            font-size: 18px;
+            color: #69491A;
+        }
+        img{
+            padding:1rem;
+        }
+        *{
+            box-sizing: border-box;
+        }
 
-<h1>Payment</h1>
+        .zoom {
+            background-color: none;
+            transition: transform .2s;
+            margin: 0 auto;
+        }
+            .zoom:active {
+                -ms-transform: scale(1.5); /* IE 9 */
+                -webkit-transform: scale(1.5); /* Safari 3-8 */
+                transform: scale(1.5);
+            }
+        .zoom1 {
+            background-color: none;
+            transition: transform .2s;
+            margin: 0 auto;
+        }
 
+            .zoom1:hover {
+                -ms-transform: scale(1.5); /* IE 9 */
+                -webkit-transform: scale(1.5); /* Safari 3-8 */
+                transform: scale(1.5);
+            }
+    </style>
+    <div align="center">
+
+    </div>
+    <div class="container-fluid">
+
+        <div class="row" style="text-align:center;margin-top:3rem;">
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <img style="width:300px;height:250px;" src="~/images/background-logo-online-shop-png-2.png" />
+                    <h1 style="border-bottom:ridge;color:#69491A;">วิธีการชำระเงินหน้าร้าน</h1>
+                </div>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+
+        <div class="row" style="text-align:center;font-size:16px;margin-top:2rem;border-bottom:ridge;">
+            <div class="col-md-4">
+
+                <p style="font-size:18px;">1.ชำระด้วยบัตรเดบิต ที่มีชิปการ์ด</p>
+                <div class="zoom">
+                    <img style="width:500px; height:350px;" src="https://i.pinimg.com/originals/f2/cd/b8/f2cdb838d2024c9eb71dd6f421b6d01a.gif" />
+                </div>
+            </div>
+            <div class="col-md-4">
+
+                <p style="font-size:18px;">2.ชำระด้วยบัตรเครดิตทุกธนาคาร</p>
+                <div class="zoom">
+                    <img style="width:500px; height:350px;" src="~/images/blog__credit-card-bank-feeds-live__credit-cards-da04d234.gif" />
+                </div>
+            </div>
+            <div class="col-md-4">
+
+                <p style="font-size:18px;">3.ชำระด้วยมือถือที่มีแอปโมบายแบงกิ้งเปิดสแกนQRCODE</p>
+                <div class="zoom">
+                    <img style="width:500px; height:350px;" src="https://images.vexels.com/media/users/3/158120/isolated/preview/bff830206408c36b53b196b155747b02-qr-code-on-smartphone-by-vexels.png" />
+                </div>
+
+            </div>
+        </div>
+        <div style="margin-top:2rem;" align="center">
+            <p style="font-size:18px;text-align:center;">4.ชำระผ่านบัญชีธนาคาร</p>
+            <img style="width:200px;height:150px;" src="~/images/mastercard.svg" />
+
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-12 mb-6" style="margin-left:10rem;">
+                <div class="zoom1">
+                    <div class="view overlay z-depth-1-half" align="center">
+                        <img style="height:150px; width:100%;" src="https://www.naewna.com/uploads/news/source/480961.jpg" class="img-fluid" alt="">
+                        <a href="">
+                            <div class="mask rgba-white-light"></div>
+                        </a>
+                        <p>นพดล ทองแจ่ม </p>
+                        <p>ธนาคารกสิกรไทย</p>
+                        <p>สาขาถนนศรีจันทร์ ขอนแก่น </p>
+                        <p>เลขบัญชี 428-2-26385-3</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-2 col-md-6 mb-4" style="margin-left:5rem;">
+                <div class="zoom1">
+                    <div class="view overlay z-depth-1-half" align="center">
+                        <img style="height:150px; width:100%;" src="https://www.prachachat.net/wp-content/uploads/2020/08/%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B9%82%E0%B8%A5%E0%B9%82%E0%B8%81%E0%B9%89%E0%B9%81%E0%B8%9A%E0%B8%87%E0%B8%81%E0%B9%8C-728x411-1.jpg" class="img-fluid"
+                             alt="">
+                        <a href="">
+                            <div class="mask rgba-white-light"></div>
+                        </a>
+                        <p>นพดล ทองแจ่ม </p>
+                        <p>ธนาคารกรุงไทย</p>
+                        <p>สาขาถนนศรีจันทร์ ขอนแก่น </p>
+                        <p>เลขบัญชี 437-0-64368-6</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-4" style="margin-left:5rem;">
+                <div class="zoom1">
+                    <div class="view overlay z-depth-1-half" align="center">
+                        <img style="height:150px; width:100%;" src="data:image/jpeg;base64,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NPLbij2bzE/GWumuvHKefwdAz66/+at/fH+BZ/8ARuP+9P8A0j/yT+/2/p+P+ELhGOHC8RkmEQeZL90vtbU7Vzsb+HJe52j2RGt02PBN9uHbntvvtXbpvG3vZsWacd5tt1TP8vH/AOqt/fH+BeH/AKNx/wB6f+n/ALNP3+39PxRuKZqqK8WBELfBhOr4v2PysvV0Po7o9L+KY47eNunsr09+/sUZdVe/kgv/AL+9e8zi4CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIP/Z" class="img-fluid"
+                             alt="">
+                        <a href="">
+                            <div class="mask rgba-white-light"></div>
+                        </a>
+                        <p>นพดล ทองแจ่ม </p>
+                        <p>ธนาคารไทยพาณิชย์ สาขาหนองหิน</p>
+                        <p>สาขาหนองหิน ขอนแก่น </p>
+                        <p>เลขบัญชี 685-232586-4</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-12 mb-4" style="margin-left:5rem;">
+                <div class="zoom1">
+                    <div class="view overlay z-depth-1-half" align="center">
+                        <img style="height:150px; width:100%;" src="https://image.bangkokbiznews.com/kt/media/image/news/2019/06/22/838640/750x422_838640_1561340604.jpg" class="img-fluid"
+                             alt="">
+                        <a href="">
+                            <div class="mask rgba-white-light"></div>
+                        </a>
+                        <p>หจก.กราฟฟิกโซน</p>
+                        <p>ธนาคารกรุงเทพ</p>
+                        <p>สาขาขอนแก่น </p>
+                        <p>เลขบัญชี 260-7-12072-8</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

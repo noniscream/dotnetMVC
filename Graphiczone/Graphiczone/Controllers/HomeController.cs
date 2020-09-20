@@ -52,6 +52,34 @@ namespace Graphiczone.Controllers
         {
             return View();
         }
+        public ViewResult Tracking()
+        {
+            return View();
+        }
+        public ViewResult Inkjet()
+        {
+            return View();
+        }
+        public ViewResult ChannelLetter()
+        {
+            return View();
+        }
+        public ViewResult Lightbox()
+        {
+            return View();
+        }
+        public ViewResult LED()
+        {
+            return View();
+        }
+        public ViewResult Tower()
+        {
+            return View();
+        }
+        public ViewResult Sticker()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

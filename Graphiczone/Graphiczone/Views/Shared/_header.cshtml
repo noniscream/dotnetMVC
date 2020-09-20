@@ -1,6 +1,37 @@
-﻿<header style="font-family: 'Prompt', sans-serif;">
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container">
+﻿ <style>
+    li{
+           display:inline-block;
+       }
+     li a{
+         margin-right:2rem;
+         text-decoration:none;
+     }
+     .nav-item1::after {
+         content: '';
+         display: block;
+         width: 0;
+         height: 2.5px;
+         background: #69491A;
+         transition: width .3s;
+         box-shadow:8px 8px 8px;
+     }
+     .nav-item1:hover::after {
+         width: 100%;
+         transition: width .3s;
+         text-align:right;
+     }
+     .nav-item1 {
+         font-size: 18px;
+         color: #69491A;
+         font-weight: bold;
+     }.nav-link{
+            font-size: 18px;
+         color: #69491A;
+      }
+</style>
+<header style="font-family: 'Prompt', sans-serif;" >
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background:	#FFD700;color:white;" >
+        <div class="container-fluid">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/graphiczonelogo.png" style="width:30%; height:30%;" /></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -12,25 +43,37 @@
                         <partial name="_login" />
                     </li>
                 </ul>
-
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <ul class="navbar-nav flex-grow-1" style="margin-left:4rem;text-align:center;">
+                    <li class="nav-item1">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">หน้าหลัก</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Service">Service</a>
+                    <li class="nav-item dropdown">
+                        <a  style="color: #69491A;" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            บริการ
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a style="width:135px;" class="nav-link" asp-area="" asp-controller="Home" asp-action="Inkjet"><i class="fas fa-print"style="color:black"></i> อิงค์เจ็ท</a>
+                            <a style="width:135px;" class="nav-link" asp-area="" asp-controller="Home" asp-action="ChannelLetter"><i class="fas fa-paragraph"style="color:#4682B4"></i> อักษรโลหะ</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Lightbox"><i class="fas fa-toolbox" style="color:orangered"></i> กล่องไฟ</a>
+                            <a style="width:135px;" class="nav-link" asp-area="" asp-controller="Home" asp-action="LED"><i class="fas fa-lightbulb" style="color:gold;"></i> ป้ายแอลอีดี</a>
+                            <a style="width:135px;" class="nav-link"  asp-area="" asp-controller="Home" asp-action="Tower"><i class="fas fa-gopuram" style="color:#556B2F	"></i> ป้ายทาวเวอร์</a>
+                            <a style="width:135px;" class="nav-link" asp-area="" asp-controller="Home" asp-action="Sticker"><i class="fas fa-sticky-note" style="color:#B03060"></i> สติ๊กเกอร์</a>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="OrderDetailPrint" asp-action="CreateOrder">Order</a>
+                    <li class="nav-item1">
+                        <a class="nav-link" asp-area="" asp-controller="OrderDetailPrint" asp-action="CreateOrder">สั่งทำ</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Payment">Payment</a>
+                    <li class="nav-item1">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Payment" >ชำระเงิน</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">AboutUs</a>
+                    <li class="nav-item1">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Tracking">ติดตามบริการ</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ContactUs">ContactUs</a>
+                    <li class="nav-item1">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="AboutUs">เกี่ยวกับร้าน</a>
+                    </li>
+                    <li class="nav-item1">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="ContactUs">ติดต่อร้าน</a>
                     </li>
                 </ul>
             </div>

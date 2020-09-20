@@ -5,6 +5,14 @@
 }
 
 <style>
+    #roworder:hover {
+        border-left: solid 7px;
+        border-left-color: #ED186B;
+        border-right: solid 7px;
+        border-right-color: #ED186B;
+        font-weight: bold;
+        color: #0094ff !important;
+    }
 </style>
 
 @{ 
@@ -57,7 +65,7 @@
     </div>
     @foreach (var item in Model)
     {
-        <div class="table-row">
+        <div class="table-row" id="roworder">
             <div class="table-cell">
                 <p>@item.OrPrintId</p>
             </div>
@@ -68,33 +76,41 @@
                 <p>@item.OrPrintDue.Value.Date.ToString("dd MMM yyyy")</p>
             </div>
             <div class="table-cell">
-                <p>
-                    @if (@item.OrPrintStatus == 0)
-                    {
-                        strStatus = "ค้างชำระเงิน";
-                    }
-                    else if (@item.OrPrintStatus == 1)
-                    {
-                        strStatus = "รอยืนยันการชำระ";
-                    }
-                    else if (@item.OrPrintStatus == 2)
-                    {
-                        strStatus = "ชำระเงินแล้ว";
-                    }
-                    else if (@item.OrPrintStatus == 3)
-                    {
-                        strStatus = "รอส่งมอบ";
-                    }
-                    else if (@item.OrPrintStatus == 4)
-                    {
-                        strStatus = "ส่งมอบแล้ว";
-                    }
-                    @strStatus
-                </p>
+                @if (item.OrPrintStatus == 0)
+                {
+                    strStatus = "ค้างชำระ";
+                    strColorStatus = "danger";
+                }
+                else if (item.OrPrintStatus == 1)
+                {
+                    strStatus = "แจ้งชำระแล้วรอยืนยัน";
+                    strColorStatus = "info";
+                }
+                else if (item.OrPrintStatus == 2)
+                {
+                    strStatus = "ชำระเงินแล้ว";
+                    strColorStatus = "success";
+                }
+                else if (item.OrPrintStatus == 3)
+                {
+                    strStatus = "รอส่งมอบ";
+                    strColorStatus = "primary";
+                }
+                else if (item.OrPrintStatus == 4)
+                {
+                    strStatus = "ส่งมอบแล้วรอลูกค้ายืนยัน";
+                    strColorStatus = "warning";
+                }
+                else if (item.OrPrintStatus == 5)
+                {
+                    strStatus = "ส่งมอบเสร็จสิ้น";
+                    strColorStatus = "success";
+                }
+                <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
             </div>
             <div class="table-cell last-cell">
                 <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
-                        data-target="#ShowOrderDetail" data-url="@Url.Action($"ShowOrderDetail/{item.OrPrintId}")">
+                        data-target="#ConfirmShipping" data-url="@Url.Action($"ConfirmShipping/{item.OrPrintId}")">
                     ดูรายละเอียดบิล
                 </button>
             </div>

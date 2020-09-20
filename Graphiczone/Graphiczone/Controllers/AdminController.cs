@@ -94,7 +94,7 @@ namespace Graphiczone.Controllers
         }
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear();
+            HttpContext.Session.Remove("AdminUsername");
             return RedirectToAction("Login");
         }
         public IActionResult LoginAuth(User user)
@@ -111,16 +111,6 @@ namespace Graphiczone.Controllers
             {
                 return Json(0);
             }
-        }
-
-        public IActionResult Product(string id)
-        {
-            return View();
-        }
-
-        public IActionResult Employee()
-        {
-            return View();
         }
 
     }

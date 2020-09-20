@@ -10,6 +10,8 @@ namespace Graphiczone.Controllers
 {
     public class UserController : Controller
     {
+        DateTime dt = DateTime.Now;
+
         private readonly GraphiczoneDBContext _graphiczoneDBContext;
 
         public UserController(GraphiczoneDBContext graphiczoneDBContext)
@@ -32,12 +34,12 @@ namespace Graphiczone.Controllers
                     ViewBag.UserUsername = HttpContext.Session.GetString("UserUsername");
                     ViewBag.UserPosition = seachData.UserPosition;
                     ViewBag.UserStatus = seachData.UserStatus.ToString();
+
                 }
                 else
                 {
 
                 }
-                //Response.Cookies.Append("LastLogedInTime", DateTime.Now.ToString());
             }
             return View();
         }
@@ -48,7 +50,7 @@ namespace Graphiczone.Controllers
         }
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear();
+            HttpContext.Session.Remove("UserUsername");
             return RedirectToAction("Login");
         }
         public JsonResult LoginAuth(User user)

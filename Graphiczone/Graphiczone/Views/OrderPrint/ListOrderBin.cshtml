@@ -1,0 +1,110 @@
+﻿@model IEnumerable<Graphiczone.Models.SQLServer.OrderPrint>
+
+@{
+    ViewData["Title"] = "ListOrderBin";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<style>
+    #roworder:hover {
+        border-left: solid 7px;
+        border-left-color: #757575;
+        border-right: solid 7px;
+        border-right-color: #757575;
+        font-weight: bold;
+        color: #0094ff !important;
+    }
+</style>
+@{
+    var strStatus = "";
+    var strColorStatus = "";
+}
+
+<div class="table-head" style="background-color:#757575">
+    <div class="table-cell">
+        <p class="text-white" style="font-size:2rem">รายการสั่งทำที่ล่วงเลยเวลา</p>
+    </div>
+</div>
+
+<div id="PlaceHolderHere"></div>
+
+<div class="mt-2" align="right">
+    <label class="badge badge-secondary badge-pill"><b>ทั้งหมด @ViewBag.countData รายการ</b></label>
+</div>
+
+<div class="table-box">
+    <div class="table-row bg-dark" style="font-weight:bold;">
+        <div class="table-cell text-white">
+            <p>รหัสสั่งทำ</p>
+        </div>
+        <div class="table-cell text-white">
+            <p>สถานะ</p>
+        </div>
+        <div class="table-cell last-cell text-white">
+            <p>จัดการสถานะ</p>
+        </div>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="table-row" id="roworder">
+            <div class="table-cell">
+                <p id->@item.OrPrintId</p>
+            </div>
+            <div class="table-cell">
+                @if (item.OrPrintStatus == 0)
+                {
+                    strStatus = "ค้างชำระเกินกำหนด";
+                    strColorStatus = "danger";
+                }
+                else
+                {
+                    strStatus = "รายการขยะ";
+                    strColorStatus = "secondary";
+                }
+                <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
+            </div>
+            <div class="table-cell last-cell">
+                <a class="btn btn-outline-danger badge-pill" style="box-shadow: 1px 2px 2px 0px rgba(0,0,0,0.75);" onclick="checkdeletebin(@item.OrPrintId)"><i class="far fa-trash-alt"></i> ลบ</a>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    function checkdeletebin(id) {
+            swal({
+                title: "กรุณายืนยันการทำรายการ",
+                text: "คุณต้องการลบข้อมูลในรายการที่ : " + id + " ใช่หรือไม่",
+                icon: "warning",
+                buttons:["ยกเลิก","ยืนยัน"],
+            }).then((willupdate) => {
+                if (willupdate) {
+                    deletetodb(id);
+                } else {
+                    swal({
+                        title: "ยกเลิกสำเร็จ",
+                        text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
+                        icon:"success",
+                    });
+                }
+            })
+    }
+    function deletetodb(id) {
+        var OrPrintId = id;
+            $.ajax({
+                type: "post",
+                data: { OrPrintId },
+                url: "/OrderPrint/deleteorderbin",
+                success: function (result) {
+                    if (result == 1) {
+                        toastr.success("ลบรายการที่ : " + id + " เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                        setTimeout(function load() {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        toastr.error("รายการสั่งทำที่ : " + id +  " ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    }
+                }
+            })
+        }
+</script>

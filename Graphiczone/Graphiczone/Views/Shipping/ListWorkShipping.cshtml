@@ -94,13 +94,18 @@
                 }
                 else if (item.OrPrintStatus == 3)
                 {
-                    strStatus = "ผลิตเสร็จแล้ว";
+                    strStatus = "รอส่งมอบ";
                     strColorStatus = "primary";
                 }
                 else if (item.OrPrintStatus == 4)
                 {
-                    strStatus = "ส่งมอบแล้ว";
+                    strStatus = "ส่งมอบแล้วรอลูกค้ายืนยัน";
                     strColorStatus = "warning";
+                }
+                else if (item.OrPrintStatus == 5)
+                {
+                    strStatus = "ส่งมอบเสร็จสิ้น";
+                    strColorStatus = "success";
                 }
                 <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
             </div>

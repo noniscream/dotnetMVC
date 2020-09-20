@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Graphiczone.Models;
+using System.Net.Mail;
+using System.Net;
 
 namespace Graphiczone.Controllers
 {
@@ -48,7 +50,7 @@ namespace Graphiczone.Controllers
             return View();
         }
 
-        public ViewResult ContactUs()
+        public ActionResult ContactUs()
         {
             return View();
         }
@@ -86,5 +88,6 @@ namespace Graphiczone.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }

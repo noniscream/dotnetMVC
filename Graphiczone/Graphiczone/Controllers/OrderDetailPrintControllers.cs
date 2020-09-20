@@ -32,12 +32,11 @@ namespace Graphiczone.Controllers
         {
             if (HttpContext.Session.GetString("CusUsername") == null)
             {
-
+                return View("../Customer/Login");
             }
             else
             {
                 ViewBag.CusUsername = HttpContext.Session.GetString("CusUsername");
-                //Response.Cookies.Append("LastLogedInTime", DateTime.Now.ToString());
             }
             var sessionid = HttpContext.Session.GetString("CusUsername");
             var getCusId = _graphiczoneDBContext.Customer.Where(x => x.CusUsername == sessionid).FirstOrDefault();
@@ -68,8 +67,6 @@ namespace Graphiczone.Controllers
             List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
             ViewBag.typeprint = _graphiczoneDBContext.TypePrint.ToList();
             var print = _graphiczoneDBContext.Print.FirstOrDefault();
-            //var search = _graphiczoneDBContext.Print.Where(x => x.PrintId == orderDetailPrint.PrintId).FirstOrDefault();
-            //ViewBag.printprice = search.PrintPrice;
             return View(getOrPrintDetail);
         }
 
@@ -77,7 +74,6 @@ namespace Graphiczone.Controllers
         {
             List<Print> list = new List<Print>();
             list = _graphiczoneDBContext.Print.Where(x => x.TypePrint.TypePrintId == id).ToList();
-            //list.Insert(0, new Print { Id = 0, PrintId = "P000", PrintName = "กรุณาเลือกประเภทวัสดุ" });
             return Json(new SelectList(list, "PrintId", "PrintName"));
         }
         public IFormFile Uploadfile { get; set; }
@@ -86,14 +82,6 @@ namespace Graphiczone.Controllers
         public async Task<IActionResult> uploadAsync(OrderPrint orderPrint, OrderDetailPrint orderDetailPrint, Print print, TypePrint typePrint)
         {
             orderDetailPrint.PrintId = orderDetailPrint.PrintId.Trim();
-            //var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
-            //if (searchData != null)
-            //{
-            //searchData.OrPrintStatus = orderPrint.OrPrintStatus;
-            //orderDetailPrint.OrPrintId = orderPrint.OrPrintId;
-            //var sessionid = HttpContext.Session.GetString("UserUsername");
-            //var getUserid = _graphiczoneDBContext.User.Where(x => x.UserUsername == sessionid).FirstOrDefault();
-            //shipping.UserId = getUserid.UserId;
             string wwwRootPath = _webHostEnvironment.WebRootPath;
             string fileName = Path.GetFileNameWithoutExtension(Uploadfile.FileName);
             string extension = Path.GetExtension(Uploadfile.FileName);
@@ -120,11 +108,7 @@ namespace Graphiczone.Controllers
             _graphiczoneDBContext.OrderDetailPrint.Add(orderDetailPrint);
             _graphiczoneDBContext.SaveChanges();
 
-            //var x = "คุณได้ทำการบันทึกการส่งมอบ รายการที่ : " + orderPrint.OrPrintId + "เรียบร้อยแล้ว";
             return RedirectToAction("CreateOrder");
-            //}
-
-            //return Json("ไม่สำเร็จ");
         }
 
         [HttpPost]
@@ -142,7 +126,6 @@ namespace Graphiczone.Controllers
                 return Json(0);
             }
         }
-        // บรีสยกเลิก
         [HttpPost]
         public JsonResult clearsession(OrderPrint orderPrint, OrderDetailPrint orderDetailPrint)
         {

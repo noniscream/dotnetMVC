@@ -48,7 +48,7 @@
     <label class="badge badge-secondary badge-pill"><b>ทั้งหมด @ViewBag.countData รายการ</b></label>
 </div>
 
-<div class="table-box" >
+<div class="table-box">
     <div class="table-row bg-dark" style="font-weight:bold;">
         <div class="table-cell text-white">
             <p>รหัสสั่งทำ</p>
@@ -101,8 +101,13 @@
                 }
                 else if (item.OrPrintStatus == 4)
                 {
-                    strStatus = "ส่งมอบแล้ว";
+                    strStatus = "ส่งมอบแล้วรอลูกค้ายืนยัน";
                     strColorStatus = "warning";
+                }
+                else if (item.OrPrintStatus == 5)
+                {
+                    strStatus = "ส่งมอบเสร็จสิ้น";
+                    strColorStatus = "secondary";
                 }
                 <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
             </div>

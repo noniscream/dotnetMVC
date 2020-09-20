@@ -28,6 +28,8 @@
     var strStatrus = "";
     var strIcon = "";
     var strDis = "";
+    double total = 0;
+    double tax = 0.07;
 }
     <div class="row" style="margin-bottom:2%">
         <div class="col-md-12">
@@ -96,7 +98,7 @@
                                         <div class="table-cell">
                                             <a href="/@x.OrdPrintFile" target="_blank"><span class="xs">@ViewBag.PrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span></a><br />
                                             <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
-                                            
+
                                         </div>
                                         <div class="table-cell">
                                             <p>
@@ -116,9 +118,25 @@
                                             <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
                                         </div>
                                     </div>
-                                                    }
-                                <div class="alert alert-success" align="center">
-                                    <h5>รวมเป็นเงิน : <b>@ViewBag.PriceTotal.ToString("#,###.00")</b> บาท</h5>
+                                    total += x.OrdPrintTotal;
+                                }
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <div class="alert alert-primary" align="center">
+                                            <h5>ราคาสุทธิ : <b>@total.ToString("#,###.00")</b> บาท</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="alert alert-warning" align="center">
+                                            @{ total = total * tax;}
+                                            <h5>ภาษี 7% เป็นเงิน : <b>@total.ToString("#,###.00")</b> บาท</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="alert alert-success" align="center">
+                                            <h5>รวมเป็นเงิน : <b>@ViewBag.PriceTotal.ToString("#,###.00")</b> บาท</h5>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -225,18 +243,26 @@
                     </form>
                     <div class="form-group">
                         <div class="row">
-                            @if (Model.OrPrintStatus == 1 && ViewBag.getPayCode != null)
+                            @if (Model.OrPrintStatus == 5)
                             {
-                                <div class="col-md-6">
-                                    <button class="btn btn-outline-info form-control" onclick="checksavepayment()">ยืนยันการชำระ</button>
-                                </div>
+
                             }
-                            @if (ViewBag.getPayCode != null)
+                            else
                             {
-                                <div class="col-md-6">
-                                    <button class="btn btn-danger form-control" onclick="checkdeletepayment()">ลบหลักฐาน</button>
-                                </div>
+                                @if (Model.OrPrintStatus == 1 && ViewBag.getPayCode != null)
+                                {
+                                    <div class="col-md-6">
+                                        <button class="btn btn-outline-info form-control" onclick="checksavepayment()">ยืนยันการชำระ</button>
+                                    </div>
+                                }
+                                @if (ViewBag.getPayCode != null)
+                                {
+                                    <div class="col-md-6">
+                                        <button class="btn btn-danger form-control" onclick="checkdeletepayment()">ลบหลักฐาน</button>
+                                    </div>
+                                }
                             }
+
 
                         </div>
                     </div>
@@ -249,15 +275,11 @@
                             strStatrus = "กำลังดำเนินการผลิต";
                             strIcon = "fas fa-info";
                         }
-                        else if (Model.OrPrintStatus == 3)
+                        else
                         {
                             strColorstatus = "success";
                             strStatrus = "ผลิตเสร็จเรียบร้อย";
                             strIcon = "fas fa-check";
-                        }
-                        else
-                        {
-
                         }
 
                         <div class="alert alert-@strColorstatus" role="alert"><i class="@strIcon"></i> @strStatrus</div>
@@ -281,19 +303,25 @@
                     </form>
                     <div class="form-group">
                         <div class="row">
-                            @if (Model.OrPrintStatus == 2 && ViewBag.getPayCode != null)
+                            @if (Model.OrPrintStatus == 5)
                             {
-                                <div class="col-md-12">
-                                    <button class="btn btn-outline-success form-control" name="btnWorksave" id="btnWorksave" onclick="checksaveworkstatus()">ผลิตเสร็จสิ้น</button>
-                                </div>
-                            }
-                            @if (Model.OrPrintStatus == 3 || ViewBag.getShippingImg != null)
-                            {
-                                <div class="col-md-12">
-                                    <button class="btn btn-warning form-control" name="btnWorkedit" id="btnWorkedit" onclick="checkeditworkstatus()">แก้ไขเป็นกำลังผลิตอยู่</button>
-                                </div>
-                            }
 
+                            }
+                            else
+                            {
+                                @if (Model.OrPrintStatus == 2 && ViewBag.getPayCode != null)
+                                {
+                                    <div class="col-md-12">
+                                        <button class="btn btn-outline-success form-control" name="btnWorksave" id="btnWorksave" onclick="checksaveworkstatus()">ผลิตเสร็จสิ้น</button>
+                                    </div>
+                                }
+                                @if (Model.OrPrintStatus == 3 || ViewBag.getShippingImg != null)
+                                {
+                                    <div class="col-md-12">
+                                        <button class="btn btn-warning form-control" name="btnWorkedit" id="btnWorkedit" onclick="checkeditworkstatus()">กำลังผลิตอยู่</button>
+                                    </div>
+                                }
+                            }
                         </div>
                     </div>
                 </div>
@@ -313,8 +341,14 @@
                         }
                         else if (Model.OrPrintStatus == 4)
                         {
+                            strColorstatus = "info";
+                            strStatrus = "ส่งมอบแล้วรอลูกค้ายืนยัน";
+                            strIcon = "fas fa-info";
+                        }
+                        else if (Model.OrPrintStatus == 5)
+                        {
                             strColorstatus = "success";
-                            strStatrus = "ส่งมอบเรียบร้อยแล้ว";
+                            strStatrus = "ส่งมอบเสร็จสิ้น";
                             strIcon = "fas fa-check";
                         }
 
@@ -355,7 +389,7 @@
                         {
                             <div class="row" style="margin-bottom:2%">
                                 <div class="col-md-12" align="center">
-                                    <img src="/@ViewBag.getShippingImg" alt="รูปส่งมอบของ @ViewBag.OrPrintId" />
+                                    <img src="/@ViewBag.getShippingImg" alt="รูปส่งมอบของ @ViewBag.OrPrintId" width="100%" />
                                 </div>
                             </div>
                         }
@@ -377,14 +411,21 @@
 
                     </form>
                     <div class="row">
-                        @if (Model.OrPrintStatus == 4 || ViewBag.getShippingImg != null)
+                        @if (Model.OrPrintStatus == 5)
                         {
-                            <div class="col-md-6">
-                                <button class="btn btn-warning form-control" name="btnEdit" id="btnEdit" onclick="editshipping()">แก้ไข</button>
-                            </div>
-                            <div class="col-md-6">
-                                <button class="btn btn-danger form-control" name="btnDelete" id="btnDelete" onclick="deleteshipping()">ลบ</button>
-                            </div>
+
+                        }
+                        else
+                        {
+                            @if (Model.OrPrintStatus == 4 || ViewBag.getShippingImg != null)
+                            {
+                                <div class="col-md-6">
+                                    <button class="btn btn-warning form-control" name="btnEdit" id="btnEdit" onclick="editshipping()">แก้ไข</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-danger form-control" name="btnDelete" id="btnDelete" onclick="deleteshipping()">ลบ</button>
+                                </div>
+                            }
                         }
                     </div>
                 </div>
@@ -533,6 +574,7 @@
                 }
             })
         }
+
         function editworkstatus() {
             var OrPrintId = document.getElementById("OrPrintId").value;
             var OrPrintStatus = 2;

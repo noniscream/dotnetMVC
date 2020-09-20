@@ -12,6 +12,8 @@ namespace Graphiczone.Controllers
 {
     public class ProofPaymentController : Controller
     {
+        DateTime dt = DateTime.Now;
+
         private readonly GraphiczoneDBContext _graphiczoneDBContext;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -37,7 +39,7 @@ namespace Graphiczone.Controllers
         {
             if (HttpContext.Session.GetString("CusUsername") == null)
             {
-                return RedirectToAction("");
+                return View("../Customer/Login");
             }
             else
             {
@@ -46,12 +48,12 @@ namespace Graphiczone.Controllers
                 var cusId = getCusId.CusId;
                 if (id != null)
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && x.OrPrintId == id && x.CusId == cusId).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && x.OrPrintId == id && x.CusId == cusId && x.OrPrintDue >= dt.AddDays(4)).ToList();
                     return View(searchData);
                 }
                 else
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && id == null && x.CusId == cusId).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && id == null && x.CusId == cusId && x.OrPrintDue >= dt.AddDays(4)).ToList();
                     return View(searchData);
                 }
             }

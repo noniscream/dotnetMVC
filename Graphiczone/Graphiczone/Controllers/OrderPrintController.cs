@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
+using ReflectionIT.Mvc.Paging;
 
 namespace Graphiczone.Controllers
 {
@@ -46,7 +47,7 @@ namespace Graphiczone.Controllers
         {
             if (HttpContext.Session.GetString("UserUsername") == null)
             {
-                return RedirectToAction("");
+                return View("../User/Login");
             }
             else
             {
@@ -58,10 +59,106 @@ namespace Graphiczone.Controllers
                 }
                 else
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && id == null ).OrderByDescending(x => x.OrPrintStatus == 0).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && id == null ).OrderByDescending(x => x.OrPrintStatus == 0);
                     ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
+            }
+        }
+
+        public IActionResult ListOrderBin()
+        {
+            if (HttpContext.Session.GetString("UserUsername") == null)
+            {
+                return View("../User/Login");
+            }
+            else
+            {
+                var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == null || x.OrPrintStatus == 0 && x.OrPrintDue <= dt).OrderByDescending(x => x.OrPrintDue).ToList();
+                ViewBag.countData = searchData.Count();
+                return View(searchData);
+            }
+        }
+
+        public IActionResult ConfirmShipping(string id = "0")
+        {
+            if (id == "0")
+            {
+                return View();
+            }
+            else
+            {
+
+                var seachData = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+                var seachData2 = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+                if (seachData2 != null)
+                {
+                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).ToList();
+                    ViewBag.OrderList = orderDetailPrints;
+                    ViewBag.OrderPrintId = seachData.OrPrintId;
+                    ViewBag.OrStatus = seachData2.OrPrintStatus;
+                    ViewBag.OrderDate = seachData2.OrPrintDate;
+                    ViewBag.OrderDue = seachData2.OrPrintDue;
+                    var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
+                    ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
+                    var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
+                    ViewBag.PrintName = printname.PrintName;
+                    ViewBag.PriceTotal = seachData2.OrPrintTotal;
+                    var searchShipping = _graphiczoneDBContext.Shipping.Where(x => x.OrPrintId == id).FirstOrDefault();
+                    if(searchShipping != null)
+                    {
+                        ViewBag.picShipping = searchShipping.ShippingFile;
+                    }
+                    else
+                    {
+                        ViewBag.picShipping = null;
+                    }
+                }
+                return PartialView("_ConfirmShipping", seachData);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult updateshipping(OrderPrint orderPrint)
+        {
+            var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
+            if (searchData != null)
+            {
+                searchData.OrPrintStatus = orderPrint.OrPrintStatus;
+                _graphiczoneDBContext.SaveChanges();
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
+
+
+        }
+
+        [HttpPost]
+        public JsonResult deleteorderbin(OrderPrint orderPrint)
+        {
+            var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
+            if (searchData != null)
+            {
+                var searchlist = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == searchData.OrPrintId).ToList();
+                if(searchlist != null)
+                {
+                    for(int i = 1; i <= searchlist.Count; i++)
+                    {
+                        var searchorderdetail = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == searchData.OrPrintId).FirstOrDefault();
+                        _graphiczoneDBContext.Remove(searchorderdetail);
+                        _graphiczoneDBContext.SaveChanges();
+                    }
+                }
+                _graphiczoneDBContext.Remove(orderPrint);
+                _graphiczoneDBContext.SaveChanges();
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
             }
         }
 
@@ -165,7 +262,7 @@ namespace Graphiczone.Controllers
         {
             if (HttpContext.Session.GetString("UserUsername") == null)
             {
-                return RedirectToAction("");
+                return View("../User/Login");
             }
             else
             {
@@ -190,7 +287,7 @@ namespace Graphiczone.Controllers
         {
             if (HttpContext.Session.GetString("CusUsername") == null)
             {
-                return RedirectToAction("");
+                return View("../Customer/Login");
             }
             else
             {
@@ -217,7 +314,7 @@ namespace Graphiczone.Controllers
         {
             if (HttpContext.Session.GetString("CusUsername") == null)
             {
-                return RedirectToAction("");
+                return View("../Customer/Login");
             }
             else
             {
@@ -244,7 +341,7 @@ namespace Graphiczone.Controllers
         {
             if (HttpContext.Session.GetString("CusUsername") == null)
             {
-                return RedirectToAction("");
+                return View("../Customer/Login");
             }
             else
             {
@@ -254,12 +351,12 @@ namespace Graphiczone.Controllers
                 if (id != null)
                 {
 
-                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 3 && x.OrPrintStatus <= 4 && x.CusId == cusId && x.OrPrintId == id).ToList();
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 3 && x.OrPrintStatus <= 5 && x.CusId == cusId && x.OrPrintId == id).ToList();
                     return View(seachData);
                 }
                 else
                 {
-                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 3 && x.OrPrintStatus <= 4 && x.CusId == cusId && id == null).ToList();
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 3 && x.OrPrintStatus <= 5 && x.CusId == cusId && id == null).ToList();
                     return View(seachData);
                 }
             }
@@ -271,7 +368,7 @@ namespace Graphiczone.Controllers
         {
             if (HttpContext.Session.GetString("CusUsername") == null)
             {
-                return RedirectToAction("");
+                return View("../Customer/Login");
             }
             else
             {
@@ -574,7 +671,7 @@ namespace Graphiczone.Controllers
         {
             if (HttpContext.Session.GetString("UserUsername") == null)
             {
-                return RedirectToAction("");
+                return View("../User/Login");
             }
             else
             {
@@ -597,19 +694,19 @@ namespace Graphiczone.Controllers
         {
             if (HttpContext.Session.GetString("UserUsername") == null)
             {
-                return RedirectToAction("");
+                return View("../User/Login");
             }
             else
             {
                 if (id != null)
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && x.OrPrintId == id && x.OrPrintDue >= dt.AddDays(5)).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && x.OrPrintId == id && x.OrPrintDue >= dt.AddDays(4)).ToList();
                     ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
                 else
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && id == null && x.OrPrintDue >= dt.AddDays(5)).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && id == null && x.OrPrintDue >= dt.AddDays(4)).ToList();
                     ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }

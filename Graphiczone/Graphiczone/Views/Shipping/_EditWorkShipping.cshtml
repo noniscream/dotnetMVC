@@ -19,6 +19,10 @@
             visibility: visible;
         }
 </style>
+@{ 
+    double total = 0;
+    double tax = 0.07;
+}
 <div class="modal fade" id="EditWorkShipping">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
@@ -30,11 +34,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!--<div class="progress">
-                    <div class="progress-bar" role="progressbar"></div>
-                </div>
-                <hr class="bg-info" />-->
-
                 <div class="card">
                     <h5 class="card-header">บันทึกการส่งมอบ</h5>
                     <div class="card-body">
@@ -140,9 +139,25 @@
                                                     <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
                                                 </div>
                                             </div>
+                                            total += x.OrdPrintTotal;
                                         }
-                                        <div class="alert alert-success" align="center">
-                                            <h5>รวมเป็นเงิน : <b>@ViewBag.PriceTotal.ToString("#,###.00")</b> บาท</h5>
+                                        <div class="row mt-3">
+                                            <div class="col-md-4">
+                                                <div class="alert alert-primary" align="center">
+                                                    <h5>ราคาสุทธิ : <b>@total.ToString("#,###.00")</b> บาท</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="alert alert-warning" align="center">
+                                                    @{ total = total * tax;}
+                                                    <h5>ภาษี 7% เป็นเงิน : <b>@total.ToString("#,###.00")</b> บาท</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="alert alert-success" align="center">
+                                                    <h5>รวมเป็นเงิน : <b>@ViewBag.PriceTotal.ToString("#,###.00")</b> บาท</h5>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

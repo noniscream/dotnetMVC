@@ -32,7 +32,7 @@ namespace Graphiczone.Controllers
         {
             if (HttpContext.Session.GetString("UserUsername") == null)
             {
-                return RedirectToAction("");
+                return View("../User/Login");
             }
             else
             {

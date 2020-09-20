@@ -19,11 +19,11 @@
             visibility: visible;
         }
 </style>
-@{ 
+@{
     double total = 0;
     double tax = 0.07;
 }
-<div class="modal fade" id="OrderDetailforOverdue">
+<div class="modal fade" id="ConfirmShipping">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -123,6 +123,32 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="table-row">
+                                            <div class="table-cell last-cell">
+                                                <div>
+                                                    <h4 align="center">หลักฐานการส่งมอบ</h4>
+                                                </div>
+                                                <img src="/@ViewBag.picShipping" width="100%" />
+                                            </div>
+                                        </div>
+                                        @if (ViewBag.picShipping != null && ViewBag.OrStatus <= 4)
+                                        {
+                                            <div align="center" style="margin-top:2%">
+                                                <button type="button" class="btn btn-outline-success badge-pill" onclick="check()">ยืนยันการส่งมอบ</button>
+                                            </div>
+                                        }
+                                        else if (ViewBag.OrStatus == 5)
+                                        {
+                                            <div align="center" style="margin-top:2%">
+                                                <button type="button" class="btn btn-outline-danger badge-pill" onclick="checkx()">ปฏิเสธการส่งมอบ</button>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div align="center" style="margin-top:2%">
+                                                <button type="button" class="btn btn-outline-danger badge-pill" onclick="check()" disabled>ยืนยันการส่งมอบ</button>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -137,3 +163,82 @@
         </div>
     </div>
 </div>
+
+
+
+<script>
+        function check() {
+            swal({
+                title: "กรุณายืนยันการทำรายการ",
+                text: "คุณต้องการยืนยันการส่งมอบรายการที่ : @ViewBag.OrderPrintId ใช่หรือไม่",
+                icon: "warning",
+                buttons:["ยกเลิก","ยืนยัน"],
+            }).then((willupdate) => {
+                if (willupdate) {
+                    confirmshipping();
+                } else {
+                    swal({
+                        title: "ยกเลิกสำเร็จ",
+                        text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
+                        icon:"success",
+                    });
+                }
+            })
+        }
+        function confirmshipping() {
+            var OrPrintId = document.getElementById("OrderPrintId").value;
+            var OrPrintStatus = 5;
+            $.ajax({
+                type: "post",
+                data: { OrPrintId, OrPrintStatus },
+                url: "/OrderPrint/updateshipping",
+                success: function (result) {
+                    if (result == 1) {
+                        toastr.success("คุณได้ยืนยันการส่งมอบรายการที่ : @ViewBag.OrderPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                        setTimeout(function fetch() {
+                            window.location.href = ("/OrderPrint/ListCustomerWorkShipping");
+                        },1500);
+                    } else {
+                        toastr.error("รายการสั่งทำที่ : @ViewBag.OrderPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    }
+                }
+            })
+    }
+    function checkx() {
+            swal({
+                title: "กรุณายืนยันการทำรายการ",
+                text: "คุณต้องการปฏิเสธการส่งมอบรายการที่ : @ViewBag.OrderPrintId ใช่หรือไม่",
+                icon: "warning",
+                buttons:["ยกเลิก","ยืนยัน"],
+            }).then((willupdate) => {
+                if (willupdate) {
+                    confirmshippingx();
+                } else {
+                    swal({
+                        title: "ยกเลิกสำเร็จ",
+                        text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
+                        icon:"success",
+                    });
+                }
+            })
+        }
+        function confirmshippingx() {
+            var OrPrintId = document.getElementById("OrderPrintId").value;
+            var OrPrintStatus = 4;
+            $.ajax({
+                type: "post",
+                data: { OrPrintId, OrPrintStatus },
+                url: "/OrderPrint/updateshipping",
+                success: function (result) {
+                    if (result == 1) {
+                        toastr.success("คุณได้ปฏิเสธการส่งมอบรายการที่ : @ViewBag.OrderPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                        setTimeout(function fetch() {
+                            window.location.href = ("/OrderPrint/ListCustomerWorkShipping");
+                        },1500);
+                    } else {
+                        toastr.error("รายการสั่งทำที่ : @ViewBag.OrderPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    }
+                }
+            })
+        }
+</script>

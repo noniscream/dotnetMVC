@@ -4,6 +4,35 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+<style>
+    input[type="radio"]{
+        display:none;
+    }
+    .radio label {
+        color: #0094ff;
+        border: 2px solid #0094ff;
+        border-radius:5px;
+        padding:10px;
+        display:flex;
+        align-items:center;
+    }
+    .radio label:hover {
+        box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.30);
+    }
+    input[type="radio"]:checked + label {
+        background-color: #0094ff;
+        color: white;
+        box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.30);
+        font-weight:bold;
+    }
+    input[type="radio"]:checked + label:before {
+        border: 10px solid white;
+        background-color: #0094ff;
+        color: white;
+        box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.30);
+    }
+</style>
+
 <h1>รายงาน</h1>
 <hr class="bg-secondary" />
 
@@ -11,6 +40,46 @@
 <div class="row">
     <div class="col-md-12">
         <form>
+            <div class="form-group radio">
+                <div class="row" style="margin-bottom:5px">
+                    <div class="col-md-3" >
+                        <input class="btn badge-pill" type="radio" name="typereport" id="service" value="1" onclick="checktype()" />
+                        <label for="service">บริการ</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="btn badge-pill" type="radio" name="typereport" id="allincome" value="2" onclick="checktype()" />
+                        <label for="allincome">รายได้ทั้งหมด</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="btn badge-pill" type="radio" name="typereport" id="paid" value="3" onclick="checktype()" />
+                        <label for="paid">รายได้ที่ลูกค้าชำระเงินแล้ว</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="btn badge-pill" type="radio" name="typereport" id="overdue" value="4" onclick="checktype()" />
+                        <label for="overdue">รายได้ที่ลูกค้าค้างชำระ</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="btn badge-pill" type="radio" name="typereport" id="working" value="5" onclick="checktype()" />
+                        <label for="working">กำลังผลิตอยู่</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="btn badge-pill" type="radio" name="typereport" id="workdone" value="6" onclick="checktype()" />
+                        <label for="workdone">ผลิตเสร็จแล้ว</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="btn badge-pill" type="radio" name="typereport" id="shipping" value="7" onclick="checktype()" />
+                        <label for="shipping">กำลังจัดส่ง</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="btn badge-pill" type="radio" name="typereport" id="shippingfinish" value="8" onclick="checktype()" />
+                        <label for="shippingfinish">จัดส่งเสร็จแล้ว</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="btn badge-pill" type="radio" name="typereport" id="user" value="9" onclick="checktype()" />
+                        <label for="user">พนักงาน</label>
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <div class="row" style="margin-bottom:5px">
                     <div class="col-md-6">
@@ -19,7 +88,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="CID"><i class="far fa-calendar-check text-success" id="CID"></i></span>
                             </div>
-                            <input class="form-control" type="date" id="datestart" name="datestart">
+                            <input class="form-control" type="date" id="datestart" name="datestart" required>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -28,64 +97,17 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="CID"><i class="fas fa-calendar-check text-danger" id="CID"></i></span>
                             </div>
-                            <input class="form-control" type="date" id="dateend" name="dateend">
+                            <input class="form-control" type="date" id="dateend" name="dateend" required>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="row" style="margin-bottom:5px">
-                    <div class="col-md-3">
-
-                    </div>
-                    <div class="col-md-3">
-
-                    </div>
-                    <div class="col-md-3">
-
-                    </div>
-                    <div class="col-md-3">
-
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="row" style="margin-bottom:5px">
-                    <div class="col-md-3">
-                        <input class="btn badge-pill" type="radio" name="typereport" id="service" value="1" />
-                        <label>บริการ</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input class="btn badge-pill" type="radio" name="typereport" id="allincome" value="2" />
-                        <label>รายได้ทั้งหมด</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input class="btn badge-pill" type="radio" name="typereport" id="paid" value="3" />
-                        <label>รายได้ที่ลูกค้าชำระเงินแล้ว</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input class="btn badge-pill" type="radio" name="typereport" id="overdue" value="4" />
-                        <label>รายได้ที่ลูกค้าค้างชำระ</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input class="btn badge-pill" type="radio" name="typereport" id="working" value="5" />
-                        <label>กำลังผลิตอยู่</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input class="btn badge-pill" type="radio" name="typereport" id="workdone" value="6" />
-                        <label>ผลิตเสร็จแล้ว</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input class="btn badge-pill" type="radio" name="typereport" id="shipping" value="7" />
-                        <label>กำลังจัดส่ง</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input class="btn badge-pill" type="radio" name="typereport" id="shippingfinish" value="8" />
-                        <label>จัดส่งเสร็จแล้ว</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input class="btn badge-pill" type="radio" name="typereport" id="user" value="9" />
-                        <label>พนักงาน</label>
+            <div class="form-group" align="right">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <input style="margin-top:5px" type="checkbox" id="all" onclick="alldate()"/><label style="margin:0 5px" for="all">วันทั้งหมด</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -95,6 +117,16 @@
 </div>
 
 <script>
+    function alldate() {
+        if (document.getElementById("all").checked == true) {
+            document.getElementById("datestart").valueAsDate = new Date(2000,1,1);
+            document.getElementById("dateend").valueAsDate = new Date();
+        } else {
+            document.getElementById("datestart").value = '';
+            document.getElementById("dateend").value = '';
+        }
+    }
+
     var radvalue = 0;
     function searchreport() {
         checktype();
@@ -106,7 +138,7 @@
             url: "/OrderPrint/Report",
             success: function (result) {
                 if (result == 0) {
-                    alert("0");
+
                 }else if (result == 1) {
                     window.open('@Url.Action("ReportService","OrderPrint")')
                 }else if (result == 2) {
@@ -115,11 +147,15 @@
                     window.open('@Url.Action("ReportPaid", "OrderPrint")')
                 }else if (result == 4) {
                     window.open('@Url.Action("ReportOverdue", "OrderPrint")')
-                } @*else if (result == 5) {
+                }else if (result == 5) {
                     window.open('@Url.Action("Reportworking","OrderPrint")')
-                } else if (result == 6) {
+                }else if (result == 6) {
                     window.open('@Url.Action("Reportworkdone","OrderPrint")')
-                }*@else if (result == 9) {
+                }else if (result == 7) {
+                    window.open('@Url.Action("Reportshipping","OrderPrint")')
+                }else if (result == 8) {
+                    window.open('@Url.Action("Reportshippingfinish","OrderPrint")')
+                }else if (result == 9) {
                     window.open('@Url.Action("ReportUser", "OrderPrint")')
                 }
             }
@@ -132,24 +168,67 @@
         var paid = document.getElementById("paid");
         var overdue = document.getElementById("overdue");
         var working = document.getElementById("working");
-        var success = document.getElementById("workdone");
+        var workdone = document.getElementById("workdone");
+        var shipping = document.getElementById("shipping");
+        var shippingfinish = document.getElementById("shippingfinish");
         var user = document.getElementById("user");
         if (service.checked == true) {
             radvalue = 1;
+            document.getElementById("datestart").disabled = true;
+            document.getElementById("dateend").disabled = true;
+            document.getElementById("all").disabled = true;
+
         }else if (allincome.checked == true) {
             radvalue = 2;
+            document.getElementById("datestart").disabled = false;
+            document.getElementById("dateend").disabled = false;
+            document.getElementById("all").disabled = false;
+
         } else if (paid.checked == true) {
             radvalue = 3;
+            document.getElementById("datestart").disabled = false;
+            document.getElementById("dateend").disabled = false;
+            document.getElementById("all").disabled = false;
+
         } else if (overdue.checked == true) {
             radvalue = 4;
+            document.getElementById("datestart").disabled = false;
+            document.getElementById("dateend").disabled = false;
+            document.getElementById("all").disabled = false;
+
         }
-        //else if (working.checked == true) {
-        //    radvalue = 5;
-        //} else if (success.checked == true) {
-        //    radvalue = 6;
-        //}
+        else if (working.checked == true) {
+            radvalue = 5;
+            document.getElementById("datestart").disabled = true;
+            document.getElementById("dateend").disabled = true;
+            document.getElementById("all").disabled = true;
+
+        }
+        else if (workdone.checked == true) {
+            radvalue = 6;
+            document.getElementById("datestart").disabled = false;
+            document.getElementById("dateend").disabled = false;
+            document.getElementById("all").disabled = false;
+
+        }
+        else if (shipping.checked == true) {
+            radvalue = 7;
+            document.getElementById("datestart").disabled = true;
+            document.getElementById("dateend").disabled = true;
+            document.getElementById("all").disabled = true;
+        }
+        else if (shippingfinish.checked == true) {
+            radvalue = 8;
+            document.getElementById("datestart").disabled = false;
+            document.getElementById("dateend").disabled = false;
+            document.getElementById("all").disabled = false;
+        }
         else if (user.checked == true) {
             radvalue = 9;
+            document.getElementById("datestart").disabled = true;
+            document.getElementById("dateend").disabled = true;
+            document.getElementById("all").disabled = true;
         }
     }
+
 </script>

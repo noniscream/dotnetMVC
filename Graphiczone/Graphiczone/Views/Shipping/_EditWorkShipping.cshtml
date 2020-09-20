@@ -68,9 +68,6 @@
                                     <button type="submit" id="btnSave" class="btn btn-outline-success badge-pill">บันทึก</button>
                                 </div>
                             </form>
-                            <!--<div align="center" style="margin-top:2%">
-                                <button type="submit" class="btn btn-outline-success badge-pill" onclick="checkdatenull()">บันทึก</button>
-                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -92,11 +89,6 @@
                                     <label>กำหนดรับวันที่ : @ViewBag.OrderDue.ToString("dd MMMM yyyy")</label>
                                 </div>
                             </div>
-                            <!--<div class="row">
-                                <div class="col-md-6 offset-3">
-                                    <label>เหลือเวลาอีก : @ViewBag.TotalDate.ToString("dd") วัน</label>
-                                </div>
-                            </div>-->
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-box">
@@ -188,91 +180,4 @@
         })
     })
 
-        @*$(document).ready(function getProgress() {
-            var width = 0;
-            var move = setInterval(x, 0);
-            function x() {
-                if (width == 70) {
-                    $('.progress-bar').css('background-color', "green");
-                    clearInterval(move);
-                } else {
-                    width++;
-                    $('.progress-bar').css('width', width + '%');
-
-                }
-            }
-        });
-
-    function updateData(formData) {
-        var ajaxConfig = {
-            type: "post",
-            url: "/Shipping/upload",
-            data: new FormData(formData),
-            susccess: function (result) {
-                toastr.success("xxx", { timeOut: 3000, "closeButton": true });
-                setTimeout(function fetch() {
-                    window.location.href = ("/Shipping/ListWorkShipping");
-                }, 3000);
-            }
-
-        }
-
-        if ($(formDate).attr('enctype') == "multipart/form-data") {
-            ajaxConfig["contentType"] = false;
-            ajaxConfig["processData"] = false;
-
-        }
-        $.ajax(ajaxConfig);
-        return false;
-    }
-
-    function checkdatenull() {
-        if (document.getElementById("ShippingDate").value == "") {
-            toastr.error("กรุณากรอกข้อมูลให้ครบถ้วน", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
-        } else {
-            add();
-        }
-    }
-    function add() {
-            swal({
-                title: "กรุณายืนยันการทำรายการ",
-                text: "คุณต้องการบันทึกการส่งมอบ รายการที่ : @ViewBag.OrderPrintId ใช่หรือไม่",
-                icon: "warning",
-                buttons:["ยกเลิก","ยืนยัน"],
-            }).then((willupdate) => {
-                if (willupdate) {
-                    editworkstatus();
-                } else {
-                    swal({
-                        title: "ยกเลิกสำเร็จ",
-                        text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
-                        icon:"success",
-                    });
-                }
-            })
-        }
-        function editworkstatus() {
-            var OrPrintId = document.getElementById("OrderPrintId").value;
-            var OrPrintStatus = 3;
-            var Progressbar = $('.progress-bar')
-            var ShippingDate = document.getElementById("ShippingDate").value;
-            var ShippingFile = document.getElementById("Uploadfile").value;
-            $.ajax({
-                type: "post",
-                data: { OrPrintId, OrPrintStatus, ShippingDate, ShippingFile },
-                url: "/Shipping/update",
-                success: function (result) {
-                    if (result == 1) {
-                        Progressbar.css('width', 100+'%');
-                        Progressbar.css('background-color', "green");
-                        toastr.success("บันทึกการจัดส่ง รายการสั่งทำที่ : @ViewBag.OrderPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
-                        setTimeout(function fetch() {
-                            window.location.href = ("/Shipping/ListWorkShipping");
-                        },3000);
-                    } else {
-                        toastr.error("รายการสั่งทำที่ : @ViewBag.OrderPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
-                    }
-                }
-            })
-        }*@
 </script>

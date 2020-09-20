@@ -1,17 +1,14 @@
 ﻿@model IEnumerable<Graphiczone.Models.SQLServer.OrderPrint>
 @{
-    ViewData["Title"] = "ReportWorking";
+    ViewData["Title"] = "ReportShipping";
     Layout = "~/Views/Shared/_formatReport.cshtml";
 }
 
-<h4 style="top:0;">รายงานสื่อสิ่งพิมพ์ที่กำลังผลิต</h4>
+<h4 style="top:0;">รายงานสื่อสิ่งพิมพ์ที่รอส่งมอบ</h4>
 <h6 align="right"><label align="right">วันที่เรียกดู @DateTime.Now.ToString("dddd dd MMMM yyyy")</label></h6>
-
-<table class="table" style="margin-top:50px">
+<table class="table" style="margin-top:2px">
     @{
         var countlist = 0;
-        double totallist = 0;
-        double tax = 0.07;
     }
     @foreach (var x in Model)
     {
@@ -58,7 +55,6 @@
                         <td align="right">@i.OrdPrintTotal.ToString("#,###.00")</td>
                     </tr>
                     countlist += 1;
-                    totallist += i.OrdPrintTotal;
                 }
                 else
                 {
@@ -68,18 +64,11 @@
         </tbody>
         <tbody align="right">
             <tr>
-                <td colspan="4" align="center"><b>ทั้งหมด @countlist รายการ</b></td>
-                <td colspan="1">ราคาสุทธิ : @totallist.ToString("#,###.00")</td>
-            </tr>
-        </tbody>
-        <tbody align="right">
-            <tr>
-                <td colspan="4" align="right">ภาษี (7%) : @{totallist = totallist * tax;} @totallist.ToString("#,###.00")</td>
-                <td colspan="1">รวมเป็นเงิน : @x.OrPrintTotal.Value.ToString("#,###.00")</td>
+                <td colspan="5" align="center"><b>ทั้งหมด @countlist รายการ</b></td>
             </tr>
         </tbody>
         </tbody>
         countlist = 0;
-        totallist = 0;
     }
+
 </table>

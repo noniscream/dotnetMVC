@@ -5,33 +5,37 @@
     Layout = "~/Views/Shared/_formatReport.cshtml";
 }
 <h4 style="top:0;">รายงานรายได้รวมทั้งหมด</h4>
-<h6 align="center"><label>ตั้งแต่ @ViewBag.dateS จนถึง @ViewBag.dateE</label></h6>
+<h6 align="center"><label>ตั้งแต่ @ViewBag.Start.ToString("dd MMM yyyy") จนถึง @ViewBag.End.ToString("dd MMM yyyy")</label></h6>
 <h6 align="right"><label align="right">วันที่เรียกดู @DateTime.Now.ToString("dddd dd MMMM yyyy")</label></h6>
 
-<table class="table table-striped" style="margin-top:2px">
+<table class="table" style="margin-top:2px">
+    @{
+        var countlist = 0;
+        double totallist = 0;
+        double tax = 0.07;
+        double totalincome = 0;
+    }
 
     @foreach (var x in Model)
     {
-        <thead class="thead-dark">
-            <tr align="center">
-                <th >รหัสสั่งทำ</th>
-                <th></th>
-                <th >สั่งทำวันที่</th>
-                <th>กำหนดส่งวันที่</th>
-                <th>รหัสลูกค้าที่สั่ง</th>
+        <thead>
+            <tr>
+                <th colspan="2" align="left">รหัสสั่งทำ</th>
+                <th align="center">สั่งทำวันที่</th>
+                <th align="center">กำหนดส่งวันที่</th>
+                <th align="center">รหัสลูกค้าที่สั่ง</th>
             </tr>
         </thead>
         <tbody align="left">
             <tr>
-                <td align="right">@x.OrPrintId</td>
-                <td align="right"></td>
-                <td align="right">@x.OrPrintDate.Value.ToString("dd MMM yyyy")</td>
-                <td align="right">@x.OrPrintDue.Value.ToString("dd MMM yyyy")</td>
-                <td align="right">@x.CusId</td>
+                <td colspan="2">@x.OrPrintId</td>
+                <td >@x.OrPrintDate.Value.ToString("dd MMM yyyy")</td>
+                <td >@x.OrPrintDue.Value.ToString("dd MMM yyyy")</td>
+                <td >@x.CusId</td>
             </tr>
-        <thead class="thead-dark">
+        <thead>
             <tr align="center">
-                <th >รหัสรายการสั่งทำ</th>
+                <th>รหัสรายการสั่งทำ</th>
                 <th>ป้าย</th>
                 <th>พื้นที่รวม (ตร.ม.)</th>
                 <th>จำนวน/หน่วย</th>
@@ -44,10 +48,10 @@
                 if (i.OrPrintId == x.OrPrintId)
                 {
                     <tr>
-                        <td align="right">@i.OrdPrintId</td>  
-                        @foreach(var s in ViewBag.listprint)
+                        <td align="right">@i.OrdPrintId</td>
+                        @foreach (var s in ViewBag.listprint)
                         {
-                            if(i.PrintId == s.PrintId)
+                            if (i.PrintId == s.PrintId)
                             {
                                 <td align="center">@s.PrintName (@i.OrdPrintWidth X @i.OrdPrintHeight)</td>
                             }
@@ -56,6 +60,9 @@
                         <td align="right">@i.OrdPrintNum</td>
                         <td align="right">@i.OrdPrintTotal.ToString("#,###.00")</td>
                     </tr>
+                    countlist += 1;
+                    totallist += i.OrdPrintTotal;
+                    
                 }
                 else
                 {
@@ -65,10 +72,27 @@
         </tbody>
         <tbody align="right">
             <tr>
-                <th colspan="5">รวมภาษีทั้งหมด : @x.OrPrintTotal.Value.ToString("#,###.00")</th>
+                <td colspan="4" align="center"><b>ทั้งหมด @countlist รายการ</b></td>
+                <td colspan="1">ราคาสุทธิ : @totallist.ToString("#,###.00")</td>
+            </tr>
+        </tbody>
+        <tbody align="right">
+            <tr>
+                <td colspan="4" align="right">ภาษี (7%) : @{totallist = totallist * tax;} @totallist.ToString("#,###.00")</td>
+                <td colspan="1">รวมเป็นเงิน : @x.OrPrintTotal.Value.ToString("#,###.00")</td>
             </tr>
         </tbody>
         </tbody>
+        totalincome += @Convert.ToDouble(x.OrPrintTotal);
+        countlist = 0;
+        totallist = 0;
+        
     }
+
+<tbody align="center" style="margin-top:2px">
+    <tr>
+        <td colspan="5"><h4>รวมเป็นเงิน : @totalincome.ToString("#,###.00") บาท</h4></td>
+    </tr>
+</tbody>
 </table>
 

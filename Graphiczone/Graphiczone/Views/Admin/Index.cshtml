@@ -223,9 +223,11 @@
                                         </tr>
                                     }
                                 }
-                                else
+                                @if (ViewBag.countOrLatest == 0)
                                 {
-
+                                    <tr>
+                                        <td colspan="4" align="center"><b>ไม่พบข้อมูลรายการสั่งล่าสุด</b></td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>

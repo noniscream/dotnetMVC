@@ -52,13 +52,13 @@ namespace Graphiczone.Controllers
             {
                 if (id != null)
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && x.OrPrintId == id && x.OrPrintDue >= dt.AddDays(5)).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && x.OrPrintId == id ).ToList();
                     ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
                 else
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && id == null && x.OrPrintDue >= dt.AddDays(5)).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && id == null ).ToList();
                     ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
@@ -682,7 +682,10 @@ namespace Graphiczone.Controllers
 
         public IActionResult Report(int radvalue, DateTime datestart, DateTime dateend)
         {
-
+            string dates = datestart.AddYears(543).ToString("dd MMM yyyy");
+            string datee = dateend.AddYears(543).ToString("dd MMM yyyy");
+            HttpContext.Session.SetString("dates", dates);
+            HttpContext.Session.SetString("datee", datee);
             if (radvalue == 0)
             {
                 return Json(0);
@@ -711,6 +714,14 @@ namespace Graphiczone.Controllers
             {
                 return Json(6);
             }
+            else if (radvalue == 7)
+            {
+                return Json(7);
+            }
+            else if (radvalue == 8)
+            {
+                return Json(8);
+            }
             else if (radvalue == 9)
             {
                 return Json(9);
@@ -718,195 +729,6 @@ namespace Graphiczone.Controllers
             else
             {
                 return View();
-            }
-
-        }
-
-        public IActionResult ReportWorking()
-        {
-            if (HttpContext.Session.GetString("AdminUsername") == null)
-            {
-                return View("../Admin/Login");
-            }
-            else
-            {
-                var searchShop = _graphiczoneDBContext.Shop.Where(x => x.ShopId == "SG001").FirstOrDefault();
-                if (searchShop != null)
-                {
-                    ViewBag.getShoplogo = searchShop.ShopLogo;
-                    ViewBag.getShopname = searchShop.ShopName;
-                    ViewBag.getShopaddress = searchShop.ShopAddress;
-                    ViewBag.getShoptel = searchShop.ShopTel;
-                    ViewBag.getShopfax = searchShop.ShopFax;
-                    ViewBag.getShopemail = searchShop.ShopEmail;
-                    ViewBag.getShopline = searchShop.ShopLine;
-                }
-                var searchReWorking = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2).ToList();
-                if (searchReWorking != null)
-                {
-                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
-                    ViewBag.list = orderDetailPrints;
-                    List<Print> prints = _graphiczoneDBContext.Print.ToList();
-                    ViewBag.listprint = prints;
-                }
-
-                return View("../ViewReport/ReportWorking", searchReWorking);
-            }
-        }
-
-        public IActionResult ReportWorkdone()
-        {
-            if (HttpContext.Session.GetString("AdminUsername") == null)
-            {
-                return View("../Admin/Login");
-            }
-            else
-            {
-                var searchShop = _graphiczoneDBContext.Shop.Where(x => x.ShopId == "SG001").FirstOrDefault();
-                if (searchShop != null)
-                {
-                    ViewBag.getShoplogo = searchShop.ShopLogo;
-                    ViewBag.getShopname = searchShop.ShopName;
-                    ViewBag.getShopaddress = searchShop.ShopAddress;
-                    ViewBag.getShoptel = searchShop.ShopTel;
-                    ViewBag.getShopfax = searchShop.ShopFax;
-                    ViewBag.getShopemail = searchShop.ShopEmail;
-                    ViewBag.getShopline = searchShop.ShopLine;
-                }
-                var searchReWorkdone = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 3).ToList();
-                if (searchReWorkdone != null)
-                {
-                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
-                    ViewBag.list = orderDetailPrints;
-                    List<Print> prints = _graphiczoneDBContext.Print.ToList();
-                    ViewBag.listprint = prints;
-                }
-                return View("../ViewReport/ReportWorkdone", searchReWorkdone);
-            }
-        }
-
-        public IActionResult ReportAllincome()
-        {
-            if (HttpContext.Session.GetString("AdminUsername") == null)
-            {
-                return View("../Admin/Login");
-            }
-            else
-            {
-                var searchShop = _graphiczoneDBContext.Shop.Where(x => x.ShopId == "SG001").FirstOrDefault();
-                if (searchShop != null)
-                {
-                    ViewBag.getShoplogo = searchShop.ShopLogo;
-                    ViewBag.getShopname = searchShop.ShopName;
-                    ViewBag.getShopaddress = searchShop.ShopAddress;
-                    ViewBag.getShoptel = searchShop.ShopTel;
-                    ViewBag.getShopfax = searchShop.ShopFax;
-                    ViewBag.getShopemail = searchShop.ShopEmail;
-                    ViewBag.getShopline = searchShop.ShopLine;
-                }
-                var searchReAllincome = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus <= 4).ToList();
-                if (searchReAllincome != null)
-                {
-                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
-                    ViewBag.list = orderDetailPrints;
-                    List<Print> prints = _graphiczoneDBContext.Print.ToList();
-                    ViewBag.listprint = prints;
-                }
-                return View("../ViewReport/ReportAllincome", searchReAllincome);
-            }
-        }
-
-        public IActionResult ReportPaid()
-        {
-            if (HttpContext.Session.GetString("AdminUsername") == null)
-            {
-                return View("../Admin/Login");
-            }
-            else
-            {
-                var searchShop = _graphiczoneDBContext.Shop.Where(x => x.ShopId == "SG001").FirstOrDefault();
-                if (searchShop != null)
-                {
-                    ViewBag.getShoplogo = searchShop.ShopLogo;
-                    ViewBag.getShopname = searchShop.ShopName;
-                    ViewBag.getShopaddress = searchShop.ShopAddress;
-                    ViewBag.getShoptel = searchShop.ShopTel;
-                    ViewBag.getShopfax = searchShop.ShopFax;
-                    ViewBag.getShopemail = searchShop.ShopEmail;
-                    ViewBag.getShopline = searchShop.ShopLine;
-                }
-                var searchRePaid = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 2).ToList();
-                if (searchRePaid != null)
-                {
-                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
-                    ViewBag.list = orderDetailPrints;
-                    List<Print> prints = _graphiczoneDBContext.Print.ToList();
-                    ViewBag.listprint = prints;
-                }
-                return View("../ViewReport/ReportPaid", searchRePaid);
-            }
-        }
-
-        public IActionResult ReportOverdue()
-        {
-            if (HttpContext.Session.GetString("AdminUsername") == null)
-            {
-                return View("../Admin/Login");
-            }
-            else
-            {
-                var searchShop = _graphiczoneDBContext.Shop.Where(x => x.ShopId == "SG001").FirstOrDefault();
-                if (searchShop != null)
-                {
-                    ViewBag.getShoplogo = searchShop.ShopLogo;
-                    ViewBag.getShopname = searchShop.ShopName;
-                    ViewBag.getShopaddress = searchShop.ShopAddress;
-                    ViewBag.getShoptel = searchShop.ShopTel;
-                    ViewBag.getShopfax = searchShop.ShopFax;
-                    ViewBag.getShopemail = searchShop.ShopEmail;
-                    ViewBag.getShopline = searchShop.ShopLine;
-                }
-                var searchReOverdue = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus < 2).ToList();
-                if (searchReOverdue != null)
-                {
-                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
-                    ViewBag.list = orderDetailPrints;
-                    List<Print> prints = _graphiczoneDBContext.Print.ToList();
-                    ViewBag.listprint = prints;
-                }
-                return View("../ViewReport/ReportOverdue", searchReOverdue);
-            }
-        }
-
-        public IActionResult ReportUser()
-        {
-            if (HttpContext.Session.GetString("AdminUsername") == null)
-            {
-                return View("../Admin/Login");
-            }
-            else
-            {
-                var searchShop = _graphiczoneDBContext.Shop.Where(x => x.ShopId == "SG001").FirstOrDefault();
-                if (searchShop != null)
-                {
-                    ViewBag.getShoplogo = searchShop.ShopLogo;
-                    ViewBag.getShopname = searchShop.ShopName;
-                    ViewBag.getShopaddress = searchShop.ShopAddress;
-                    ViewBag.getShoptel = searchShop.ShopTel;
-                    ViewBag.getShopfax = searchShop.ShopFax;
-                    ViewBag.getShopemail = searchShop.ShopEmail;
-                    ViewBag.getShopline = searchShop.ShopLine;
-
-                }
-                var searchReUser = _graphiczoneDBContext.User.ToList();
-                //if (searchReUser != null)
-                //{
-                //    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
-                //    ViewBag.list = orderDetailPrints;
-                //    List<Print> prints = _graphiczoneDBContext.Print.ToList();
-                //    ViewBag.listprint = prints;
-                //}
-                return View("../ViewReport/ReportUser", searchReUser);
             }
         }
 
@@ -918,27 +740,233 @@ namespace Graphiczone.Controllers
             }
             else
             {
-                var searchShop = _graphiczoneDBContext.Shop.Where(x => x.ShopId == "SG001").FirstOrDefault();
-                if (searchShop != null)
-                {
-                    ViewBag.getShoplogo = searchShop.ShopLogo;
-                    ViewBag.getShopname = searchShop.ShopName;
-                    ViewBag.getShopaddress = searchShop.ShopAddress;
-                    ViewBag.getShoptel = searchShop.ShopTel;
-                    ViewBag.getShopfax = searchShop.ShopFax;
-                    ViewBag.getShopemail = searchShop.ShopEmail;
-                    ViewBag.getShopline = searchShop.ShopLine;
-
-                }
+                getViewbagshopdetail();
                 var searchReSer = _graphiczoneDBContext.TypePrint.ToList();
                 if (searchReSer != null)
                 {
-                    //List<TypePrint> typePrints = _graphiczoneDBContext.TypePrint.ToList();
-                    //ViewBag.listtype = typePrints;
                     List<Print> prints = _graphiczoneDBContext.Print.ToList();
                     ViewBag.listprint = prints;
                 }
+                HttpContext.Session.Remove("dates");
+                HttpContext.Session.Remove("datee");
                 return View("../ViewReport/ReportService", searchReSer);
+            }
+        }
+        public IActionResult ReportAllincome()
+        {
+            DateTime Start = Convert.ToDateTime(HttpContext.Session.GetString("dates"));
+            DateTime End = Convert.ToDateTime(HttpContext.Session.GetString("datee"));
+            ViewBag.Start = Start;
+            ViewBag.End = End;
+            if (HttpContext.Session.GetString("AdminUsername") == null)
+            {
+                return View("../Admin/Login");
+            }
+            else
+            {
+                getViewbagshopdetail();
+                var searchReAllincome = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus <= 4 && x.OrPrintDate >= Start && x.OrPrintDate <= End).ToList();
+                if (searchReAllincome != null)
+                {
+                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
+                    ViewBag.list = orderDetailPrints;
+                    List<Print> prints = _graphiczoneDBContext.Print.ToList();
+                    ViewBag.listprint = prints;
+                }
+                HttpContext.Session.Remove("dates");
+                HttpContext.Session.Remove("datee");
+                return View("../ViewReport/ReportAllincome", searchReAllincome);
+            }
+        }
+
+        public IActionResult ReportPaid()
+        {
+            DateTime Start = Convert.ToDateTime(HttpContext.Session.GetString("dates"));
+            DateTime End = Convert.ToDateTime(HttpContext.Session.GetString("datee"));
+            ViewBag.Start = Start;
+            ViewBag.End = End;
+            if (HttpContext.Session.GetString("AdminUsername") == null)
+            {
+                return View("../Admin/Login");
+            }
+            else
+            {
+                getViewbagshopdetail();
+                var searchRePaid = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 2 && x.OrPrintDate >= Start && x.OrPrintDate <= End).ToList();
+                if (searchRePaid != null)
+                {
+                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
+                    ViewBag.list = orderDetailPrints;
+                    List<Print> prints = _graphiczoneDBContext.Print.ToList();
+                    ViewBag.listprint = prints;
+                }
+                HttpContext.Session.Remove("dates");
+                HttpContext.Session.Remove("datee");
+                return View("../ViewReport/ReportPaid", searchRePaid);
+            }
+        }
+
+        public IActionResult ReportOverdue()
+        {
+            DateTime Start = Convert.ToDateTime(HttpContext.Session.GetString("dates"));
+            DateTime End = Convert.ToDateTime(HttpContext.Session.GetString("datee"));
+            ViewBag.Start = Start;
+            ViewBag.End = End;
+            if (HttpContext.Session.GetString("AdminUsername") == null)
+            {
+                return View("../Admin/Login");
+            }
+            else
+            {
+                getViewbagshopdetail();
+                var searchReOverdue = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus < 2 && x.OrPrintDate >= Start && x.OrPrintDate <= End).ToList();
+                if (searchReOverdue != null)
+                {
+                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
+                    ViewBag.list = orderDetailPrints;
+                    List<Print> prints = _graphiczoneDBContext.Print.ToList();
+                    ViewBag.listprint = prints;
+                }
+                HttpContext.Session.Remove("dates");
+                HttpContext.Session.Remove("datee");
+                return View("../ViewReport/ReportOverdue", searchReOverdue);
+            }
+        }
+
+        public IActionResult ReportWorking()
+        {
+            if (HttpContext.Session.GetString("AdminUsername") == null)
+            {
+                return View("../Admin/Login");
+            }
+            else
+            {
+                getViewbagshopdetail();
+                var searchReWorking = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2).ToList();
+                if (searchReWorking != null)
+                {
+                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
+                    ViewBag.list = orderDetailPrints;
+                    List<Print> prints = _graphiczoneDBContext.Print.ToList();
+                    ViewBag.listprint = prints;
+                }
+                HttpContext.Session.Remove("dates");
+                HttpContext.Session.Remove("datee");
+                return View("../ViewReport/ReportWorking", searchReWorking);
+            }
+        }
+
+        public IActionResult ReportWorkdone()
+        {
+            DateTime Start = Convert.ToDateTime(HttpContext.Session.GetString("dates"));
+            DateTime End = Convert.ToDateTime(HttpContext.Session.GetString("datee"));
+            ViewBag.Start = Start;
+            ViewBag.End = End;
+            if (HttpContext.Session.GetString("AdminUsername") == null)
+            {
+                return View("../Admin/Login");
+            }
+            else
+            {
+                getViewbagshopdetail();
+                var searchReWorkdone = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 3 && x.OrPrintDate >= Start && x.OrPrintDate <= End).ToList();
+                if (searchReWorkdone != null)
+                {
+                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
+                    ViewBag.list = orderDetailPrints;
+                    List<Print> prints = _graphiczoneDBContext.Print.ToList();
+                    ViewBag.listprint = prints;
+                }
+                HttpContext.Session.Remove("dates");
+                HttpContext.Session.Remove("datee");
+                return View("../ViewReport/ReportWorkdone", searchReWorkdone);
+            }
+        }
+
+        public IActionResult ReportShipping()
+        {
+            if (HttpContext.Session.GetString("AdminUsername") == null)
+            {
+                return View("../Admin/Login");
+            }
+            else
+            {
+                getViewbagshopdetail();
+                var searchReShiping = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 3).ToList();
+                if (searchReShiping != null)
+                {
+                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
+                    ViewBag.list = orderDetailPrints;
+                    List<Print> prints = _graphiczoneDBContext.Print.ToList();
+                    ViewBag.listprint = prints;
+                }
+                HttpContext.Session.Remove("dates");
+                HttpContext.Session.Remove("datee");
+                return View("../ViewReport/ReportShipping", searchReShiping);
+            }
+        }
+
+        public IActionResult ReportShippingFinish()
+        {
+            DateTime Start = Convert.ToDateTime(HttpContext.Session.GetString("dates"));
+            DateTime End = Convert.ToDateTime(HttpContext.Session.GetString("datee"));
+            ViewBag.Start = Start;
+            ViewBag.End = End;
+            if (HttpContext.Session.GetString("AdminUsername") == null)
+            {
+                return View("../Admin/Login");
+            }
+            else
+            {
+                getViewbagshopdetail();
+                var searchShipping = _graphiczoneDBContext.Shipping.Where(x => x.ShippingDate >= Start && x.ShippingDate <= End).ToList();
+                if(searchShipping != null)
+                {
+                    List<Shipping> shippings = _graphiczoneDBContext.Shipping.ToList();
+                    ViewBag.shipping = shippings;
+                    var searchReShipingFinish = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 4).ToList();
+                    if (searchReShipingFinish != null)
+                    {
+                        List<OrderPrint> orderPrints = _graphiczoneDBContext.OrderPrint.ToList();
+                        ViewBag.listor = orderPrints;
+                        List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
+                        ViewBag.list = orderDetailPrints;
+                        List<Print> prints = _graphiczoneDBContext.Print.ToList();
+                        ViewBag.listprint = prints;
+                    }
+                }
+                HttpContext.Session.Remove("dates");
+                HttpContext.Session.Remove("datee");
+                return View("../ViewReport/ReportShippingFinish", searchShipping);
+            }
+        }
+
+        public IActionResult ReportUser()
+        {
+            if (HttpContext.Session.GetString("AdminUsername") == null)
+            {
+                return View("../Admin/Login");
+            }
+            else
+            {
+                getViewbagshopdetail();
+                var searchReUser = _graphiczoneDBContext.User.ToList();
+                return View("../ViewReport/ReportUser", searchReUser);
+            }
+        }
+
+        public void getViewbagshopdetail()
+        {
+            var searchShop = _graphiczoneDBContext.Shop.Where(x => x.ShopId == "SG001").FirstOrDefault();
+            if (searchShop != null)
+            {
+                ViewBag.getShoplogo = searchShop.ShopLogo;
+                ViewBag.getShopname = searchShop.ShopName;
+                ViewBag.getShopaddress = searchShop.ShopAddress;
+                ViewBag.getShoptel = searchShop.ShopTel;
+                ViewBag.getShopfax = searchShop.ShopFax;
+                ViewBag.getShopemail = searchShop.ShopEmail;
+                ViewBag.getShopline = searchShop.ShopLine;
             }
         }
     }

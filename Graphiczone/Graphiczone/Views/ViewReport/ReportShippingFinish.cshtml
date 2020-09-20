@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Graphiczone.Models.SQLServer.Shipping>
+@{
+    ViewData["Title"] = "ReportShippingFinish";
+    Layout = "~/Views/Shared/_formatReport.cshtml";
+}
+
+<h4 style="top:0;">รายงานสื่อสิ่งพิมพ์ที่ส่งมอบแล้ว</h4>
+<h6 align="center"><label>ตั้งแต่ @ViewBag.Start.ToString("dd MMM yyyy") จนถึง @ViewBag.End.ToString("dd MMM yyyy")</label></h6>
+<h6 align="right"><label align="right">วันที่เรียกดู @DateTime.Now.ToString("dddd dd MMMM yyyy")</label></h6>
+<table class="table" style="margin-top:2px">
+    @{
+        var countlist = 0;
+    }
+    @foreach (var x in Model)
+    {
+        @foreach (var o in ViewBag.listor)
+        {
+            if (x.OrPrintId == o.OrPrintId)
+            {
+                <thead>
+                    <tr>
+                        <th colspan="2" align="left">รหัสสั่งทำ</th>
+                        <th align="center">สั่งทำวันที่</th>
+                        <th align="center">กำหนดส่งวันที่</th>
+                        <th align="center">รหัสลูกค้าที่สั่ง</th>
+                    </tr>
+                </thead>
+                <tbody align="left">
+                    <tr>
+                        <td colspan="2">@o.OrPrintId</td>
+                        <td>@o.OrPrintDate.ToString("dd MMM yyyy")</td>
+                        <td>@o.OrPrintDue.ToString("dd MMM yyyy")</td>
+                        <td>@o.CusId</td>
+                    </tr>
+                <thead>
+                    <tr>
+                        <th align="center"><span align="center">รหัสรายการสั่งทำ</span></th>
+                        <th aling="left"><span align="center">ป้าย</span></th>
+                        <th align="center"><span align="center">พื้นที่รวม (ตร.ม.)</span></th>
+                        <th align="center"><span align="center">จำนวน/หน่วย</span></th>
+                        <th align="center"><span align="center">ราคา</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in ViewBag.list)
+                    {
+                        if (i.OrPrintId == x.OrPrintId)
+                        {
+                            <tr>
+                                <td align="center">@i.OrdPrintId</td>
+                                @foreach (var p in ViewBag.listprint)
+                                {
+                                    @if (p.PrintId == i.PrintId)
+                                    {
+                                        <td align="left">@p.PrintName (@i.OrdPrintWidth X @i.OrdPrintHeight)</td>
+                                    }
+                                }
+                                <td align="right">@{var total = i.OrdPrintWidth * i.OrdPrintHeight;} @total.ToString("#,###.000")</td>
+                                <td align="right">@i.OrdPrintNum</td>
+                                <td align="right">@i.OrdPrintTotal.ToString("#,###.00")</td>
+                            </tr>
+                            countlist += 1;
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                </tbody>
+                <tbody align="right">
+                    <tr>
+                        <td colspan="5" align="center"><b>ทั้งหมด @countlist รายการ</b></td>
+                    </tr>
+                </tbody>
+                </tbody>
+                countlist = 0;
+            }
+        }
+    }
+
+</table>

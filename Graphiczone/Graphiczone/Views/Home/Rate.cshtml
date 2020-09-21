@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Graphiczone.Models.SQLServer.TypePrint>
+@{ ViewData["Title"] = "Rate";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<style>
+    body {
+        background: #F0F0F0;
+        font-size: 18px;
+        color: #69491A;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped" style="margin-top:2px">
+
+                <thead class="thead-dark">
+                    <tr align="center">
+                        <th>ประเภทบริการ</th>
+                        <th>ชื่อบริการ</th>
+                        <th>ราคาต่อ 1 ตร.ม (บาท)</th>
+                    </tr>
+                </thead>
+                @foreach (var x in Model)
+                {
+                    <tbody align="left" style="margin-top:1rem;">
+                        <tr>
+                            <td colspan="4" align="left"><b>@x.TypePrintName</b></td>
+                            @foreach (var p in ViewBag.listprint)
+                            {
+                                @if (p.TypePrintId == x.TypePrintId)
+                                {
+                                <tr>
+                                    <td></td>
+                                    <td align="left">@p.PrintName (@p.PrintUnit)</td>
+                                    <td align="right">@p.PrintPrice.ToString("#,###.00")</td>
+                                </tr>
+                            }
+                            }
+                            </tr>
+                        </tbody>
+                    }
+
+            </table>
+        </div>
+    </div>
+</div>

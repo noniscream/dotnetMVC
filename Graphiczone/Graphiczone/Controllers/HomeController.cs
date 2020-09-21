@@ -41,6 +41,17 @@ namespace Graphiczone.Controllers
             return View();
         }
 
+        public ActionResult Rate()
+        {
+            var searchReSer = _graphiczoneDBContext.TypePrint.ToList();
+            if (searchReSer != null)
+            {
+                List<Print> prints = _graphiczoneDBContext.Print.ToList();
+                ViewBag.listprint = prints;
+            }
+            return View(searchReSer);
+        }
+
         public ViewResult Order()
         {
             return View();

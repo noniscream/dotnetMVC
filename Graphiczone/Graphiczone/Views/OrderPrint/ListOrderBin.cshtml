@@ -22,7 +22,7 @@
 
 <div class="table-head" style="background-color:#757575">
     <div class="table-cell">
-        <p class="text-white" style="font-size:2rem">รายการสั่งทำที่ล่วงเลยเวลา</p>
+        <p class="text-white" style="font-size:2rem">รายการที่ไม่สมบูรณ์</p>
     </div>
 </div>
 
@@ -46,27 +46,39 @@
     </div>
     @foreach (var item in Model)
     {
-        <div class="table-row" id="roworder">
-            <div class="table-cell">
-                <p id->@item.OrPrintId</p>
-            </div>
-            <div class="table-cell">
-                @if (item.OrPrintStatus == 0)
-                {
-                    strStatus = "ค้างชำระเกินกำหนด";
-                    strColorStatus = "danger";
-                }
-                else
-                {
-                    strStatus = "รายการขยะ";
-                    strColorStatus = "secondary";
-                }
-                <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
-            </div>
-            <div class="table-cell last-cell">
-                <a class="btn btn-outline-danger badge-pill" style="box-shadow: 1px 2px 2px 0px rgba(0,0,0,0.75);" onclick="checkdeletebin(@item.OrPrintId)"><i class="far fa-trash-alt"></i> ลบ</a>
-            </div>
+<div class="table-row" id="roworder">
+    <div class="table-cell">
+        <p id->@item.OrPrintId</p>
+    </div>
+    <div class="table-cell">
+        @if (item.OrPrintStatus == 0)
+        {
+            strStatus = "ค้างชำระเกินกำหนด";
+            strColorStatus = "danger";
+        }
+        else
+        {
+            strStatus = "การสั่งทำที่ไม่สมบูรณ์";
+            strColorStatus = "secondary";
+        }
+        <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
+    </div>
+    @if (strStatus == "การสั่งทำที่ไม่สมบูรณ์")
+    {
+        <div class="table-cell last-cell">
+            <button type="button" class="btn btn-outline-danger badge-pill" onclick="checkdeletebin(@item.OrPrintId)"><i class="far fa-trash-alt"></i> ลบ</button>
         </div>
+    }
+    else
+    {
+        <div class="table-cell last-cell">
+            <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
+                    data-target="#OrderDetailforBin" data-url="@Url.Action($"OrderDetailforBin/{item.OrPrintId}")">
+                <i class="fas fa-search" id="SDT"></i> ดูรายละเอียด
+            </button>
+        </div>
+    }
+</div>
     }
 </div>
 

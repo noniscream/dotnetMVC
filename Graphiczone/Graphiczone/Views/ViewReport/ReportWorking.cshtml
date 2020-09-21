@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_formatReport.cshtml";
 }
 
-<h4 style="top:0;">รายงานสื่อสิ่งพิมพ์ที่กำลังผลิต</h4>
+<h4 style="top:0;" align="center">รายงานสื่อสิ่งพิมพ์ที่อยู่ระหว่างการผลิต</h4>
 <h6 align="right"><label align="right">วันที่เรียกดู @DateTime.Now.ToString("dddd dd MMMM yyyy")</label></h6>
 
 <table class="table" style="margin-top:50px">
@@ -12,15 +12,16 @@
         var countlist = 0;
         double totallist = 0;
         double tax = 0.07;
+        var alllist = 0;
     }
     @foreach (var x in Model)
     {
-        <thead>
+        <thead class="table table-dark">
             <tr>
                 <th colspan="2" align="left">รหัสสั่งทำ</th>
                 <th align="center">สั่งทำวันที่</th>
                 <th align="center">กำหนดส่งวันที่</th>
-                <th align="center">รหัสลูกค้าที่สั่ง</th>
+                <th align="center">ชื่อลูกค้าที่สั่ง</th>
             </tr>
         </thead>
         <tbody align="left">
@@ -28,7 +29,13 @@
                 <td colspan="2">@x.OrPrintId</td>
                 <td>@x.OrPrintDate.Value.ToString("dd MMM yyyy")</td>
                 <td>@x.OrPrintDue.Value.ToString("dd MMM yyyy")</td>
-                <td>@x.CusId</td>
+                @foreach (var c in ViewBag.listcus)
+                {
+                    if (x.CusId == c.CusId)
+                    {
+                        <td>@c.CusFirstname @c.CusLastname</td>
+                    }
+                }
             </tr>
         <thead>
             <tr>
@@ -53,7 +60,7 @@
                                 <td align="left">@p.PrintName (@i.OrdPrintWidth X @i.OrdPrintHeight)</td>
                             }
                         }
-                        <td align="right">@{var total = i.OrdPrintWidth * i.OrdPrintHeight;} @total.ToString("#,###.000")</td>
+                        <td align="right">@{var total = (i.OrdPrintWidth * i.OrdPrintHeight) / 10000;} @total.ToString("#,###.000")</td>
                         <td align="right">@i.OrdPrintNum</td>
                         <td align="right">@i.OrdPrintTotal.ToString("#,###.00")</td>
                     </tr>
@@ -81,5 +88,11 @@
         </tbody>
         countlist = 0;
         totallist = 0;
+        alllist += 1;
     }
+    <tbody align="center" style="margin-top:2px">
+        <tr>
+            <td colspan="5"><b>สื่อสิ่งพิมพ์ที่อยู่ระหว่างการผลิตทั้งหมด : @alllist.ToString("#,###") รายการ</b></td>
+        </tr>
+    </tbody>
 </table>

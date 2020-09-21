@@ -4,8 +4,8 @@
     ViewData["Title"] = "ReportAllincome";
     Layout = "~/Views/Shared/_formatReport.cshtml";
 }
-<h4 style="top:0;">รายงานรายได้รวมทั้งหมด</h4>
-<h6 align="center"><label>ตั้งแต่ @ViewBag.Start.ToString("dd MMM yyyy") จนถึง @ViewBag.End.ToString("dd MMM yyyy")</label></h6>
+<h4 style="top:0;" align="center">รายงานข้อมูลการใช้บริการทั้งหมด</h4>
+<h6 align="right"><label>ตั้งแต่ @ViewBag.Start.ToString("dd MMM yyyy") จนถึง @ViewBag.End.ToString("dd MMM yyyy")</label></h6>
 <h6 align="right"><label align="right">วันที่เรียกดู @DateTime.Now.ToString("dddd dd MMMM yyyy")</label></h6>
 
 <table class="table" style="margin-top:2px">
@@ -14,24 +14,32 @@
         double totallist = 0;
         double tax = 0.07;
         double totalincome = 0;
+        var alllist = 0;
     }
 
     @foreach (var x in Model)
     {
-        <thead>
+        <thead class="table table-dark">
             <tr>
                 <th colspan="2" align="left">รหัสสั่งทำ</th>
                 <th align="center">สั่งทำวันที่</th>
                 <th align="center">กำหนดส่งวันที่</th>
-                <th align="center">รหัสลูกค้าที่สั่ง</th>
+                <th align="center">ชื่อลูกค้าที่สั่ง</th>
             </tr>
         </thead>
         <tbody align="left">
             <tr>
                 <td colspan="2">@x.OrPrintId</td>
-                <td >@x.OrPrintDate.Value.ToString("dd MMM yyyy")</td>
-                <td >@x.OrPrintDue.Value.ToString("dd MMM yyyy")</td>
-                <td >@x.CusId</td>
+                <td>@x.OrPrintDate.Value.ToString("dd MMM yyyy")</td>
+                <td>@x.OrPrintDue.Value.ToString("dd MMM yyyy")</td>
+                @foreach (var c in ViewBag.listcus)
+                {
+                    if (x.CusId == c.CusId)
+                    {
+                        <td>@c.CusFirstname @c.CusLastname</td>
+                    }
+                }
+
             </tr>
         <thead>
             <tr align="center">
@@ -56,7 +64,7 @@
                                 <td align="center">@s.PrintName (@i.OrdPrintWidth X @i.OrdPrintHeight)</td>
                             }
                         }
-                        <td align="right">@{var total = i.OrdPrintWidth * i.OrdPrintHeight;} @total.ToString("#,###.000")</td>
+                        <td align="right">@{var total = (i.OrdPrintWidth * i.OrdPrintHeight)/10000;} @total.ToString("#,###.000")</td>
                         <td align="right">@i.OrdPrintNum</td>
                         <td align="right">@i.OrdPrintTotal.ToString("#,###.00")</td>
                     </tr>
@@ -86,12 +94,14 @@
         totalincome += @Convert.ToDouble(x.OrPrintTotal);
         countlist = 0;
         totallist = 0;
+        alllist += 1;
         
     }
 
-<tbody align="center" style="margin-top:2px">
+<tbody align="right" style="margin-top:2px">
     <tr>
-        <td colspan="5"><h4>รวมเป็นเงิน : @totalincome.ToString("#,###.00") บาท</h4></td>
+        <td colspan="2"><b>ยอดขายทั้งหมด : @alllist.ToString("#,###") รายการ</b></td>
+        <td colspan="3" align="right"><b>ยอดขายทั้งหมดรวมเป็นเงิน : @totalincome.ToString("#,###.00") บาท</b></td>
     </tr>
 </tbody>
 </table>

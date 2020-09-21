@@ -94,12 +94,12 @@
         }
         else if (item.OrPrintStatus == 4)
         {
-            strStatus = "ส่งมอบแล้วรอลูกค้ายืนยัน";
+            strStatus = "รับสื่อสิ่งพิมพ์แล้ว";
             strColorStatus = "warning";
         }
-        else if (item.OrPrintStatus == 5)
+        else
         {
-            strStatus = "ส่งมอบเสร็จสิ้น";
+            strStatus = "รายการนี้ถูกยกเลิก";
             strColorStatus = "secondary";
         }
         <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>

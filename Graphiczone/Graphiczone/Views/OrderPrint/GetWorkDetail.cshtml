@@ -103,7 +103,7 @@
                                         <div class="table-cell">
                                             <p>
                                                 @{
-                                                    var sumarea = x.OrdPrintWidth * x.OrdPrintHeight;
+                                                    var sumarea = (x.OrdPrintWidth * x.OrdPrintHeight) / 10000;
                                                 }
                                                 @sumarea
                                             </p>
@@ -243,45 +243,44 @@
                     </form>
                     <div class="form-group">
                         <div class="row">
-                            @if (Model.OrPrintStatus == 5)
+                            @if (Model.OrPrintStatus == 1 && ViewBag.getPayCode != null)
                             {
-
+                                <div class="col-md-6">
+                                    <button class="btn btn-outline-info form-control" onclick="checksavepayment()">ยืนยันการชำระ</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-danger form-control" onclick="checkdeletepayment()">ยกเลิกหลักฐาน</button>
+                                </div>
                             }
-                            else
-                            {
-                                @if (Model.OrPrintStatus == 1 && ViewBag.getPayCode != null)
-                                {
-                                    <div class="col-md-6">
-                                        <button class="btn btn-outline-info form-control" onclick="checksavepayment()">ยืนยันการชำระ</button>
-                                    </div>
-                                }
-                                @if (ViewBag.getPayCode != null)
-                                {
-                                    <div class="col-md-6">
-                                        <button class="btn btn-danger form-control" onclick="checkdeletepayment()">ลบหลักฐาน</button>
-                                    </div>
-                                }
-                            }
-
-
                         </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="work" role="tabpanel" aria-labelledby="work-tab">
                     <form id="workstatusform">
-                        @if (Model.OrPrintStatus == 2)
+                        @if (Model.OrPrintStatus == 0)
+                        {
+                            strColorstatus = "danger";
+                            strStatrus = "ยังไม่ยืนยันหลักฐานการชำระเงิน";
+                            strIcon = "fas fa-times";
+                        }
+                        else if (Model.OrPrintStatus == 1)
+                        {
+                            strColorstatus = "warning";
+                            strStatrus = "แจ้งชำระแล้วรอยืนยัน";
+                            strIcon = "fas fa-times";
+                        }
+                        else if (Model.OrPrintStatus == 2)
                         {
                             strColorstatus = "info";
-                            strStatrus = "กำลังดำเนินการผลิต";
+                            strStatrus = "อยู่ระหว่างการผลิต";
                             strIcon = "fas fa-info";
                         }
                         else
                         {
                             strColorstatus = "success";
-                            strStatrus = "ผลิตเสร็จเรียบร้อย";
+                            strStatrus = "ดำเนินการผลิตเสร็จแล้ว";
                             strIcon = "fas fa-check";
                         }
-
                         <div class="alert alert-@strColorstatus" role="alert"><i class="@strIcon"></i> @strStatrus</div>
                         <div class="form-group" style="margin-top:2%">
                             <div class="row" style="margin-bottom:5px">
@@ -303,55 +302,53 @@
                     </form>
                     <div class="form-group">
                         <div class="row">
-                            @if (Model.OrPrintStatus == 5)
+                            @if (Model.OrPrintStatus == 2 && ViewBag.getPayCode != null)
                             {
-
+                                <div class="col-md-12">
+                                    <button class="btn btn-outline-success form-control" name="btnWorksave" id="btnWorksave" onclick="checksaveworkstatus()">ผลิตเสร็จสิ้น</button>
+                                </div>
                             }
-                            else
+                            @if (Model.OrPrintStatus == 3 || ViewBag.getShippingImg != null)
                             {
-                                @if (Model.OrPrintStatus == 2 && ViewBag.getPayCode != null)
-                                {
-                                    <div class="col-md-12">
-                                        <button class="btn btn-outline-success form-control" name="btnWorksave" id="btnWorksave" onclick="checksaveworkstatus()">ผลิตเสร็จสิ้น</button>
-                                    </div>
-                                }
-                                @if (Model.OrPrintStatus == 3 || ViewBag.getShippingImg != null)
-                                {
-                                    <div class="col-md-12">
-                                        <button class="btn btn-warning form-control" name="btnWorkedit" id="btnWorkedit" onclick="checkeditworkstatus()">กำลังผลิตอยู่</button>
-                                    </div>
-                                }
+                                <div class="col-md-12">
+                                    <button class="btn btn-warning form-control" name="btnWorkedit" id="btnWorkedit" onclick="checkeditworkstatus()">กำลังผลิตอยู่</button>
+                                </div>
                             }
                         </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
                     <form id="updateShipping" action="/OrderPrint/upload" method="post" enctype="multipart/form-data" onsubmit="return updateData(this)">
-                        @if (Model.OrPrintStatus == 2)
+                        @if (Model.OrPrintStatus == 0)
+                        {
+                            strColorstatus = "danger";
+                            strStatrus = "ยังไม่ยืนยันหลักฐานการชำระเงิน";
+                            strIcon = "fas fa-times";
+                        }
+                        else if (Model.OrPrintStatus == 1)
+                        {
+                            strColorstatus = "warning";
+                            strStatrus = "แจ้งชำระแล้วรอยืนยัน";
+                            strIcon = "fas fa-times";
+                        }
+                        else if (Model.OrPrintStatus == 2)
                         {
                             strColorstatus = "info";
-                            strStatrus = "กำลังดำเนินการผลิต";
+                            strStatrus = "อยู่ระหว่างการผลิต";
                             strIcon = "fas fa-info";
                         }
                         else if (Model.OrPrintStatus == 3)
                         {
                             strColorstatus = "info";
-                            strStatrus = "รอส่งมอบ";
+                            strStatrus = "อยู่ระหว่างการส่งมอบ";
                             strIcon = "fas fa-info";
                         }
-                        else if (Model.OrPrintStatus == 4)
-                        {
-                            strColorstatus = "info";
-                            strStatrus = "ส่งมอบแล้วรอลูกค้ายืนยัน";
-                            strIcon = "fas fa-info";
-                        }
-                        else if (Model.OrPrintStatus == 5)
+                        else
                         {
                             strColorstatus = "success";
                             strStatrus = "ส่งมอบเสร็จสิ้น";
                             strIcon = "fas fa-check";
                         }
-
                         <div class="alert alert-@strColorstatus" role="alert"><i class="@strIcon"></i> @strStatrus</div>
 
                         <input type="hidden" name="OrPrintId" id="OrPrintId" value="@ViewBag.OrPrintId" />
@@ -397,17 +394,17 @@
                         {
 
                         }
-                    <div class="row">
-                        <div class="col-md-12">
-                            <button hidden class="btn btn-outline-success form-control" name="btnSave" id="btnSave" type="submit" onclick="saveshipping()">บันทึกการส่งมอบ</button>
-                        </div>
-                        @if (Model.OrPrintStatus == 3 && ViewBag.getPayCode != null && ViewBag.getShippingImg == null)
-                        {
+                        <div class="row">
                             <div class="col-md-12">
-                                <button class="btn btn-outline-success form-control" name="btnSave" id="btnSave" type="submit" onclick="saveshipping()">บันทึกการส่งมอบ</button>
+                                <button hidden class="btn btn-outline-success form-control" name="btnSave" id="btnSave" type="submit" onclick="saveshipping()">บันทึกการส่งมอบ</button>
                             </div>
-                        }
-                    </div>
+                            @if (Model.OrPrintStatus == 3 && ViewBag.getPayCode != null && ViewBag.getShippingImg == null)
+                            {
+                                <div class="col-md-12">
+                                    <button class="btn btn-outline-success form-control" name="btnSave" id="btnSave" type="submit" onclick="saveshipping()">บันทึกการส่งมอบ</button>
+                                </div>
+                            }
+                        </div>
 
                     </form>
                     <div class="row">
@@ -597,7 +594,7 @@
         function checkdeletepayment() {
             swal({
                 title: "กรุณายืนยันการทำรายการ",
-                text: "การแก้ไขสถานะงานมีผลทำให้ข้อมูลส่วนอื่น ๆ ถูกลบไปด้วย ! คุณต้องการเปลี่ยนแปลงสถานะงาน รายการที่ : @ViewBag.OrPrintId ใช่หรือไม่",
+                text: "การยกเลิกหลักฐานการชำระมีผลทำให้ลูกค้าต้องสั่งทำใหม่อีกครั้ง คุณค้องการยกเลิกหลักฐานการชำระรายการที่ : @ViewBag.OrPrintId ใช่หรือไม่",
                 icon: "warning",
                 buttons:["ยกเลิก","ยืนยัน"],
             }).then((willupdate) => {
@@ -615,14 +612,14 @@
 
         function deletepayment() {
             var OrPrintId = document.getElementById("OrPrintId").value;
-            var OrPrintStatus = 0;
+            var OrPrintStatus = null;
             $.ajax({
                 type: "post",
                 data: { OrPrintId, OrPrintStatus },
                 url: "/OrderPrint/deletepayment",
                 success: function (result) {
                     if (result == 1) {
-                        toastr.success("ลบหลักฐานการแจ้งชำระเงิน : @ViewBag.OrPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                        toastr.success("ยกเลิกหลักฐานการแจ้งชำระเงิน : @ViewBag.OrPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
                         setTimeout(function load() {
                             location.reload();
                         }, 1500);

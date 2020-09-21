@@ -3,5 +3,273 @@
     ViewData["Title"] = "Tracking";
 }
 
-<h1>Tracking</h1>
+<style>
+    body {
+        background: #F0F0F0;
+        font-size: 18px;
+        color: #69491A;
+    }
+</style>
 
+<div class="container-fluid">
+    <div class="row" style="margin-bottom:1rem;background-color:#DCDCDC;padding:10px 0 50px">
+        <div class="col-md-2"></div>
+        <div class="col-md-8" style="margin-top:10px;">
+            <p style="font-size:60px;color:#b8860b" align ="center"><strong>Tracking</strong></p>
+            <p style="font-size:30px;">ติดตามสถานะสื่อสิ่งพิมพ์ของคุณง่าย ๆ ที่นี่</p>
+            @using (Html.BeginForm("Tracking", "Home", FormMethod.Get))
+            {
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-warning text-white badge-pill" id="SDT"><i class="fas fa-search" style="font-size:20px" id="SDT"></i></span>
+                    </div>
+                    <input class="form-control" type="text" style="font-size:20px" id="id" name="id" placeholder="กรอกรหัสสั่งทำที่ต้องการค้นหา" onchange="searchData()">
+                    <div class="input-group-append">
+                        <button class="btn btn-warning text-white badge-pill" style="font-size:20px" onclick="searchData()">ค้นหา</button>
+                    </div>
+                </div>}
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <div class="row" style="margin-top:1.5rem;">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="card" style="box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.75); background-color: #E8E8E8;">
+                <div class="row" style="font-weight:bold">
+                        <div class="col-md-5" style="margin-top:1rem; border-right:solid #B8860B;margin-bottom:1rem;">
+                            <div align="center" class="w3-animate-left" style="animation-delay:1.5s;">
+                                <img src="https://image.makewebeasy.net/makeweb/0/fowApx2SG/DefaultData/Delivery_Boy_Clipart_Png.png" style="width:150px;height:150px;" />
+                            </div>
+                            <p style="margin-left:4rem;">รหัสสั่งทำ : <span style="color: #B8860B;"><strong>@ViewBag.OrderPrintId</strong></span></p>
+                            <p style="margin-left:4rem;">สั่งทำโดย : คุณ <span style="color: #B8860B;"><strong>@ViewBag.CusFullname</strong></span></p>
+                            <p style="margin-left:4rem;">สั่งเมื่อวันที่ : <span style="color: #B8860B;"><strong>@ViewBag.OrderDate</strong></span></p>
+                            <p style="margin-left:4rem;">กำหนดรับวันที่ : <span style="color: #B8860B;"><strong>@ViewBag.OrderDue</strong></span></p>
+                            <div style="margin-left:3rem;margin-top:2rem;border-top:solid #B8860B;" align="center">
+                                @*<img src="https://i.pinimg.com/originals/a5/88/04/a58804bceadd760c89f0fa2909106cd9.gif" width="300" />*@
+
+                                <img src="~/images/graphiczonelogo635248793.png" style="width:120px;height:120px;" />
+                                <p style="font-size:16px;">graphixzone2010@gmail.com</p>
+                                <p align="center" style="margin-top:1rem;font-size:16px;">043 235388 </p>
+                            </div>
+                        </div>
+                        <div class="col-md-7" style="margin-top:1rem;margin-bottom:2rem;" align="center">
+                            @if (ViewBag.OrderStatus == 0)
+                            {
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-hand-holding-usd" style="font-size:5rem;color:red"></i>
+                                    </div>
+                                    <div class="col-8" align="left">
+                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะแจ้งหลักฐานการชำระเงิน</strong></p>
+                                        <p>ยังไม่แจ้งหลักฐานการชำระเงิน</p>
+                                    </div>
+                                </div>
+                            }
+                            else if (ViewBag.OrderStatus == 1)
+                            {
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-hand-holding-usd" style="font-size:5rem;color:red"></i>
+                                    </div>
+                                    <div class="col-8" align="left">
+                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะแจ้งหลักฐานการชำระเงิน</strong></p>
+                                        <p>แจ้งชำระเงินแล้ว</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-angle-double-down" style="font-size:3rem;margin-left:23px;"></i>
+                                    </div>
+                                    <div class="col-8"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="far fa-clock" style="font-size:5rem;color:gray"></i>
+                                    </div>
+                                    <div class="col-8" align="left">
+                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะยืนยันหลักฐานการชำระเงิน</strong></p>
+                                        <p>รอยืนยันการชำระเงินจากพนักงาน</p>
+                                    </div>
+                                </div>
+                            }
+                            else if (ViewBag.OrderStatus == 2)
+                            {
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-hand-holding-usd" style="font-size:5rem;color:red"></i>
+                                    </div>
+                                    <div class="col-8" align="left">
+                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะแจ้งหลักฐานการชำระเงิน</strong></p>
+                                        <p>แจ้งชำระเงินแล้ว</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-angle-double-down" style="font-size:3rem;margin-left:23px;"></i>
+                                    </div>
+                                    <div class="col-8"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="far fa-clock" style="font-size:5rem;color:gray"></i>
+                                    </div>
+                                    <div class="col-8" align="left">
+                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะยืนยันหลักฐานการชำระเงิน</strong></p>
+                                        <p>รอยืนยันการชำระเงินจากพนักงาน</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-angle-double-down" style="font-size:3rem;margin-left:23px;"></i>
+                                    </div>
+                                    <div class="col-8"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="far fa-handshake" style="color:darkblue; font-size:5rem;"></i>
+                                    </div>
+                                    <div class="col-8" align="left">
+                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะการชำระเงิน</strong></p>
+                                        <p>ยืนยันการชำระเงินเรียบร้อยแล้ว</p>
+                                    </div>
+                                </div>
+                            }
+                            else if (ViewBag.OrderStatus == 3)
+                            {
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-hand-holding-usd" style="font-size:5rem;color:red"></i>
+                                    </div>
+                                    <div class="col-8" align="left">
+                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะแจ้งหลักฐานการชำระเงิน</strong></p>
+                                        <p>แจ้งชำระเงินแล้ว</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-angle-double-down" style="font-size:3rem;margin-left:23px;"></i>
+                                    </div>
+                                    <div class="col-8"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="far fa-clock" style="font-size:5rem;color:gray"></i>
+                                    </div>
+                                    <div class="col-8" align="left">
+                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะยืนยันหลักฐานการชำระเงิน</strong></p>
+                                        <p>รอยืนยันการชำระเงินจากพนักงาน</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-angle-double-down" style="font-size:3rem;margin-left:23px;"></i>
+                                    </div>
+                                    <div class="col-8"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="far fa-handshake" style="color:darkblue; font-size:5rem;"></i>
+                                    </div>
+                                    <div class="col-8" align="left">
+                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะการชำระเงิน</strong></p>
+                                        <p>ยืนยันการชำระเงินเรียบร้อยแล้ว</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-angle-double-down" style="font-size:3rem;margin-left:23px;"></i>
+                                    </div>
+                                    <div class="col-8"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="far fa-check-circle" style="color:lawngreen; font-size:5rem;"></i>
+                                    </div>
+                                    <div class="col-8" align="left">
+                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะการผลิต</strong></p>
+                                        <p>การผลิตเสร็จสิ้นเรียบร้อยแล้ว</p>
+                                    </div>
+                                </div>
+                            }
+                            else if (ViewBag.OrderStatus >= 4)
+                            {
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-hand-holding-usd" style="font-size:5rem;color:red"></i>
+                                    </div>
+                                    <div class="col-8" align="left">
+                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะแจ้งหลักฐานการชำระเงิน</strong></p>
+                                        <p>แจ้งชำระเงินแล้ว</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-angle-double-down" style="font-size:3rem;margin-left:23px;"></i>
+                                    </div>
+                                    <div class="col-8"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="far fa-clock" style="font-size:5rem;color:gray"></i>
+                                    </div>
+                                    <div class="col-8" align="left">
+                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะยืนยันหลักฐานการชำระเงิน</strong></p>
+                                        <p>รอยืนยันการชำระเงินจากพนักงาน</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-angle-double-down" style="font-size:3rem;margin-left:23px;"></i>
+                                    </div>
+                                    <div class="col-8"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="far fa-handshake" style="color:darkblue; font-size:5rem;"></i>
+                                    </div>
+                                    <div class="col-8" align="left">
+                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะการชำระเงิน</strong></p>
+                                        <p>ยืนยันการชำระเงินเรียบร้อยแล้ว</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-angle-double-down" style="font-size:3rem;margin-left:23px;"></i>
+                                    </div>
+                                    <div class="col-8"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="far fa-check-circle" style="color:lawngreen; font-size:5rem;"></i>
+                                    </div>
+                                    <div class="col-8" align="left">
+                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะการผลิต</strong></p>
+                                        <p>การผลิตเสร็จสิ้นเรียบร้อยแล้ว</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-angle-double-down" style="font-size:3rem;margin-left:23px;"></i>
+                                    </div>
+                                    <div class="col-8"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-shipping-fast" style="color:#ff5722; font-size:5rem;"></i>
+                                    </div>
+                                    <div class="col-8" align="left">
+                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะการส่งมอบ</strong></p>
+                                        <p>ส่งมอบสินค้าเรียบร้อยแล้ว</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+          
+            </div>
+            
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+</div>

@@ -79,34 +79,33 @@
 
                                         @foreach (var x in ViewBag.OrderList)
                                         {
-                                    <div class="table-row">
-                                        <div class="table-cell">
-                                            <p>@x.OrdPrintId</p>
-                                        </div>
-                                        <div class="table-cell">
-                                            <a href="/@x.OrdPrintFile" target="_blank">
-                                                <span class="xs">@ViewBag.PrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span><br />
-                                            </a>
-                                            <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
-                                        </div>
-                                        <div class="table-cell">
-                                            <p>
-                                                @{ var sumarea = x.OrdPrintWidth * x.OrdPrintHeight; }
-                                                @sumarea
-                                            </p>
-                                        </div>
-                                        <div class="table-cell">
-                                            <p>@x.OrdPrintPriceset.ToString("#,###.00")</p>
-                                        </div>
-                                        <div class="table-cell">
-                                            <p>@x.OrdPrintNum.ToString("#,###")</p>
-                                        </div>
-                                        <div class="table-cell last-cell">
-                                            <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
-                                        </div>
-                                    </div>
-                                    total += x.OrdPrintTotal;
-                                }
+                            <div class="table-row">
+                                <div class="table-cell">
+                                    <p>@x.OrdPrintId</p>
+                                </div>
+                                <div class="table-cell">
+                                    <a href="/@x.OrdPrintFile" target="_blank">
+                                        <span class="xs">@ViewBag.PrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span><br />
+                                    </a>
+                                    <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
+                                </div>
+                                <div class="table-cell">
+                                    <p>
+                                        @{ var sumarea = (x.OrdPrintWidth * x.OrdPrintHeight) / 10000; }
+                                        @sumarea
+                                    </p>
+                                </div>
+                                <div class="table-cell">
+                                    <p>@x.OrdPrintPriceset.ToString("#,###.00")</p>
+                                </div>
+                                <div class="table-cell">
+                                    <p>@x.OrdPrintNum.ToString("#,###")</p>
+                                </div>
+                                <div class="table-cell last-cell">
+                                    <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
+                                </div>
+                            </div>total += x.OrdPrintTotal;
+                                        }
                                         <div class="row mt-3">
                                             <div class="col-md-4">
                                                 <div class="alert alert-primary" align="center">
@@ -128,6 +127,16 @@
                                     </div>
                                 </div>
                             </div>
+                            @if (ViewBag.OrStatus == null)
+                            {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="alert-danger p-5">
+                                            <span><b>หมายเหตุ * : หลักฐานการชำระเงินไม่ถูกต้อง ลูกค้าต้องทำการสั่งทำสื่อสิ่งพิมพ์ใหม่อีกครั้ง ! (หากต้องการสั่งทำใหม่ <a href="@Url.Action("CreateOrder","OrderDetailPrint")">คลิกที่นี่</a>)</b></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

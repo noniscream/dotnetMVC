@@ -154,13 +154,13 @@
                     <div class="contact-form row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>ประเภทบริการ :</label>
+                                <label>ประเภทบริการ : <span class="text-danger font-weight-bold">*</span></label>
                                 <select  class="custom-select" id="typeprintId" required="required" onchange="selectproducttype()" asp-items='@(new SelectList(ViewBag.TypePrint,"TypePrintId","TypePrintName"))'>
                                     <option value="">เลือกประเภทบริการ</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>ความกว้าง :</label>
+                                <label>ความกว้าง : <span class="text-danger font-weight-bold">*</span></label>
                                 <div class="input-group-prepend">
                                     <input class="form-control" type="number" min="0.01" step="0.01" id="OrdPrintWidth" name="OrdPrintWidth" placeholder="กรอกความกว้าง" required="required" />
                                     <div class="input-group-append">
@@ -169,7 +169,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>ความยาว :</label>
+                                <label>ความยาว : <span class="text-danger font-weight-bold">*</span></label>
                                 <div class="input-group-prepend">
                                     <input class="form-control" type="number" value="" min="0.01" step="0.01" id="OrdPrintHeight" name="OrdPrintHeight" placeholder="กรอกความยาว" required="required" />
                                     <div class="input-group-append">
@@ -178,13 +178,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>จำนวน :</label>
+                                <label>จำนวน : <span class="text-danger font-weight-bold">*</span></label>
                                 <input class="form-control" type="number" id="OrdPrintNum" name="OrdPrintNum" value="" min="1" placeholder="กรอกจำนวน" required="required" />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>ประเภทวัสดุ :</label>
+                                <label>ประเภทวัสดุ : <span class="text-danger font-weight-bold">*</span></label>
                                 <select class="custom-select" id="PrintId" required="required" name="PrintId" @*asp-items='@(new SelectList(String.Empty,"PrintId","PrintName"))'*@>
                                     <option value="">เลือกประเภทวัสดุ</option>
                                 </select>
@@ -194,7 +194,7 @@
                                 <textarea class="form-control" id="OrdPrintDetail" name="OrdPrintDetail" rows="5"></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="exampleFormControlFile1">อัพโหลดไฟล์ตัวอย่างงาน :</label>
+                                <label for="exampleFormControlFile1">อัพโหลดไฟล์ตัวอย่างงาน : <span class="text-danger font-weight-bold">*</span></label>
                                 <input type="file" class="form-control-file" id="Uploadfile" name="Uploadfile" required="required">
                             </div>
                         </div>
@@ -218,7 +218,6 @@
                 <table class="table table-striped" id="list">
                     <thead class="bg-dark text-white">
                         <tr style="border-right: 2px solid #d6d4d4;" @*align="center" style="color:black;border-top: 3px solid black;border-bottom: 3px solid black;border-left: 3px solid black;"*@>
-                            <th>รหัสรายการ</th>
                             <th>ชื่อรายการ</th>
                             <th>พื้นที่รวม(ตรม.)</th>
                             <th>ราคาต่อหน่วย</th>
@@ -245,7 +244,7 @@
                     {
                         <p>
                             @{
-                                var sumarea = x.OrdPrintWidth * x.OrdPrintHeight;
+                                var sumarea = (x.OrdPrintWidth * x.OrdPrintHeight)/10000;
                             }
                             @{
                                 x.OrdPrintTotal = sumarea * x.OrdPrintPriceset * x.OrdPrintNum;
@@ -253,7 +252,6 @@
                         </p>
                         <tbody class="table table-hover">
                             <tr @*align="center" style="color: black;  border-top: 2px solid black;border-bottom: 2px solid black;border-left: 2px solid black;"*@>
-                                <td>@x.OrdPrintId</td>
                                 <td style="text-align:left;">
                                     @foreach(var i in ViewBag.printname)
                                     {
@@ -264,10 +262,10 @@
                                     }
                                     <br/>
                                 </td>
-                                <td style="text-align:right;">@sumarea</td>
-                                <td style="text-align:right;">@x.OrdPrintPriceset</td>
-                                <td style="text-align:right;">@x.OrdPrintNum</td>
-                                <td style="text-align:right;">@x.OrdPrintTotal</td>
+                                <td style="text-align:right;">@sumarea.Value.ToString("#,###.00")</td>
+                                <td style="text-align:right;">@x.OrdPrintPriceset.Value.ToString("#,###.00")</td>
+                                <td style="text-align:right;">@x.OrdPrintNum.Value.ToString("#,###")</td>
+                                <td style="text-align:right;">@x.OrdPrintTotal.Value.ToString("#,###.00")</td>
                                 <td>
                                     <button class="small btn-danger" name="btnDelete" id="btnDelete" onclick="deleteOrder(@x.OrdPrintId)"><i class="fas fa-times"></i></button>
                                 </td>
@@ -376,7 +374,7 @@
     function checkorderdue() {
         if (document.getElementById("totalbill").value != ".00") {
             swal({
-            title: 'กำหนดวันที่รับสื่อสิ่งพิมพ์',
+            title: 'กำหนดวันที่ต้องการรับสื่อสิ่งพิมพ์',
             html: '',
             content: {
                 element: "input",
@@ -403,7 +401,7 @@
         }).then((willorder) => {
             if (willorder) {
                 var x = $('#swalOrPrintDue').val();
-                swal("", "กำหนดวันรับสื่อสิ่งพิมพ์ของคุณ : " + $('#swalOrPrintDue').val(), "success");
+                swal("", "คุณต้องการรับสื่อสิ่งพิมพ์วันที่ : " + $('#swalOrPrintDue').val(), "success");
                 setTimeout(function todb() {
                     var OrPrintId = document.getElementById("OrPrintId").value;
                     var OrPrintTotal = document.getElementById("totalbill").value;
@@ -415,12 +413,12 @@
                         url: "/OrderDetailPrint/successbill",
                         success: function (result) {
                             if (result == 1) {
-                                toastr.success("คุณได้ทำการสั่งทำรายการ : " + OrPrintId + " เป็นที่เรียบร้อยแล้ว !", "สั่งทำสำเร็จ", { timeOut: 1500, "closeButton": true });
+                                toastr.success("คุณได้ทำการสั่งทำรายการ : " + OrPrintId + " เป็นที่เรียบร้อยแล้ว !", "สั่งทำสำเร็จ", { timeOut: 1000, "closeButton": true });
                                 setTimeout(function load() {
                                     window.location.href = ("../OrderPrint/ShowOrder");
                                 }, 2000);
                             } else {
-                                toastr.error("ข้อมูลผิดพลาดกรุณาเปิดบิลก่อน สั่งทำ !", "ล้มเหลว !", { timeOut: 3000, "closeButton": true });
+                                toastr.error("ข้อมูลผิดพลาดกรุณาเปิดบิลก่อน สั่งทำ !", "ล้มเหลว !", { timeOut: 1000, "closeButton": true });
                             }
                         }
                     })

@@ -48,12 +48,12 @@ namespace Graphiczone.Controllers
                 var cusId = getCusId.CusId;
                 if (id != null)
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && x.OrPrintId == id && x.CusId == cusId && x.OrPrintDue >= dt.AddDays(4)).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && x.OrPrintId == id && x.CusId == cusId && x.OrPrintDue >= dt.AddDays(4)).OrderByDescending(x => x.OrPrintId).ToList();
                     return View(searchData);
                 }
                 else
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && id == null && x.CusId == cusId && x.OrPrintDue >= dt.AddDays(4)).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && id == null && x.CusId == cusId && x.OrPrintDue >= dt.AddDays(4)).OrderByDescending(x => x.OrPrintId).ToList();
                     return View(searchData);
                 }
             }

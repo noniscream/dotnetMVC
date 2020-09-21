@@ -74,7 +74,7 @@ namespace Graphiczone.Controllers
             }
             else
             {
-                var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == null || x.OrPrintStatus == 0 && x.OrPrintDue <= dt).OrderByDescending(x => x.OrPrintDue).ToList();
+                var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == null || x.OrPrintStatus == 0 && x.OrPrintDue <= dt).OrderByDescending(x => x.OrPrintStatus == 0).ToList();
                 ViewBag.countData = searchData.Count();
                 return View(searchData);
             }
@@ -165,72 +165,79 @@ namespace Graphiczone.Controllers
         [HttpGet]
         public IActionResult GetWorkDetail(string id)
         {
-            if(id == "0")
+            if (HttpContext.Session.GetString("UserUsername") == null)
             {
-                return View();
+                return View("../User/Login");
             }
             else
             {
-                var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
-                if(searchData != null)
+                if (id == "0")
                 {
-                    ViewBag.OrPrintId = searchData.OrPrintId;
-                    var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == searchData.CusId).FirstOrDefault();
-                    ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
-                    ViewBag.CusAddress = cusname.CusAddress;
-                    ViewBag.CusTel = cusname.CusTel;
-                    ViewBag.CusEmail = cusname.CusEmail;
-                    ViewBag.OrPrintDate = searchData.OrPrintDate;
-                    ViewBag.OrPrintDue = searchData.OrPrintDue;
-
-                    var searchDataProofpay = _graphiczoneDBContext.ProofPayment.Where(x => x.OrPrintId == id).FirstOrDefault();
-                    if (searchDataProofpay != null)
-                    {
-                        ViewBag.getDatePayForPicker = searchDataProofpay.PrfPayDate.Value.AddYears(-543).ToString("yyyy-MM-dd");
-                    }
-                    ViewBag.getDueForPicker = searchData.OrPrintDue.Value.AddYears(-543).ToString("yyyy-MM-dd");
-
-                    var calOrPrintData = searchData.OrPrintDue - DateTime.Now;
-                    ViewBag.OrPrintTotalDate = calOrPrintData.Value.ToString("dd");
-                    var searchDataOrDetail = _graphiczoneDBContext.OrderDetailPrint.Where(ord => ord.OrPrintId == id).FirstOrDefault();
-                    if(searchDataOrDetail != null)
-                    {
-                        List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.Where(ord => ord.OrPrintId == id).ToList();
-                        ViewBag.OrPrintDetail = orderDetailPrints;
-                        var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == searchDataOrDetail.PrintId).FirstOrDefault();
-                        ViewBag.PrintName = printname.PrintName;
-                        ViewBag.PriceTotal = searchData.OrPrintTotal;
-                    }
-                    var searchDataProofpayment = _graphiczoneDBContext.ProofPayment.Where(x => x.OrPrintId == id).FirstOrDefault();
-                    if(searchDataProofpayment != null)
-                    {
-                        ViewBag.getPayCode = searchDataProofpayment.PrfPayId;
-                        ViewBag.getPayBank = searchDataProofpayment.PrfPayBank;
-                        ViewBag.getPayDate = searchDataProofpayment.PrfPayDate.Value.ToString("dd/MM/yyyy");
-                        ViewBag.getPayTime = searchDataProofpayment.PrfPayTime;
-                        ViewBag.getImgCode = searchDataProofpayment.PrfPayFile;
-                        ViewBag.getPayDetail = searchDataProofpayment.PrfPayDetail;
-                    }
-                    else
-                    {
-                        ViewBag.getPayDate = "";
-                    }
-
-                    var searchDataShipping = _graphiczoneDBContext.Shipping.Where(x => x.OrPrintId == id).FirstOrDefault();
-                    if(searchDataShipping != null)
-                    {
-                        ViewBag.getShippingDate = searchDataShipping.ShippingDate.Value.AddYears(-543).ToString("yyyy-MM-dd");
-                        ViewBag.getShippingImg = searchDataShipping.ShippingFile;
-                    }
-                    else
-                    {
-                        ViewBag.getShippingDate = "";
-                    }
-                    return View("GetWorkDetail", searchData);
+                    return View();
                 }
                 else
                 {
-                    ViewBag.OrPrintId = "xx";
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+                    if (searchData != null)
+                    {
+                        ViewBag.OrPrintId = searchData.OrPrintId;
+                        var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == searchData.CusId).FirstOrDefault();
+                        ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
+                        ViewBag.CusAddress = cusname.CusAddress;
+                        ViewBag.CusTel = cusname.CusTel;
+                        ViewBag.CusEmail = cusname.CusEmail;
+                        ViewBag.OrPrintDate = searchData.OrPrintDate;
+                        ViewBag.OrPrintDue = searchData.OrPrintDue;
+
+                        var searchDataProofpay = _graphiczoneDBContext.ProofPayment.Where(x => x.OrPrintId == id).FirstOrDefault();
+                        if (searchDataProofpay != null)
+                        {
+                            ViewBag.getDatePayForPicker = searchDataProofpay.PrfPayDate.Value.AddYears(-543).ToString("yyyy-MM-dd");
+                        }
+                        ViewBag.getDueForPicker = searchData.OrPrintDue.Value.AddYears(-543).ToString("yyyy-MM-dd");
+
+                        var calOrPrintData = searchData.OrPrintDue - DateTime.Now;
+                        ViewBag.OrPrintTotalDate = calOrPrintData.Value.ToString("dd");
+                        var searchDataOrDetail = _graphiczoneDBContext.OrderDetailPrint.Where(ord => ord.OrPrintId == id).FirstOrDefault();
+                        if (searchDataOrDetail != null)
+                        {
+                            List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.Where(ord => ord.OrPrintId == id).ToList();
+                            ViewBag.OrPrintDetail = orderDetailPrints;
+                            var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == searchDataOrDetail.PrintId).FirstOrDefault();
+                            ViewBag.PrintName = printname.PrintName;
+                            ViewBag.PriceTotal = searchData.OrPrintTotal;
+                        }
+                        var searchDataProofpayment = _graphiczoneDBContext.ProofPayment.Where(x => x.OrPrintId == id).FirstOrDefault();
+                        if (searchDataProofpayment != null)
+                        {
+                            ViewBag.getPayCode = searchDataProofpayment.PrfPayId;
+                            ViewBag.getPayBank = searchDataProofpayment.PrfPayBank;
+                            ViewBag.getPayDate = searchDataProofpayment.PrfPayDate.Value.ToString("dd/MM/yyyy");
+                            ViewBag.getPayTime = searchDataProofpayment.PrfPayTime;
+                            ViewBag.getImgCode = searchDataProofpayment.PrfPayFile;
+                            ViewBag.getPayDetail = searchDataProofpayment.PrfPayDetail;
+                        }
+                        else
+                        {
+                            ViewBag.getPayDate = "";
+                        }
+
+                        var searchDataShipping = _graphiczoneDBContext.Shipping.Where(x => x.OrPrintId == id).FirstOrDefault();
+                        if (searchDataShipping != null)
+                        {
+                            ViewBag.getShippingDate = searchDataShipping.ShippingDate.Value.AddYears(-543).ToString("yyyy-MM-dd");
+                            ViewBag.getShippingImg = searchDataShipping.ShippingFile;
+                        }
+                        else
+                        {
+                            ViewBag.getShippingDate = "";
+                        }
+                        return View("GetWorkDetail", searchData);
+                    }
+                    else
+                    {
+                        ViewBag.OrPrintId = "xx";
+                    }
                 }
             }
             return View();
@@ -297,12 +304,12 @@ namespace Graphiczone.Controllers
                 if (id != null)
                 {
 
-                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2 && x.CusId == cusId && x.OrPrintId == id).ToList();
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2 && x.CusId == cusId && x.OrPrintId == id).OrderByDescending(x => x.OrPrintId).ToList();
                     return View(seachData);
                 }
                 else
                 {
-                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2 && x.CusId == cusId && id == null).ToList();
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2 && x.CusId == cusId && id == null).OrderByDescending(x => x.OrPrintId).ToList();
                     return View(seachData);
                 }
             }
@@ -324,12 +331,12 @@ namespace Graphiczone.Controllers
                 if (id != null)
                 {
 
-                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 2 && x.OrPrintStatus <= 3 && x.CusId == cusId && x.OrPrintId == id).ToList();
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 2 && x.OrPrintStatus <= 3 && x.CusId == cusId && x.OrPrintId == id).OrderByDescending(x => x.OrPrintId).ToList();
                     return View(seachData);
                 }
                 else
                 {
-                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 2 && x.OrPrintStatus <= 3 && x.CusId == cusId && id == null).ToList();
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 2 && x.OrPrintStatus <= 3 && x.CusId == cusId && id == null).OrderByDescending(x => x.OrPrintId).ToList();
                     return View(seachData);
                 }
             }
@@ -351,12 +358,12 @@ namespace Graphiczone.Controllers
                 if (id != null)
                 {
 
-                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 3 && x.OrPrintStatus <= 5 && x.CusId == cusId && x.OrPrintId == id).ToList();
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 4 && x.CusId == cusId && x.OrPrintId == id).OrderByDescending(x => x.OrPrintId).ToList();
                     return View(seachData);
                 }
                 else
                 {
-                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 3 && x.OrPrintStatus <= 5 && x.CusId == cusId && id == null).ToList();
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 4 && x.CusId == cusId && id == null).OrderByDescending(x => x.OrPrintId).ToList();
                     return View(seachData);
                 }
             }
@@ -377,12 +384,12 @@ namespace Graphiczone.Controllers
                 var cusId = getCusId.CusId;
                 if (id != null)
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && x.OrPrintId == id && x.OrPrintStatus != null).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && x.OrPrintId == id && x.OrPrintStatus != null || x.OrPrintStatus == null && x.OrPrintDue != null).OrderByDescending(x => x.OrPrintId).ToList();
                     return View(searchData);
                 }
                 else
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && id == null && x.OrPrintStatus != null).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && id == null && x.OrPrintStatus != null || x.OrPrintStatus == null && x.OrPrintDue != null).OrderByDescending(x => x.OrPrintId).ToList();
                     return View(searchData);
                 }
             }
@@ -407,6 +414,7 @@ namespace Graphiczone.Controllers
                 var prooffile = _graphiczoneDBContext.ProofPayment.Where(a => a.OrPrintId == seachData2.OrPrintId).FirstOrDefault();
                 ViewBag.PrintName = printname.PrintName;
                 ViewBag.PriceTotal = seachData2.OrPrintTotal;
+                ViewBag.OrStatus = seachData2.OrPrintStatus;
             }
 
             return PartialView("_ShowOrderDetail", seachData);
@@ -650,14 +658,14 @@ namespace Graphiczone.Controllers
             if (searchData != null)
             {
                 searchData.OrPrintStatus = orderPrint.OrPrintStatus;
-                if (searchData2 != null)
-                {
-                    _graphiczoneDBContext.Remove(searchData2);
-                }
-                if(searchData3 != null)
-                {
-                    _graphiczoneDBContext.Remove(searchData3);
-                }
+                //if (searchData2 != null)
+                //{
+                //    _graphiczoneDBContext.Remove(searchData2);
+                //}
+                //if(searchData3 != null)
+                //{
+                //    _graphiczoneDBContext.Remove(searchData3);
+                //}
                 _graphiczoneDBContext.SaveChanges();
                 return Json(1);
             }
@@ -770,6 +778,36 @@ namespace Graphiczone.Controllers
                     ViewBag.PriceTotal = seachData2.OrPrintTotal;
                 }
                 return PartialView("_OrderDetailforOverdue", seachData);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult OrderDetailforBin(string id)
+        {
+            if (id == "0")
+            {
+                return View();
+            }
+            else
+            {
+
+                var seachData = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+                var seachData2 = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+                if (seachData2 != null)
+                {
+                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).ToList();
+                    ViewBag.OrderList = orderDetailPrints;
+                    ViewBag.OrderPrintId = seachData.OrPrintId;
+                    ViewBag.OrderDate = seachData2.OrPrintDate;
+                    ViewBag.OrderDue = seachData2.OrPrintDue;
+                    var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
+                    ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
+                    ViewBag.TotalDate = seachData2.OrPrintDue - DateTime.Now;
+                    var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
+                    ViewBag.PrintName = printname.PrintName;
+                    ViewBag.PriceTotal = seachData2.OrPrintTotal;
+                }
+                return PartialView("_OrderDetailforBin", seachData);
             }
         }
 
@@ -895,6 +933,8 @@ namespace Graphiczone.Controllers
                     ViewBag.list = orderDetailPrints;
                     List<Print> prints = _graphiczoneDBContext.Print.ToList();
                     ViewBag.listprint = prints;
+                    List<Customer> customers = _graphiczoneDBContext.Customer.ToList();
+                    ViewBag.listcus = customers;
                 }
                 HttpContext.Session.Remove("dates");
                 HttpContext.Session.Remove("datee");
@@ -922,6 +962,8 @@ namespace Graphiczone.Controllers
                     ViewBag.list = orderDetailPrints;
                     List<Print> prints = _graphiczoneDBContext.Print.ToList();
                     ViewBag.listprint = prints;
+                    List<Customer> customers = _graphiczoneDBContext.Customer.ToList();
+                    ViewBag.listcus = customers;
                 }
                 HttpContext.Session.Remove("dates");
                 HttpContext.Session.Remove("datee");
@@ -949,6 +991,8 @@ namespace Graphiczone.Controllers
                     ViewBag.list = orderDetailPrints;
                     List<Print> prints = _graphiczoneDBContext.Print.ToList();
                     ViewBag.listprint = prints;
+                    List<Customer> customers = _graphiczoneDBContext.Customer.ToList();
+                    ViewBag.listcus = customers;
                 }
                 HttpContext.Session.Remove("dates");
                 HttpContext.Session.Remove("datee");
@@ -972,6 +1016,8 @@ namespace Graphiczone.Controllers
                     ViewBag.list = orderDetailPrints;
                     List<Print> prints = _graphiczoneDBContext.Print.ToList();
                     ViewBag.listprint = prints;
+                    List<Customer> customers = _graphiczoneDBContext.Customer.ToList();
+                    ViewBag.listcus = customers;
                 }
                 HttpContext.Session.Remove("dates");
                 HttpContext.Session.Remove("datee");
@@ -999,6 +1045,8 @@ namespace Graphiczone.Controllers
                     ViewBag.list = orderDetailPrints;
                     List<Print> prints = _graphiczoneDBContext.Print.ToList();
                     ViewBag.listprint = prints;
+                    List<Customer> customers = _graphiczoneDBContext.Customer.ToList();
+                    ViewBag.listcus = customers;
                 }
                 HttpContext.Session.Remove("dates");
                 HttpContext.Session.Remove("datee");
@@ -1022,6 +1070,8 @@ namespace Graphiczone.Controllers
                     ViewBag.list = orderDetailPrints;
                     List<Print> prints = _graphiczoneDBContext.Print.ToList();
                     ViewBag.listprint = prints;
+                    List<Customer> customers = _graphiczoneDBContext.Customer.ToList();
+                    ViewBag.listcus = customers;
                 }
                 HttpContext.Session.Remove("dates");
                 HttpContext.Session.Remove("datee");
@@ -1047,7 +1097,7 @@ namespace Graphiczone.Controllers
                 {
                     List<Shipping> shippings = _graphiczoneDBContext.Shipping.ToList();
                     ViewBag.shipping = shippings;
-                    var searchReShipingFinish = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 4).ToList();
+                    var searchReShipingFinish = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 4).ToList();
                     if (searchReShipingFinish != null)
                     {
                         List<OrderPrint> orderPrints = _graphiczoneDBContext.OrderPrint.ToList();
@@ -1056,6 +1106,8 @@ namespace Graphiczone.Controllers
                         ViewBag.list = orderDetailPrints;
                         List<Print> prints = _graphiczoneDBContext.Print.ToList();
                         ViewBag.listprint = prints;
+                        List<Customer> customers = _graphiczoneDBContext.Customer.ToList();
+                        ViewBag.listcus = customers;
                     }
                 }
                 HttpContext.Session.Remove("dates");

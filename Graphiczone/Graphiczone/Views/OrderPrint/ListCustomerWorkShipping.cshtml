@@ -22,7 +22,7 @@
 
 <div class="table-head" style="background-color: #ED186B;">
     <div class="table-cell">
-        <p class="text-white" style="font-size:2rem">เช็คสถานะการส่งมอบ</p>
+        <p class="text-white" style="font-size:2rem">เช็คสถานะการรับสื่อสิ่งพิมพ์</p>
     </div>
 </div>
 
@@ -98,13 +98,8 @@
                 }
                 else if (item.OrPrintStatus == 4)
                 {
-                    strStatus = "ส่งมอบแล้วรอลูกค้ายืนยัน";
+                    strStatus = "รับสื่อสิ่งพิมพ์แล้ว";
                     strColorStatus = "warning";
-                }
-                else if (item.OrPrintStatus == 5)
-                {
-                    strStatus = "ส่งมอบเสร็จสิ้น";
-                    strColorStatus = "success";
                 }
                 <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
             </div>

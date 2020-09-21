@@ -32,7 +32,7 @@ namespace Graphiczone.Controllers
 
         public IActionResult Logout()
         {
-            HttpContext.Session.Remove("CusUsername");
+            HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
 

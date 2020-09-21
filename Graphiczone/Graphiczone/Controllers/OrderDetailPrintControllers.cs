@@ -74,8 +74,26 @@ namespace Graphiczone.Controllers
         {
             List<Print> list = new List<Print>();
             list = _graphiczoneDBContext.Print.Where(x => x.TypePrint.TypePrintId == id).ToList();
-            return Json(new SelectList(list, "PrintId", "PrintName"));
+            //list.Insert(0, new Print { Id = 0, PrintId = "P000", PrintName = "กรุณาเลือกประเภทวัสดุ" });
+            return Json(new SelectList(list, "PrintId", "PrintName", "PrintUnit", "PrintPrice"));
         }
+
+        [HttpPost]
+        public IActionResult getprintid(string pi)
+        {
+            var getid = _graphiczoneDBContext.Print.Where(p => p.PrintId.Trim() == pi.Trim()).FirstOrDefault();
+            if (getid != null)
+            {
+                ViewBag.printprice = getid.PrintPrice;
+                ViewBag.printunit = getid.PrintUnit;
+                return Json(ViewBag.printunit);
+            }
+            else
+            {
+                return Json(0);
+            }
+        }
+
         public IFormFile Uploadfile { get; set; }
 
         [HttpPost]

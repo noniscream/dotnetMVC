@@ -107,10 +107,12 @@ namespace Graphiczone.Controllers
                     var searchShipping = _graphiczoneDBContext.Shipping.Where(x => x.OrPrintId == id).FirstOrDefault();
                     if(searchShipping != null)
                     {
+                        ViewBag.dateShipping = searchShipping.ShippingDate;
                         ViewBag.picShipping = searchShipping.ShippingFile;
                     }
                     else
                     {
+                        ViewBag.dateShipping = null;
                         ViewBag.picShipping = null;
                     }
                 }
@@ -194,7 +196,7 @@ namespace Graphiczone.Controllers
                         {
                             ViewBag.getDatePayForPicker = searchDataProofpay.PrfPayDate.Value.AddYears(-543).ToString("yyyy-MM-dd");
                         }
-                        ViewBag.getDueForPicker = searchData.OrPrintDue.Value.AddYears(-543).ToString("yyyy-MM-dd");
+                        ViewBag.getDueForPicker = searchData.OrPrintDue.Value.AddMonths(+2).AddYears(-543).ToString("yyyy-MM-dd");
 
                         var calOrPrintData = searchData.OrPrintDue - DateTime.Now;
                         ViewBag.OrPrintTotalDate = calOrPrintData.Value.ToString("dd");
@@ -384,12 +386,12 @@ namespace Graphiczone.Controllers
                 var cusId = getCusId.CusId;
                 if (id != null)
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && x.OrPrintId == id && x.OrPrintStatus != null || x.OrPrintStatus == null && x.OrPrintDue != null).OrderByDescending(x => x.OrPrintId).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && x.OrPrintId == id && x.OrPrintStatus != null  || x.OrPrintStatus == null && x.OrPrintDue != null ).OrderByDescending(x => x.OrPrintId).ToList();
                     return View(searchData);
                 }
                 else
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && id == null && x.OrPrintStatus != null || x.OrPrintStatus == null && x.OrPrintDue != null).OrderByDescending(x => x.OrPrintId).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && id == null && x.OrPrintStatus != null  || x.OrPrintStatus == null && x.OrPrintDue != null ).OrderByDescending(x => x.OrPrintId).ToList();
                     return View(searchData);
                 }
             }

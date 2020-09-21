@@ -99,7 +99,7 @@ namespace Graphiczone.Controllers
             }
             var printid = _graphiczoneDBContext.Print.Where(x => x.PrintId == orderDetailPrint.PrintId).FirstOrDefault();
             orderDetailPrint.OrdPrintPriceset = printid.PrintPrice;
-            int area = (int)(orderDetailPrint.OrdPrintHeight * orderDetailPrint.OrdPrintWidth)/10000;
+            float area = (float)(orderDetailPrint.OrdPrintHeight * orderDetailPrint.OrdPrintWidth)/10000;
             float printtotal = (float)(area * orderDetailPrint.OrdPrintPriceset * orderDetailPrint.OrdPrintNum);
             orderDetailPrint.OrdPrintTotal = printtotal;
             var genId = _graphiczoneDBContext.OrderDetailPrint.Count();

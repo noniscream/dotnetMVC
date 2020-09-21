@@ -125,10 +125,19 @@
                                         </div>
                                         <div class="table-row">
                                             <div class="table-cell last-cell">
-                                                <div>
-                                                    <h4 align="center">หลักฐานการส่งมอบ</h4>
+                                                <div class="row">
+                                                    <div class="col-md-12 pr-5" align="right">
+                                                        <b>รับสื่อสิ่งพิมพ์เมื่อวันที่ : @ViewBag.dateShipping.ToString("dddd dd MMMM yyyy")</b>
+                                                    </div>
                                                 </div>
-                                                <img src="/@ViewBag.picShipping" width="100%" />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div>
+                                                            <h4 align="center">หลักฐานการส่งมอบ</h4>
+                                                        </div>
+                                                        <img src="/@ViewBag.picShipping" width="100%" />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         @*@if (ViewBag.picShipping != null && ViewBag.OrStatus <= 4)

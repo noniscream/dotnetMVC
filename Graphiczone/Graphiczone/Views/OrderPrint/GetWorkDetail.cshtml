@@ -65,8 +65,15 @@
                                     ที่อยู่ : @ViewBag.CusAddress
                                 </div>
                             </div>
-
                             <h5 style="margin-top:5%">รายละเอียดการสั่ง</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    วันที่สั่ง : @ViewBag.OrPrintDate.ToString("dd MMM yyyy")
+                                </div>
+                                <div class="col-md-6">
+                                    วันครบกำหนดรับ : @ViewBag.OrPrintDue.ToString("dd MMM yyyy")
+                                </div>
+                            </div>
                             <hr class="bg-light" />
                             <div class="table-box">
                                 <div class="table-row bg-dark">

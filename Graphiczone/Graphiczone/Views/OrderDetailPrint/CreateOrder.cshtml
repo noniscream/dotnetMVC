@@ -228,16 +228,16 @@
                     </thead>
                     @{
                         var today = DateTime.Now;
-                        var totalBill = 0;
+                        double totalBill = 0;
                     }
                     @{
-                        var vax = 0.07;
+                        double vax = 0.07;
                     }
                     @{
-                        var totalvax = 0;
+                        double totalvax = 0;
                     }
                     @{
-                        var totalprice = 0;
+                        double totalprice = 0;
                     }
 
                     @foreach (var x in Model)
@@ -271,8 +271,8 @@
                                 </td>
                             </tr>
                         </tbody>
-                        totalBill = totalBill + @Convert.ToInt32(x.OrdPrintTotal);
-                        totalvax = totalvax + @Convert.ToInt32(x.OrdPrintTotal * vax);
+                        totalBill = totalBill + @Convert.ToDouble(x.OrdPrintTotal);
+                        totalvax = totalvax + @Convert.ToDouble(x.OrdPrintTotal * vax);
                         totalprice = totalBill + totalvax;
                     }
                 </table>
@@ -295,26 +295,6 @@
         </div>
         </div>
         </div>
-
-    <footer>
-        <div class="row">
-            <div class="col-md-1">
-
-            </div>
-            <div class="col-10">
-                <div class="social-meia" style="text-align:center;">
-                    <h2 style="margin-top:10rem;margin-left:25rem;">Social&nbsp;&nbsp; Media</h2>
-                    <a href="https://web.facebook.com/gzkk9/"><i class="fab fa-facebook" style="color: #4267b2;"></i></a>
-                    <a href="http://line.me/ti/p/~neng-gz"><i class="fab fa-line" style="color: #00b900;"></i></a>
-                    <a href="https://www.instagram.com/explore/locations/777428135698459/thailand/khon-kaen-district/"><i class="fab fa-instagram" style="color: rgb(205, 57, 119);"></i></a>
-                    <a href="https://khonkaenlink.info/jobs/job/22135.html" style="color:red;"><i class="fas fa-map-marker-alt"></i></a>
-                </div>
-            </div>
-            <div class="col-md-1">
-
-            </div>
-        </div>
-    </footer>
 </div>
 
 <script>

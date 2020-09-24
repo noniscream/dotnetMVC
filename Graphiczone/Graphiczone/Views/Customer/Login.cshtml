@@ -3,8 +3,7 @@
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_authLayout.cshtml";
 }
-
-<div align="center" style="margin-bottom:2%"><h1>เข้าสู่ระบบ</h1></div>
+<div align="center" style="margin-bottom:2%;"><h1 style="font-family: 'Prompt',sans-serif;">เข้าสู่ระบบ</h1></div>
 <div class="container">
     <form id="Login">
         <div class="form-group">
@@ -26,7 +25,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="CPW"><i class="fas fa-lock" id="CPW"></i></span>
                         </div>
-                        <input class="form-control" type="password" id="CusPassword" name="CusPassword" placeholder="กรุณากรอกรหัสผ่าน" value="1"maxlength ="50">
+                        <input class="form-control" type="password" id="CusPassword" name="CusPassword" placeholder="กรุณากรอกรหัสผ่าน" value="1" maxlength="50">
                     </div>
                 </div>
             </div>
@@ -69,7 +68,7 @@
         });
     }
 
-    
+
 
     function Reset() {
         document.getElementById("Login").reset();

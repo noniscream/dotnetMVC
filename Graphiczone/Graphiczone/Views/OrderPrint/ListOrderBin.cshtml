@@ -44,41 +44,52 @@
             <p>จัดการสถานะ</p>
         </div>
     </div>
-    @foreach (var item in Model)
+    @if (ViewBag.countData != 0)
     {
-<div class="table-row" id="roworder">
-    <div class="table-cell">
-        <p id->@item.OrPrintId</p>
-    </div>
-    <div class="table-cell">
-        @if (item.OrPrintStatus == 0)
+        @foreach (var item in Model)
         {
-            strStatus = "ค้างชำระเกินกำหนด";
-            strColorStatus = "danger";
+            <div class="table-row" id="roworder">
+                <div class="table-cell">
+                    <p id->@item.OrPrintId</p>
+                </div>
+                <div class="table-cell">
+                    @if (item.OrPrintStatus == 0)
+                    {
+                        strStatus = "ค้างชำระเกินกำหนด";
+                        strColorStatus = "danger";
+                    }
+                    else
+                    {
+                        strStatus = "การสั่งทำที่ไม่สมบูรณ์";
+                        strColorStatus = "secondary";
+                    }
+                    <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
+                </div>
+                @if (strStatus == "การสั่งทำที่ไม่สมบูรณ์")
+                {
+                    <div class="table-cell last-cell">
+                        <button type="button" class="btn btn-outline-danger badge-pill" onclick="checkdeletebin(@item.OrPrintId)"><i class="far fa-trash-alt"></i> ลบ</button>
+                    </div>
+                }
+                else
+                {
+                    <div class="table-cell last-cell">
+                        <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
+                                data-target="#OrderDetailforBin" data-url="@Url.Action($"OrderDetailforBin/{item.OrPrintId}")">
+                            <i class="fas fa-search" id="SDT"></i> ดูรายละเอียด
+                        </button>
+                    </div>
+                }
+            </div>
         }
-        else
-        {
-            strStatus = "การสั่งทำที่ไม่สมบูรณ์";
-            strColorStatus = "secondary";
-        }
-        <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
-    </div>
-    @if (strStatus == "การสั่งทำที่ไม่สมบูรณ์")
-    {
-        <div class="table-cell last-cell">
-            <button type="button" class="btn btn-outline-danger badge-pill" onclick="checkdeletebin(@item.OrPrintId)"><i class="far fa-trash-alt"></i> ลบ</button>
-        </div>
     }
     else
     {
-        <div class="table-cell last-cell">
-            <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
-                    data-target="#OrderDetailforBin" data-url="@Url.Action($"OrderDetailforBin/{item.OrPrintId}")">
-                <i class="fas fa-search" id="SDT"></i> ดูรายละเอียด
-            </button>
+        <div class="table-row bg-secondary">
+            <div class="table-cell last-cell">
+                <span class="text-white font-weight-bold">ไม่พบข้อมูล</span>
+            </div>
         </div>
-    }
-</div>
     }
 </div>
 

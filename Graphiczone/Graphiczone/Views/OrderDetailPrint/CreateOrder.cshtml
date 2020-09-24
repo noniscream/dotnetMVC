@@ -91,7 +91,7 @@
     <div class="table-head" style="background: #ca4026;">
         <div class="table-cell">
             <p class="text-white" style="font-size: 2rem;letter-spacing: 5px;">ร้านกราฟฟิกโซน รับทํา ป้ายขอนแก่น สื่อประชาสัมพันธ์(Graphixzon Khonkaen)</p>
-            
+
         </div>
     </div>
     <div class="row">
@@ -107,7 +107,9 @@
                         <input type="hidden" id="CusId" name="CusId" value="@ViewBag.Cusid" />
                         <input type="hidden" name="OrPrintId" id="OrPrintId" value="@Context.Session.GetString("Cart")" />
                         <input type="hidden" name="OrPrintStatus" id="OrPrintStatus" value="0" />
+
                         <div style="text-align:right;margin-right:1rem;margin-top:2rem;">
+                            <a class="btn btn-primary" href="~/images/icon/ขั้นตอนการสั่งทำ.pdf" target="_blank">ขั้นตอนการสั่งทำ <i class="fas fa-question-circle"></i></a>
                             <button class="btn btn-outline-danger" id="addorder" onclick="addorder()">เปิดบิล</button>
                         </div>
                     </div>
@@ -155,7 +157,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>ประเภทบริการ : <span class="text-danger font-weight-bold">*</span></label>
-                                <select  class="custom-select" id="typeprintId" required="required" onchange="selectproducttype()" asp-items='@(new SelectList(ViewBag.TypePrint,"TypePrintId","TypePrintName"))'>
+                                <select class="custom-select" id="typeprintId" required="required" onchange="selectproducttype()" asp-items='@(new SelectList(ViewBag.TypePrint,"TypePrintId","TypePrintName"))'>
                                     <option value="">เลือกประเภทบริการ</option>
                                 </select>
                             </div>
@@ -249,7 +251,7 @@
                     {
                         <p>
                             @{
-                                var sumarea = (x.OrdPrintWidth * x.OrdPrintHeight)/10000;
+                                var sumarea = (x.OrdPrintWidth * x.OrdPrintHeight) / 10000;
                             }
                             @{
                                 x.OrdPrintTotal = sumarea * x.OrdPrintPriceset * x.OrdPrintNum;
@@ -258,14 +260,14 @@
                         <tbody class="table table-hover">
                             <tr @*align="center" style="color: black;  border-top: 2px solid black;border-bottom: 2px solid black;border-left: 2px solid black;"*@>
                                 <td style="text-align:left;">
-                                    @foreach(var i in ViewBag.printname)
+                                    @foreach (var i in ViewBag.printname)
                                     {
-                                        @if(i.PrintId == x.PrintId)
+                                        @if (i.PrintId == x.PrintId)
                                         {
                                             <a href="/@x.OrdPrintFile" target="_blank"><span class="xs">@i.PrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span></a>
                                         }
                                     }
-                                    <br/>
+                                    <br />
                                 </td>
                                 <td style="text-align:right;">@sumarea.Value.ToString("#,###.00")</td>
                                 <td style="text-align:right;">@x.OrdPrintPriceset.Value.ToString("#,###.00")</td>
@@ -282,13 +284,13 @@
                     }
                 </table>
                 <div align="right">
-                    <p >รวมราคา : <b>@totalBill.ToString("#,###.00")</b> บาท</p>
+                    <p class="alert-info">รวมราคา : <b>@totalBill.ToString("#,###.00")</b> บาท</p>
                 </div>
                 <div align="right">
-                    <p style="background:#ca4026;color:white;width:300px;">ภาษี : <b>@totalvax.ToString("#,###.00")</b> บาท</p>
+                    <p class="alert-danger">ภาษี : <b>@totalvax.ToString("#,###.00")</b> บาท</p>
                 </div>
                 <div align="right">
-                    <p style="background: #5EAA5F;color:white;width:300px; ">รวมเป็นเงินทั้งสิ้น : <b>@totalprice.ToString("#,###.00")</b> บาท</p>
+                    <p class="alert-success">รวมเป็นเงินทั้งสิ้น : <b>@totalprice.ToString("#,###.00")</b> บาท</p>
                     <input type="hidden" id="totalbill" value="@totalprice.ToString("#,###.00")" />
                 </div>
 
@@ -298,11 +300,15 @@
                 </div>
             </div>
         </div>
-        </div>
-        </div>
+    </div>
+</div>
 </div>
 
 <script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
     disabled();
     function disabled() {
         document.getElementById("addorder").disabled = false;
@@ -359,7 +365,8 @@
     function checkorderdue() {
         if (document.getElementById("totalbill").value != ".00") {
             swal({
-            title: 'กำหนดวันที่ต้องการรับสื่อสิ่งพิมพ์',
+                title: 'กำหนดวันที่ต้องการรับสื่อสิ่งพิมพ์ ',
+                text:'แจ้งให้ทราบ ! ระยะเวลาจริงอาจไม่ตรงตามที่กำหนด ขึ้นอยู่กับขนาดและปริมาณของสื่อสิ่งพิมพ์',
             html: '',
             content: {
                 element: "input",
@@ -421,19 +428,18 @@
     // sweetalert แน่นอน
 
     function deleteOrder(OrdPrintId) {
-        //console.log(OrdPrintId);
         $.ajax({
             type: "post",
             data: { OrdPrintId },
             url: "/OrderDetailPrint/deleteorder",
             success: function (result) {
                 if (result == 1) {
-                    toastr.success("ลบข้อมูลการส่งมอบ : @ViewBag.OrPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    toastr.success("ลบรายการสั่งทำดังกล่าวเรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
                     setTimeout(function load() {
                         location.reload();
                     }, 1500);
                 } else {
-                    toastr.error("รายการสั่งทำที่ : @ViewBag.OrPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    toastr.error("รายการสั่งทำดังกล่าวไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
                 }
             }
         })
@@ -441,7 +447,6 @@
 
     function ResetOrder() {
         var OrPrintId = document.getElementById("OrPrintId").value
-        location.reload();
         $.ajax({
             type: "post",
             data: { OrPrintId },

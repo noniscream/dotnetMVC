@@ -64,51 +64,62 @@
             <p>ยืนยันสถานะงาน</p>
         </div>
     </div>
-    @foreach (var item in Model)
+    @if (ViewBag.countData != 0)
     {
-        <div class="table-row" id="roworder">
-            <div class="table-cell">
-                <p>@item.OrPrintId</p>
+        @foreach (var item in Model)
+        {
+            <div class="table-row" id="roworder">
+                <div class="table-cell">
+                    <p>@item.OrPrintId</p>
+                </div>
+                <div class="table-cell">
+                    <p>@item.OrPrintDate.Value.Date.ToString("dd MMM yyyy")</p>
+                </div>
+                <div class="table-cell">
+                    <p>@item.OrPrintDue.Value.Date.ToString("dd MMM yyyy")</p>
+                </div>
+                <div class="table-cell">
+                    @if (item.OrPrintStatus == 0)
+                    {
+                        strStatus = "ค้างชำระ";
+                        strColorStatus = "danger";
+                    }
+                    else if (item.OrPrintStatus == 1)
+                    {
+                        strStatus = "แจ้งชำระแล้วรอยืนยัน";
+                        strColorStatus = "info";
+                    }
+                    else if (item.OrPrintStatus == 2)
+                    {
+                        strStatus = "กำลังผลิตสื่อสิ่งพิมพ์";
+                        strColorStatus = "success";
+                    }
+                    else if (item.OrPrintStatus == 3)
+                    {
+                        strStatus = "ผลิตเสร็จแล้ว";
+                        strColorStatus = "primary";
+                    }
+                    else if (item.OrPrintStatus == 4)
+                    {
+                        strStatus = "ส่งมอบแล้ว";
+                        strColorStatus = "warning";
+                    }
+                    <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
+                </div>
+                <div class="table-cell last-cell">
+                    <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
+                            data-target="#EditWorkStatus" data-url="@Url.Action($"Edit/{item.OrPrintId}")">
+                        <i class="far fa-edit"></i> บันทึกสถานะงาน
+                    </button>
+                </div>
             </div>
-            <div class="table-cell">
-                <p>@item.OrPrintDate.Value.Date.ToString("dd MMM yyyy")</p>
-            </div>
-            <div class="table-cell">
-                <p>@item.OrPrintDue.Value.Date.ToString("dd MMM yyyy")</p>
-            </div>
-            <div class="table-cell">
-                @if (item.OrPrintStatus == 0)
-                {
-                    strStatus = "ค้างชำระ";
-                    strColorStatus = "danger";
-                }
-                else if (item.OrPrintStatus == 1)
-                {
-                    strStatus = "แจ้งชำระแล้วรอยืนยัน";
-                    strColorStatus = "info";
-                }
-                else if (item.OrPrintStatus == 2)
-                {
-                    strStatus = "กำลังผลิตสื่อสิ่งพิมพ์";
-                    strColorStatus = "success";
-                }
-                else if (item.OrPrintStatus == 3)
-                {
-                    strStatus = "ผลิตเสร็จแล้ว";
-                    strColorStatus = "primary";
-                }
-                else if (item.OrPrintStatus == 4)
-                {
-                    strStatus = "ส่งมอบแล้ว";
-                    strColorStatus = "warning";
-                }
-                <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
-            </div>
+        }
+    }
+    else
+    {
+        <div class="table-row bg-secondary">
             <div class="table-cell last-cell">
-                <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
-                        data-target="#EditWorkStatus" data-url="@Url.Action($"Edit/{item.OrPrintId}")">
-                    <i class="far fa-edit"></i> บันทึกสถานะงาน
-                </button>
+                <span class="text-white font-weight-bold">ไม่พบข้อมูล</span>
             </div>
         </div>
     }

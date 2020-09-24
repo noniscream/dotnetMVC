@@ -1,30 +1,24 @@
 ﻿
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-    <div class="row" style="margin-top:3%">
-        <div class="col-md-6 offset-md-3">
-            <div class="card login-logout-tabs">
-                <div class="card-header">
-                    <ul class="nav nav-tabs card-header-tabs justify-content-center">
-                        <li class="nav-item">
-                            <a class="nav-link text-left" href="/Customer/Login">เข้าสู่ระบบ</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-right" href="/Customer/Register">สมัครสมาชิก</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="card-body">
-                    @RenderBody()
-                </div>
-            </div>
+<div class="row" style="margin-top: 3%" id="login">
+    <div class="col-md-6 offset-md-3" style="background-image:url('~/images/367-3670570_login-bg.png')">
+        <ul class="nav nav-tabs justify-content-center" style="margin-top:10px">
+            <li class="nav-item">
+                <a class="nav-link" href="/Customer/Login">เข้าสู่ระบบ</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Customer/Register">สมัครสมาชิก</a>
+            </li>
+        </ul>
+        <div class="tab-content pt-2 pl-5 pr-5 pb-5" style="box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.25);">
+            @RenderBody()
         </div>
     </div>
-    <div style="margin-bottom:8rem">
+</div>
+<div style="margin-bottom:8rem">
 
-    </div>
+</div>
 
 @section Scripts{
     @RenderSection("Scripts", required: false);

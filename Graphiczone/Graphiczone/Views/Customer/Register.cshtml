@@ -4,127 +4,134 @@
     Layout = "~/Views/Shared/_authLayout.cshtml";
 }
 
-    <div align="center" style="margin-bottom:2%"><h1>สมัครสมาชิก</h1></div>
+    <div align="center" style="margin-bottom:2%"><h1 style="font-family: 'Prompt',sans-serif;">สมัครสมาชิก</h1></div>
 
-<div class="container-fluid">
-    <form id="Register">
+    <div class="container-fluid">
+        <form id="Register">
+            <div class="form-group">
+                <div class="row" style="margin-bottom:5px">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="CID"><i class="fas fa-user-alt" id="CID"></i></span>
+                            </div>
+                            <input class="form-control" type="text" id="CusUsername" name="CusUsername" placeholder="กรุณากรอกชื่อผู้ใช้งาน" maxlength="50" onchange="CheckUsernull()">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" align="right">
+                        <p id="StatusUser" />
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom:2%">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            </div>
+                            <input class="form-control" type="Password" id="CusPassword" name="CusPassword" maxlength="50" placeholder="กรุณากรอกรหัสผ่าน">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <p></p>
+                </div>
+
+                <div class="row" style="margin-bottom:2%">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="CFN"><i class="fas fa-address-card" id="CFN"></i></span>
+                            </div>
+                            <input class="form-control" type="text" id="CusFirstname" name="CusFirstname" maxlength="50" placeholder="กรุณากรอกชื่อจริง">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="CFN"><i class="fas fa-address-card" id="CFN"></i></span>
+                            </div>
+                            <input class="form-control" type="text" id="CusLastname" name="CusLastname" maxlength="50" placeholder="กรุณากรอกนามสกุล">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" align="right">
+                        <p id="StatusFullname" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom:2%">
+                    <div class="col-md-12">
+                        <div class="input-group" id="xx">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                            </div>
+                            <textarea class="form-control" id="CusAddress" name="CusAddress"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <p></p>
+                </div>
+
+                <div class="row" style="margin-bottom:5px">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="CT"><i class="fas fa-phone-alt" id="CT"></i></span>
+                            </div>
+                            <input class="form-control" type="tel" id="CusTel" name="CusTel" placeholder="กรุุณากรอกเบอร์โทรศัพท์" maxlength="10" onchange="CheckTelnall()">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" align="right">
+                        <p id="StatusTel" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom:5px">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="CEM"><i class="fas fa-envelope" id="CEM"></i></span>
+                            </div>
+                            <input class="form-control" type="email" id="getEmail" name="getEmail" placeholder="กรุุณากรอกอีเมลล์ติดต่อ" maxlength="30" onchange="CheckEmailnull()">
+                            <div class="input-group-append">
+                                <select id="Email" class="form-control input-group-text" onchange="CheckEmailnull()">
+                                    <option value="@@outlook.com">@@outlook.com</option>
+                                    <option value="@@hotmail.com">@@hotmail.com</option>
+                                    <option value="@@gmail.com">@@gmail.com</option>
+                                    <option value="@@yahoo.com">@@yahoo.com</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" name="CusEmail" id="CusEmail" maxlength="50" value="" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" align="right">
+                        <p id="StatusEmail" />
+                    </div>
+                </div>
+            </div>
+        </form>
         <div class="form-group">
-            <div class="row" style="margin-bottom:5px">
-                <div class="col-md-12">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="CID"><i class="fas fa-user-alt" id="CID"></i></span>
-                        </div>
-                        <input class="form-control" type="text" id="CusUsername" name="CusUsername" placeholder="กรุณากรอกชื่อผู้ใช้งาน" maxlength="50" onchange="CheckUsernull()">
-                    </div>
-                </div>
-            </div>
             <div class="row">
-                <div class="col-md-12" align="right">
-                    <p id="StatusUser" />
-                </div>
-            </div>
-            <div class="row" style="margin-bottom:2%">
-                <div class="col-md-12">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                        </div>
-                        <input class="form-control" type="Password" id="CusPassword" name="CusPassword" maxlength="50" placeholder="กรุณากรอกรหัสผ่าน">
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="margin-bottom:2%">
                 <div class="col-md-6">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="CFN"><i class="fas fa-address-card" id="CFN"></i></span>
-                        </div>
-                        <input class="form-control" type="text" id="CusFirstname" name="CusFirstname" maxlength="50" placeholder="กรุณากรอกชื่อจริง">
-                    </div>
+                    <button class="btn btn-outline-info form-control" type="submit" onclick="Register()">สมัครสมาชิก</button>
                 </div>
                 <div class="col-md-6">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="CFN"><i class="fas fa-address-card" id="CFN"></i></span>
-                        </div>
-                        <input class="form-control" type="text" id="CusLastname" name="CusLastname" maxlength="50" placeholder="กรุณากรอกนามสกุล">
-                    </div>
+                    <button class="btn btn-danger form-control" type="reset" onclick="Reset()">รีเซ็ต</button>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12" align="right">
-                    <p id="StatusFullname" />
-                </div>
-            </div>
-
-            <div class="row" style="margin-bottom:2%">
-                <div class="col-md-12">
-                    <div class="input-group" id="xx">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                        </div>
-                        <textarea class="form-control" id="CusAddress" name="CusAddress"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="margin-bottom:5px">
-                <div class="col-md-12">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="CT"><i class="fas fa-phone-alt" id="CT"></i></span>
-                        </div>
-                        <input class="form-control" type="tel" id="CusTel" name="CusTel" placeholder="กรุุณากรอกเบอร์โทรศัพท์" maxlength="10" onchange="CheckTelnall()">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12" align="right">
-                    <p id="StatusTel" />
-                </div>
-            </div>
-
-            <div class="row" style="margin-bottom:5px">
-                <div class="col-md-12">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="CEM"><i class="fas fa-envelope" id="CEM"></i></span>
-                        </div>
-                        <input class="form-control" type="email" id="getEmail" name="getEmail" placeholder="กรุุณากรอกอีเมลล์ติดต่อ" maxlength="30" onchange="CheckEmailnull()">
-                        <div class="input-group-append">
-                            <select id="Email" class="form-control input-group-text" onchange="CheckEmailnull()">
-                                <option value="@@outlook.com">@@outlook.com</option>
-                                <option value="@@hotmail.com">@@hotmail.com</option>
-                                <option value="@@gmail.com">@@gmail.com</option>
-                                <option value="@@yahoo.com">@@yahoo.com</option>
-                            </select>
-                        </div>
-                    </div>
-                    <input type="hidden" name="CusEmail" id="CusEmail" maxlength="50" value="" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12" align="right">
-                    <p id="StatusEmail" />
-                </div>
-            </div>
-        </div>
-    </form>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-md-6">
-                <button class="btn btn-outline-info form-control" type="submit" onclick="Register()">สมัครสมาชิก</button>
-            </div>
-            <div class="col-md-6">
-                <button class="btn btn-danger form-control" type="reset" onclick="Reset()">รีเซ็ต</button>
             </div>
         </div>
     </div>
-</div>
+
 <script>
-    var chkusername, chktel, chkemail, chkfullname;
+    var chkusername, chktel, chkemail, chkfullname, chkaccept;
     function CheckUsernull() {
         if (document.getElementById('CusUsername').value == "") {
             $("#StatusUser").html('');
@@ -135,8 +142,15 @@
         }
     }
     function UserCheck() {
-        $("#StatusUser").html('<font color="Gold"><i class="fas fa-spinner"></i> กำลังตรวจสอบ...</font>');
-        $.post("@Url.Action("CheckUsernameAvilability", "Customer")",
+        var engnum = /^([a-z0-9])+$/i;
+        if (!(engnum.test(document.getElementById('CusUsername').value))) {
+            $("#StatusUser").html('<font color="Red"><i class="fas fa-times"></i> กรุณากรอกชื่อผู้ใช้งานเป็นภาษาอังกฤษหรือตัวเลขเท่านั้น เช่น graphiczone01 !</font>');
+            $("#CusUsername").css("border-color", "Red");
+            $("#CID").css("border-color", "Red");
+            chkusername = false;
+        } else {
+            $("#StatusUser").html('<font color="Gold"><i class="fas fa-spinner"></i> กำลังตรวจสอบ...</font>');
+            $.post("@Url.Action("CheckUsernameAvilability", "Customer")",
             {
                 userdata: $("#CusUsername").val()
             },
@@ -154,6 +168,7 @@
                 chkusername = false;
             }
         });
+        }
     }
 
     function CheckTelnall() {
@@ -171,7 +186,7 @@
                 $("#CT").css("border-color", "#17a2b8");
                 chktel = false;
             }
-            
+
         }
     }
     function TelCheck() {

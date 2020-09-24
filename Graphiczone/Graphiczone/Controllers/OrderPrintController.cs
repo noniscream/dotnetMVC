@@ -307,11 +307,13 @@ namespace Graphiczone.Controllers
                 {
 
                     var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2 && x.CusId == cusId && x.OrPrintId == id).OrderByDescending(x => x.OrPrintId).ToList();
+                    ViewBag.countData = seachData.Count();
                     return View(seachData);
                 }
                 else
                 {
                     var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2 && x.CusId == cusId && id == null).OrderByDescending(x => x.OrPrintId).ToList();
+                    ViewBag.countData = seachData.Count();
                     return View(seachData);
                 }
             }
@@ -334,11 +336,13 @@ namespace Graphiczone.Controllers
                 {
 
                     var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 2 && x.OrPrintStatus <= 3 && x.CusId == cusId && x.OrPrintId == id).OrderByDescending(x => x.OrPrintId).ToList();
+                    ViewBag.countData = seachData.Count();
                     return View(seachData);
                 }
                 else
                 {
                     var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 2 && x.OrPrintStatus <= 3 && x.CusId == cusId && id == null).OrderByDescending(x => x.OrPrintId).ToList();
+                    ViewBag.countData = seachData.Count();
                     return View(seachData);
                 }
             }
@@ -361,11 +365,13 @@ namespace Graphiczone.Controllers
                 {
 
                     var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 4 && x.CusId == cusId && x.OrPrintId == id).OrderByDescending(x => x.OrPrintId).ToList();
+                    ViewBag.countData = seachData.Count();
                     return View(seachData);
                 }
                 else
                 {
                     var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 4 && x.CusId == cusId && id == null).OrderByDescending(x => x.OrPrintId).ToList();
+                    ViewBag.countData = seachData.Count();
                     return View(seachData);
                 }
             }
@@ -387,11 +393,13 @@ namespace Graphiczone.Controllers
                 if (id != null)
                 {
                     var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && x.OrPrintId == id && x.OrPrintStatus != null  || x.OrPrintStatus == null && x.OrPrintDue != null ).OrderByDescending(x => x.OrPrintId).ToList();
+                    ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
                 else
                 {
                     var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && id == null && x.OrPrintStatus != null  || x.OrPrintStatus == null && x.OrPrintDue != null ).OrderByDescending(x => x.OrPrintId).ToList();
+                    ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
             }

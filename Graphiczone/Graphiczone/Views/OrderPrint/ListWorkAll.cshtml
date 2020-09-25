@@ -87,9 +87,14 @@
                     }
                 </div>
                 <div class="table-cell">
-                    @if (item.OrPrintStatus == 0)
+                    @if (item.OrPrintStatus == 0 && item.OrPrintDue == null)
                     {
-                        strStatus = "ค้างชำระ";
+                        strStatus = "รอประเมินระยะเวลา";
+                        strColorStatus = "danger";
+                    }
+                    else if (item.OrPrintStatus == 0)
+                    {
+                        strStatus = "ค้างชำระเงิน";
                         strColorStatus = "danger";
                     }
                     else if (item.OrPrintStatus == 1)

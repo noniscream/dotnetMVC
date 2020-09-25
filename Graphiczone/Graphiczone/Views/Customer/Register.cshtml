@@ -130,7 +130,7 @@
         </div>
     </div>
 
-<script>
+    <script>
     var chkusername, chktel, chkemail, chkfullname, chkaccept;
     function CheckUsernull() {
         if (document.getElementById('CusUsername').value == "") {
@@ -142,9 +142,9 @@
         }
     }
     function UserCheck() {
-        var engnum = /^([a-z0-9])+$/i;
+        var engnum = /^([a-z0-9_.])+$/i;
         if (!(engnum.test(document.getElementById('CusUsername').value))) {
-            $("#StatusUser").html('<font color="Red"><i class="fas fa-times"></i> กรุณากรอกชื่อผู้ใช้งานเป็นภาษาอังกฤษหรือตัวเลขเท่านั้น เช่น graphiczone01 !</font>');
+            $("#StatusUser").html('<font color="Red"><i class="fas fa-times"></i> กรุณากรอกชื่อผู้ใช้งานเป็นภาษาอังกฤษหรือตัวเลขเท่านั้น เช่น graphiczone_01 !</font>');
             $("#CusUsername").css("border-color", "Red");
             $("#CID").css("border-color", "Red");
             chkusername = false;
@@ -235,7 +235,15 @@
     }
 
     function EmailCheck() {
-        $("#StatusEmail").html('<font color="Gold"><i class="fas fa-spinner"></i> กำลังตรวจสอบ...</font>');
+        var engnum = /^([a-z0-9_.])+$/i;
+        if (!(engnum.test(document.getElementById('getEmail').value))) {
+            $("#StatusEmail").html('<font color="Red"><i class="fas fa-check"></i> กรุณากรอกอีเมลเป็นภาษาอังกฤษหรือตัวเลขเท่านั้น เช่น graphiczone01.mail ! </font>');
+            $("#getEmail").css("border-color", "Red");
+            $("#CEM").css("border-color", "Red");
+            $("#Email").css("border-color", "Red");
+            chkemail = true;
+        } else {
+            $("#StatusEmail").html('<font color="Gold"><i class="fas fa-spinner"></i> กำลังตรวจสอบ...</font>');
         $.post("@Url.Action("CheckEmailAvilability", "Customer")",
             {
                 emaildata: $("#getEmail").val() + $("#Email").val()
@@ -256,6 +264,7 @@
                 chkemail = false;
             }
         });
+        }
     }
 
     function Register() {
@@ -310,4 +319,4 @@
     }
 
 
-</script>
+    </script>

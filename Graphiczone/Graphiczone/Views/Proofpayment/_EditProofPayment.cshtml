@@ -51,13 +51,13 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-barcode"></i>  รหัสอ้างอิงการโอน</span>
                                             </div>
-                                            <input class="form-control" type="text" name="PrfPayId" id="PrfPayId" placeholder="กรุณากรอกรหัสอ้างอิงการโอน" required="required" maxlength="30"/>
+                                            <input class="form-control" type="text" name="PrfPayId" id="PrfPayId" placeholder="กรุณากรอกรหัสอ้างอิงการโอน" maxlength="255"/>
                                         </div>
                                         <div class="input-group" style="margin-top:1%">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-university"></i>  ชื่อธนาคาร</span>
                                             </div>
-                                            <select class="form-control" name="PrfPayBank" id="PrfPayBank" required="required">
+                                            <select class="form-control" name="PrfPayBank" id="PrfPayBank" >
                                                 <option value="">เลือกธนาคาร</option>
                                                 <option value="ธ.กรุงศรีอยุธยา">ธ.กรุงศรีอยุธยา</option>
                                                 <option value="ธ.กรุงเทพ">ธ.กรุงเทพ</option>
@@ -76,13 +76,13 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i>  วันที่โอน</span>
                                             </div>
-                                            <input class="form-control" type="date" name="PrfPayDate" id="PrfPayDate" min='@ViewBag.GetDateForPicker' max='@ViewBag.getDueForPicker' required="required" />
+                                            <input class="form-control" type="date" name="PrfPayDate" id="PrfPayDate" min='@ViewBag.GetDateForPicker' max='@ViewBag.getDueForPicker' />
                                         </div>
                                         <div class="input-group" style="margin-top:1%">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-clock"></i>  เวลาที่โอน</span>
                                             </div>
-                                            <input class="form-control" type="time" name="PrfPayTime" id="PrfPayTime" required="required" />
+                                            <input class="form-control" type="time" name="PrfPayTime" id="PrfPayTime" />
                                         </div>
                                         <div class="input-group" style="margin-top:1%">
                                             <div class="input-group-prepend">
@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input type="file" name="Uploadfile" id="Uploadfile" required="required" />
+                                        <input type="file" name="Uploadfile" id="Uploadfile" />
                                     </div>
                                 </div>
                                 <div class="row" style="margin-top:5px">
@@ -220,7 +220,7 @@
     $(function () {
         $("#Uploadfile").change(function () {
             $("#StatusImg").html('<font color="Gold"><i class="fas fa-time"></i> กำลังตรวจสอบ </font>');
-            var filetype = ["jpeg", "jpg", "gif", "png", "bmp"];
+            var filetype = ["jpeg", "jpg", "gif", "png", "bmp", "pdf"];
 
             if ($.inArray($(this).val().split('.').pop().toLowerCase(), filetype) == -1) {
                 $("#StatusImg").html('<font color="Red"><i class="fas fa-times"></i> ไฟล์ไม่ถูกต้อง ! ไม่สามารถใช้ไฟล์นี้ได้ </font>');
@@ -232,5 +232,14 @@
             }
         })
     })
+
+    function updateData() {
+        if (document.getElementById('PrfPayId').value == '' || document.getElementById('PrfPayBank').value == '' || document.getElementById('PrfPayDate').value == '' || document.getElementById('PrfPayTime').value == '' || document.getElementById('Uploadfile').value == '') {
+            swal("ผิดพลาด !", "กรุณากรอกข้อมูลแจ้งชำระเงินให้ครบถ้วน", "error");
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 </script>

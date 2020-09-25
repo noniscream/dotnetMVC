@@ -1,27 +1,27 @@
 ﻿@model IEnumerable<Graphiczone.Models.SQLServer.OrderPrint>
 @{
-    ViewData["Title"] = "ListWorkAll";
+    ViewData["Title"] = "ListOrderDue";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
 <style>
     #roworder:hover {
         border-left: solid 7px;
-        border-left-color: #0094ff;
+        border-left-color: red;
         border-right: solid 7px;
-        border-right-color: #0094ff;
+        border-right-color: red;
         font-weight: bold;
-        color: #0094ff !important;
+        color: #536DFE !important;
     }
 </style>
+
 @{
     var strStatus = "";
     var strColorStatus = "";
 }
-
-<div class="table-head" style="background-color:#0094ff">
+<div class="table-head" style="background-color:#00ff90">
     <div class="table-cell">
-        <p class="text-white" style="font-size:2rem">รายการสั่งทำทั้งหมด</p>
+        <p class="text-white" style="font-size:2rem">รายการที่รอประเมินระยะเวลาส่งมอบ</p>
     </div>
 </div>
 
@@ -29,7 +29,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        @using (Html.BeginForm("ListWorkAll", "OrderPrint", FormMethod.Get))
+        @using (Html.BeginForm("ListOrderdue", "OrderPrint", FormMethod.Get))
         {
             <div class="input-group">
                 <div class="input-group-prepend">
@@ -63,12 +63,12 @@
             <p>สถานะ</p>
         </div>
         <div class="table-cell last-cell text-white">
-            <p>จัดการสถานะ</p>
+            <p>ยืนยันสถานะงาน</p>
         </div>
     </div>
-    @if (@ViewBag.countData != 0)
+    @if (ViewBag.countData != 0)
     {
-        foreach (var item in Model)
+        @foreach (var item in Model)
         {
             <div class="table-row" id="roworder">
                 <div class="table-cell">
@@ -87,9 +87,14 @@
                     }
                 </div>
                 <div class="table-cell">
-                    @if (item.OrPrintStatus == 0)
+                    @if (item.OrPrintStatus == 0 && item.OrPrintDue == null)
                     {
-                        strStatus = "ค้างชำระ";
+                        strStatus = "รอประเมินระยะเวลา";
+                        strColorStatus = "danger";
+                    }
+                    else if (item.OrPrintStatus == 0)
+                    {
+                        strStatus = "ค้างชำระเงิน";
                         strColorStatus = "danger";
                     }
                     else if (item.OrPrintStatus == 1)
@@ -104,18 +109,21 @@
                     }
                     else if (item.OrPrintStatus == 3)
                     {
-                        strStatus = "ผลิตเสร็จสิ้น";
+                        strStatus = "ผลิตเสร็จแล้ว";
                         strColorStatus = "primary";
                     }
                     else if (item.OrPrintStatus == 4)
                     {
-                        strStatus = "ส่งมอบเสร็จสิ้น";
+                        strStatus = "ส่งมอบแล้ว";
                         strColorStatus = "warning";
                     }
                     <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
                 </div>
                 <div class="table-cell last-cell">
-                    <a class="btn text-dark badge-pill" style="background-color:#ffc107;box-shadow: 1px 2px 2px 0px rgba(0,0,0,0.75);" href="@Url.Content("/OrderPrint/GetWorkDetail?id=")@item.OrPrintId"><i class="far fa-edit"></i> จัดการ</a>
+                    <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
+                            data-target="#EditOrderDue" data-url="@Url.Action($"EditOrderDue/{item.OrPrintId}")">
+                        <i class="fas fa-edit" id="SDT"></i> ประเมินระยะเวลาส่งมอบ
+                    </button>
                 </div>
             </div>
         }

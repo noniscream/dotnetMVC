@@ -66,6 +66,29 @@ namespace Graphiczone.Controllers
             }
         }
 
+        public IActionResult ListOrderDue(String id)
+        {
+            if(HttpContext.Session.GetString("UserUsername") == null)
+            {
+                return View("../User/Login");
+            }
+            else
+            {
+                if(id != null)
+                {
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && x.OrPrintId == id && x.OrPrintDue == null).OrderByDescending(x => x.OrPrintId).ToList();
+                    ViewBag.countData = searchData.Count();
+                    return View(searchData);
+                }
+                else
+                {
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && x.OrPrintDue == null).OrderByDescending(x=>x.OrPrintId).ToList();
+                    ViewBag.countData = searchData.Count();
+                    return View(searchData);
+                }
+            }
+        }
+
         public IActionResult ListOrderBin()
         {
             if (HttpContext.Session.GetString("UserUsername") == null)
@@ -196,10 +219,15 @@ namespace Graphiczone.Controllers
                         {
                             ViewBag.getDatePayForPicker = searchDataProofpay.PrfPayDate.Value.AddYears(-543).ToString("yyyy-MM-dd");
                         }
-                        ViewBag.getDueForPicker = searchData.OrPrintDue.Value.AddMonths(+2).AddYears(-543).ToString("yyyy-MM-dd");
+                        if (searchData.OrPrintDue != null)
+                        {
+                            ViewBag.getDueForPicker = searchData.OrPrintDue.Value.AddMonths(+2).AddYears(-543).ToString("yyyy-MM-dd");
+                        }
+                        else
+                        {
+                            ViewBag.getDueForPicker = null;
+                        }
 
-                        var calOrPrintData = searchData.OrPrintDue - DateTime.Now;
-                        ViewBag.OrPrintTotalDate = calOrPrintData.Value.ToString("dd");
                         var searchDataOrDetail = _graphiczoneDBContext.OrderDetailPrint.Where(ord => ord.OrPrintId == id).FirstOrDefault();
                         if (searchDataOrDetail != null)
                         {
@@ -243,6 +271,24 @@ namespace Graphiczone.Controllers
                 }
             }
             return View();
+
+        }
+
+        [HttpPost]
+        public JsonResult updateordue(OrderPrint orderPrint)
+        {
+            var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
+            if (searchData != null)
+            {
+                searchData.OrPrintDue = orderPrint.OrPrintDue.Value.AddYears(543);
+                _graphiczoneDBContext.SaveChanges();
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
+
 
         }
 
@@ -306,13 +352,13 @@ namespace Graphiczone.Controllers
                 if (id != null)
                 {
 
-                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2 && x.CusId == cusId && x.OrPrintId == id).OrderByDescending(x => x.OrPrintId).ToList();
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 1 && x.OrPrintStatus <= 2 && x.CusId == cusId && x.OrPrintId == id).OrderByDescending(x => x.OrPrintId).ToList();
                     ViewBag.countData = seachData.Count();
                     return View(seachData);
                 }
                 else
                 {
-                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 2 && x.CusId == cusId && id == null).OrderByDescending(x => x.OrPrintId).ToList();
+                    var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 1 && x.OrPrintStatus <= 2 && x.CusId == cusId && id == null).OrderByDescending(x => x.OrPrintId).ToList();
                     ViewBag.countData = seachData.Count();
                     return View(seachData);
                 }
@@ -718,13 +764,13 @@ namespace Graphiczone.Controllers
             {
                 if (id != null)
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && x.OrPrintId == id && x.OrPrintDue >= dt.AddDays(4)).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && x.OrPrintId == id && x.OrPrintDue >= dt.AddDays(-2)).ToList();
                     ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
                 else
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && id == null && x.OrPrintDue >= dt.AddDays(4)).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && id == null && x.OrPrintDue >= dt.AddDays(-2)).ToList();
                     ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
@@ -758,6 +804,36 @@ namespace Graphiczone.Controllers
                     ViewBag.PriceTotal = seachData2.OrPrintTotal;
                 }
                 return PartialView("_EditWorkStatus",seachData);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult EditOrderDue(string id)
+        {
+            if (id == "0")
+            {
+                return View();
+            }
+            else
+            {
+
+                var seachData = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+                var seachData2 = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+                if (seachData2 != null)
+                {
+                    List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).ToList();
+                    ViewBag.OrderList = orderDetailPrints;
+                    ViewBag.OrderPrintId = seachData.OrPrintId;
+                    ViewBag.OrderDate = seachData2.OrPrintDate;
+                    ViewBag.GetDateForPicker = seachData2.OrPrintDate.Value.AddYears(-543);
+                    ViewBag.OrderDue = seachData2.OrPrintDue;
+                    var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
+                    ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
+                    var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
+                    ViewBag.PrintName = printname.PrintName;
+                    ViewBag.PriceTotal = seachData2.OrPrintTotal;
+                }
+                return PartialView("_EditOrderDue", seachData);
             }
         }
 

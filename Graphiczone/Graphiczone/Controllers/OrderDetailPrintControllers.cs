@@ -74,7 +74,6 @@ namespace Graphiczone.Controllers
         {
             List<Print> list = new List<Print>();
             list = _graphiczoneDBContext.Print.Where(x => x.TypePrint.TypePrintId == id).ToList();
-            //list.Insert(0, new Print { Id = 0, PrintId = "P000", PrintName = "กรุณาเลือกประเภทวัสดุ" });
             return Json(new SelectList(list, "PrintId", "PrintName", "PrintUnit", "PrintPrice"));
         }
 
@@ -203,7 +202,6 @@ namespace Graphiczone.Controllers
             if (searchBill != null)
             {
                 orderPrint.OrPrintDate = DateTime.Now;
-                searchBill.OrPrintDue = orderPrint.OrPrintDue;
                 searchBill.OrPrintDate = orderPrint.OrPrintDate;
                 searchBill.OrPrintStatus = orderPrint.OrPrintStatus;
                 searchBill.OrPrintTotal = orderPrint.OrPrintTotal;

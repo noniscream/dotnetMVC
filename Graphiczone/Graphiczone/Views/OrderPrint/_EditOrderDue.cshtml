@@ -1,0 +1,212 @@
+﻿<style>
+    .xs {
+        position: relative;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+        .xs .img {
+            position: absolute;
+            transform: translate();
+            visibility: hidden;
+            z-index: 1;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .xs:hover .img {
+            visibility: visible;
+        }
+</style>
+@{
+    double total = 0;
+    double tax = 0.07;
+}
+<div class="modal fade" id="EditOrderDue">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>ข้อมูลรายการสั่งทำที่ : @ViewBag.OrderPrintId</h5>
+                <input type="hidden" name="OrderPrintId" id="OrderPrintId" value="@ViewBag.OrderPrintId" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <h5 class="card-header">ประเมินระยะเวลาส่งมอบ</h5>
+                    <div class="card-body">
+                        <div class="container">
+                            <form>
+
+                                <input type="hidden" name="OrPrintId" id="OrPrintId" value="@ViewBag.OrderPrintId" />
+                                <div class="row" style="margin-bottom:2%">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                            </div>
+                                            <input class="form-control" type="date" name="OrPrintDue" id="OrPrintDue" min="@ViewBag.OrderDate.ToString("yyyy-MM-dd")" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div align="center" style="margin-top:2%">
+                                <button class="btn btn-outline-success badge-pill" onclick="checksaveordue()">บันทึก</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h5 class="card-header">รายละเอียดรายการสั่ง</h5>
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>สั่งทำโดย : คุณ @ViewBag.CusFullname</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>สั่งเมื่อวันที่ : @ViewBag.OrderDate.ToString("dd MMMM yyyy")</label>
+                                </div>
+                                <div class="col-md-6">
+                                    @if (ViewBag.OrPrintDue != null)
+                                    {
+                                        <label>วันครบกำหนดรับ : @ViewBag.OrPrintDue.ToString("dd MMM yyyy")</label>
+                                    }
+                                    else
+                                    {
+                                        <label class="text-danger">วันครบกำหนดรับ: อยู่ระอย่างการประเมินระยะเวลาส่งมอบ</label>
+                                    }
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-box">
+                                        <div class="table-row bg-dark">
+                                            <div class="table-cell text-white">
+                                                <p>รหัสรายการ</p>
+                                            </div>
+                                            <div class="table-cell text-white">
+                                                <p>ชื่อรายการ</p>
+                                            </div>
+                                            <div class="table-cell text-white">
+                                                <p>พื้นที่รวม</p>
+                                            </div>
+                                            <div class="table-cell text-white">
+                                                <p>ราคาต่อหน่วย</p>
+                                            </div>
+                                            <div class="table-cell text-white">
+                                                <p>จำนวน</p>
+                                            </div>
+                                            <div class="table-cell last-cell text-white">
+                                                <p>รวมเป็นเงิน</p>
+                                            </div>
+                                        </div>
+                                        @foreach (var x in ViewBag.OrderList)
+                                        {
+                                            <div class="table-row">
+                                                <div class="table-cell">
+                                                    <p>@x.OrdPrintId</p>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <a href="/@x.OrdPrintFile" target="_blank"><span class="xs">@ViewBag.PrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span><br /></a>
+                                                    <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <p>
+                                                        @{
+                                                            var sumarea = (x.OrdPrintWidth * x.OrdPrintHeight) / 10000;
+                                                        }
+                                                        @sumarea
+                                                    </p>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <p>@x.OrdPrintPriceset.ToString("#,###.00")</p>
+                                                </div>
+                                                <div class="table-cell">
+                                                    <p>@x.OrdPrintNum.ToString("#,###")</p>
+                                                </div>
+                                                <div class="table-cell last-cell">
+                                                    <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
+                                                </div>
+                                            </div>
+                                            total += x.OrdPrintTotal;
+                                        }
+                                        <div class="row mt-3">
+                                            <div class="col-md-4">
+                                                <div class="alert alert-primary" align="center">
+                                                    <h5>ราคาสุทธิ : <b>@total.ToString("#,###.00")</b> บาท</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="alert alert-warning" align="center">
+                                                    @{ total = total * tax;}
+                                                    <h5>ภาษี 7% เป็นเงิน : <b>@total.ToString("#,###.00")</b> บาท</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="alert alert-success" align="center">
+                                                    <h5>รวมเป็นเงิน : <b>@ViewBag.PriceTotal.ToString("#,###.00")</b> บาท</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-time"></i>ปิดหน้าต่าง</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function checksaveordue() {
+        swal({
+            title: "กรุณายืนยันการทำรายการ",
+            text: "คุณต้องการกำหนดระยะเวลาส่งมอบสื่อสิ่งพิมพ์ภายใน" + document.getElementById('OrPrintDue').value + "ใช่หรือไม่",
+            icon: "warning",
+            buttons: ["ยกเลิก", "ยืนยัน"],
+        }).then((willupdate) => {
+            if (willupdate) {
+                saveordue();
+            } else {
+                swal({
+                    title: "ยกเลิก !",
+                    text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
+                    icon: "error",
+                });
+            }
+        })
+        }
+        function saveordue() {
+            var OrPrintId = document.getElementById("OrPrintId").value;
+            var OrPrintDue = document.getElementById('OrPrintDue').value;
+            $.ajax({
+                type: "post",
+                data: { OrPrintId, OrPrintDue },
+                url: "/OrderPrint/updateordue",
+                success: function (result) {
+                    if (result == 1) {
+                        toastr.success("ประเมินระยะเวลาส่งมอบรายการสั่งทำที่ : @ViewBag.OrderPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                        setTimeout(function load() {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        toastr.error("รายการสั่งทำที่ : @ViewBag.OrPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    }
+                }
+            })
+        }
+</script>

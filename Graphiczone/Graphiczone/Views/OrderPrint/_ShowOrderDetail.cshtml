@@ -49,7 +49,14 @@
                                     <label>สั่งเมื่อวันที่ : @ViewBag.Orderdate.ToString("dd MMMM yyyy")</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <label>กำหนดรับวันที่ : @ViewBag.Orderdue.ToString("dd MMMM yyyy")</label>
+                                    @if (ViewBag.Orderdue != null)
+                                    {
+                                        <label>กำหนดรับวันที่ : @ViewBag.Orderdue.ToString("dd MMMM yyyy")</label>
+                                    }
+                                    else
+                                    {
+                                        <label class="text-danger">กำหนดรับวันที่ : อยู่ระอย่างการประเมินระยะเวลาส่งมอบ</label>
+                                    }
                                 </div>
                             </div>
                             <div class="row">

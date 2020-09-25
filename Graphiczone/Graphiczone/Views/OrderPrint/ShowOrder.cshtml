@@ -75,7 +75,15 @@
         <p>@item.OrPrintDate.Value.Date.ToString("dd MMM yyyy")</p>
     </div>
     <div class="table-cell">
-        <p>@item.OrPrintDue.Value.Date.ToString("dd MMM yyyy")</p>
+        @if (item.OrPrintDue != null)
+        {
+            <p>@item.OrPrintDue.Value.Date.ToString("dd MMM yyyy")</p>
+        }
+        else
+        {
+            <p class="text-danger">อยู่ระหว่างการประเมินระยะเวลาส่งมอบ</p>
+        }
+
     </div>
     <div class="table-cell">
         @if (item.OrPrintStatus == 0)

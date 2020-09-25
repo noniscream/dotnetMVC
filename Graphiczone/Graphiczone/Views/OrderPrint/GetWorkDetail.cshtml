@@ -3,27 +3,28 @@
     ViewData["Title"] = "GetWorkDetail";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
-    <style>
-        .xs{
-            position:relative;
-            font-weight:bold;
-            cursor:pointer;
-            text-decoration:underline;
+<style>
+    .xs {
+        position: relative;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+        .xs .img {
+            position: absolute;
+            transform: translate();
+            visibility: hidden;
+            z-index: 1;
+            max-width: 100%;
+            height: auto;
         }
-            .xs .img {
-                position: absolute;
-                transform: translate();
-                visibility: hidden;
-                z-index: 1;
-                max-width: 100%;
-                height: auto;
-            }
-            .xs:hover .img {
-                visibility: visible;
-                
-            }
-    </style>
-@{ 
+
+        .xs:hover .img {
+            visibility: visible;
+        }
+</style>
+@{
     var strColorstatus = "";
     var strStatrus = "";
     var strIcon = "";
@@ -31,118 +32,124 @@
     double total = 0;
     double tax = 0.07;
 }
-    <div class="row" style="margin-bottom:2%">
-        <div class="col-md-12">
-            <div class="accordion" id="accordionExample">
-                <div class="card">
-                    <div class="card-header" id="headingThree">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                รายละเอียดการสั่งทำที่ @ViewBag.OrPrintId
-                                <input type="hidden" name="OrPrintId" id="OrPrintId" value="@ViewBag.OrPrintId" />
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                        <div class="card-body">
-                            <h5>ข้อมูลลูกค้า</h5>
-                            <hr class="bg-light" />
-                            <div class="row">
-                                <div class="col-md-12">
-                                    ชื่อ - นามสกุล (ลูกค้า) : @ViewBag.CusFullname
-                                </div>
+<div class="row" style="margin-bottom:2%">
+    <div class="col-md-12">
+        <div class="accordion" id="accordionExample">
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            รายละเอียดการสั่งทำที่ @ViewBag.OrPrintId
+                            <input type="hidden" name="OrPrintId" id="OrPrintId" value="@ViewBag.OrPrintId" />
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <h5>ข้อมูลลูกค้า</h5>
+                        <hr class="bg-light" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                ชื่อ - นามสกุล (ลูกค้า) : @ViewBag.CusFullname
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    เบอร์ติดต่อ : @ViewBag.CusTel
-                                </div>
-                                <div class="col-md-6">
-                                    อีเมลล์ : @ViewBag.CusEmail
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                เบอร์ติดต่อ : @ViewBag.CusTel
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    ที่อยู่ : @ViewBag.CusAddress
-                                </div>
+                            <div class="col-md-6">
+                                อีเมลล์ : @ViewBag.CusEmail
                             </div>
-                            <h5 style="margin-top:5%">รายละเอียดการสั่ง</h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    วันที่สั่ง : @ViewBag.OrPrintDate.ToString("dd MMM yyyy")
-                                </div>
-                                <div class="col-md-6">
-                                    วันครบกำหนดรับ : @ViewBag.OrPrintDue.ToString("dd MMM yyyy")
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                ที่อยู่ : @ViewBag.CusAddress
                             </div>
-                            <hr class="bg-light" />
-                            <div class="table-box">
-                                <div class="table-row bg-dark">
-                                    <div class="table-cell text-white">
-                                        <p>รหัสรายการ</p>
-                                    </div>
-                                    <div class="table-cell text-white">
-                                        <p>ชื่อรายการ</p>
-                                    </div>
-                                    <div class="table-cell text-white">
-                                        <p>พื้นที่รวม</p>
-                                    </div>
-                                    <div class="table-cell text-white">
-                                        <p>ราคาต่อหน่วย</p>
-                                    </div>
-                                    <div class="table-cell text-white">
-                                        <p>จำนวน</p>
-                                    </div>
-                                    <div class="table-cell last-cell text-white">
-                                        <p>รวมเป็นเงิน</p>
-                                    </div>
-                                </div>
-                                @foreach (var x in ViewBag.OrPrintDetail)
+                        </div>
+                        <h5 style="margin-top:5%">รายละเอียดการสั่ง</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                วันที่สั่ง : @ViewBag.OrPrintDate.ToString("dd MMM yyyy")
+                            </div>
+                            <div class="col-md-6">
+                                @if (ViewBag.OrPrintDue != null)
                                 {
-                                    <div class="table-row">
-                                        <div class="table-cell">
-                                            <p>@x.OrdPrintId</p>
-                                        </div>
-                                        <div class="table-cell">
-                                            <a href="/@x.OrdPrintFile" target="_blank"><span class="xs">@ViewBag.PrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span></a><br />
-                                            <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
-
-                                        </div>
-                                        <div class="table-cell">
-                                            <p>
-                                                @{
-                                                    var sumarea = (x.OrdPrintWidth * x.OrdPrintHeight) / 10000;
-                                                }
-                                                @sumarea
-                                            </p>
-                                        </div>
-                                        <div class="table-cell">
-                                            <p>@x.OrdPrintPriceset.ToString("#,###.00")</p>
-                                        </div>
-                                        <div class="table-cell">
-                                            <p>@x.OrdPrintNum.ToString("#,###")</p>
-                                        </div>
-                                        <div class="table-cell last-cell">
-                                            <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
-                                        </div>
-                                    </div>
-                                    total += x.OrdPrintTotal;
+                                    <label>วันครบกำหนดรับ : @ViewBag.OrPrintDue.ToString("dd MMM yyyy")</label>
                                 }
-                                <div class="row mt-3">
-                                    <div class="col-md-4">
-                                        <div class="alert alert-primary" align="center">
-                                            <h5>ราคาสุทธิ : <b>@total.ToString("#,###.00")</b> บาท</h5>
-                                        </div>
+                                else
+                                {
+                                    <label class="text-danger">วันครบกำหนดรับ: อยู่ระอย่างการประเมินระยะเวลาส่งมอบ</label>
+                                }
+                            </div>
+                        </div>
+                        <hr class="bg-light" />
+                        <div class="table-box">
+                            <div class="table-row bg-dark">
+                                <div class="table-cell text-white">
+                                    <p>รหัสรายการ</p>
+                                </div>
+                                <div class="table-cell text-white">
+                                    <p>ชื่อรายการ</p>
+                                </div>
+                                <div class="table-cell text-white">
+                                    <p>พื้นที่รวม</p>
+                                </div>
+                                <div class="table-cell text-white">
+                                    <p>ราคาต่อหน่วย</p>
+                                </div>
+                                <div class="table-cell text-white">
+                                    <p>จำนวน</p>
+                                </div>
+                                <div class="table-cell last-cell text-white">
+                                    <p>รวมเป็นเงิน</p>
+                                </div>
+                            </div>
+                            @foreach (var x in ViewBag.OrPrintDetail)
+                            {
+                                <div class="table-row">
+                                    <div class="table-cell">
+                                        <p>@x.OrdPrintId</p>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="alert alert-warning" align="center">
-                                            @{ total = total * tax;}
-                                            <h5>ภาษี 7% เป็นเงิน : <b>@total.ToString("#,###.00")</b> บาท</h5>
-                                        </div>
+                                    <div class="table-cell">
+                                        <a href="/@x.OrdPrintFile" target="_blank"><span class="xs">@ViewBag.PrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span></a><br />
+                                        <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
+
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="alert alert-success" align="center">
-                                            <h5>รวมเป็นเงิน : <b>@ViewBag.PriceTotal.ToString("#,###.00")</b> บาท</h5>
-                                        </div>
+                                    <div class="table-cell">
+                                        <p>
+                                            @{
+                                                var sumarea = (x.OrdPrintWidth * x.OrdPrintHeight) / 10000;
+                                            }
+                                            @sumarea
+                                        </p>
+                                    </div>
+                                    <div class="table-cell">
+                                        <p>@x.OrdPrintPriceset.ToString("#,###.00")</p>
+                                    </div>
+                                    <div class="table-cell">
+                                        <p>@x.OrdPrintNum.ToString("#,###")</p>
+                                    </div>
+                                    <div class="table-cell last-cell">
+                                        <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
+                                    </div>
+                                </div>
+                                total += x.OrdPrintTotal;
+                            }
+                            <div class="row mt-3">
+                                <div class="col-md-4">
+                                    <div class="alert alert-primary" align="center">
+                                        <h5>ราคาสุทธิ : <b>@total.ToString("#,###.00")</b> บาท</h5>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="alert alert-warning" align="center">
+                                        @{ total = total * tax;}
+                                        <h5>ภาษี 7% เป็นเงิน : <b>@total.ToString("#,###.00")</b> บาท</h5>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="alert alert-success" align="center">
+                                        <h5>รวมเป็นเงิน : <b>@ViewBag.PriceTotal.ToString("#,###.00")</b> บาท</h5>
                                     </div>
                                 </div>
                             </div>
@@ -152,22 +159,85 @@
             </div>
         </div>
     </div>
-    <hr class="bg-light" />
-    <div class="row">
-        <div class="col-md-12">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="payment" aria-selected="true">แจ้งหลักฐานชำระเงิน</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="work-tab" data-toggle="tab" href="#work" role="tab" aria-controls="work" aria-selected="false">บันทึกสถานะงาน</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="shipping-tab" data-toggle="tab" href="#shipping" role="tab" aria-controls="shipping" aria-selected="false">บันทึกสถานะการส่งมอบ</a>
-                </li>
-            </ul>
+</div>
+<hr class="bg-light" />
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="due-tab" data-toggle="tab" href="#due" role="tab" aria-controls="due" aria-selected="true">ประเมินระยะเวลาส่งมอบ</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="payment" aria-selected="false">แจ้งหลักฐานชำระเงิน</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="work-tab" data-toggle="tab" href="#work" role="tab" aria-controls="work" aria-selected="false">บันทึกสถานะงาน</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="shipping-tab" data-toggle="tab" href="#shipping" role="tab" aria-controls="shipping" aria-selected="false">บันทึกสถานะการส่งมอบ</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="payment" role="tabpanel" aria-labelledby="payment-tab">
+                <div class="tab-pane fade show active" id="due" role="tabpanel" aria-labelledby="due-tab">
+                    <form id="dueform">
+                        @if (Model.OrPrintStatus == 0 && Model.OrPrintDue == null)
+                        {
+                            strColorstatus = "info";
+                            strStatrus = "อยู่ระหว่างการประเมินระยะเวลาส่งมอบ";
+                            strIcon = "fas fa-info";
+                        }
+                        else if (Model.OrPrintStatus == 0)
+                        {
+                            strColorstatus = "danger";
+                            strStatrus = "ยังไม่ยืนยันหลักฐานการชำระเงิน";
+                            strIcon = "fas fa-times";
+                        }
+                        else if (Model.OrPrintStatus == 1)
+                        {
+                            strColorstatus = "warning";
+                            strStatrus = "แจ้งชำระแล้วรอยืนยัน";
+                            strIcon = "fas fa-history";
+                        }
+                        else
+                        {
+                            strColorstatus = "success";
+                            strStatrus = "ประเมินระยะเวลาส่งมอบเรียบร้อย";
+                            strIcon = "fas fa-check";
+                        }
+                        <div class="alert alert-@strColorstatus" role="alert"><i class="@strIcon"></i> @strStatrus</div>
+                        <div class="form-group">
+                            <div class="row" style="margin-bottom:5px">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-file-invoice-dollar"></i></span>
+                                        </div>
+                                        @if (Model.OrPrintStatus == 0 && Model.OrPrintDue == null)
+                                        {
+                                            <input class="form-control" type="date" name="OrPrintDue" id="OrPrintDue" min="@Model.OrPrintDate.Value.AddYears(-543).ToString("yyyy-MM-dd")" required="required" />
+                                        }
+                                        else
+                                        {
+                                            <input class="form-control" type="date" name="OrPrintDue" id="OrPrintDue" value="@ViewBag.getDueForPicker" readonly />
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="form-group">
+                        <div class="row">
+                            @if (Model.OrPrintStatus == 0 && Model.OrPrintDue == null)
+                            {
+                                <div class="col-md-6 offset-md-3">
+                                    <button class="btn btn-success form-control" onclick="checksaveordue()">บันทึก</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
                     <form id="paymentform">
                         @if (Model.OrPrintStatus == 0)
                         {
@@ -179,7 +249,7 @@
                         {
                             strColorstatus = "warning";
                             strStatrus = "แจ้งชำระแล้วรอยืนยัน";
-                            strIcon = "fas fa-times";
+                            strIcon = "fas fa-history";
                         }
                         else
                         {
@@ -253,7 +323,7 @@
                             @if (Model.OrPrintStatus == 1 && ViewBag.getPayCode != null)
                             {
                                 <div class="col-md-6">
-                                    <button class="btn btn-outline-info form-control" onclick="checksavepayment()">ยืนยันการชำระ</button>
+                                    <button class="btn btn-success form-control" onclick="checksavepayment()">ยืนยันการชำระ</button>
                                 </div>
                                 <div class="col-md-6">
                                     <button class="btn btn-danger form-control" onclick="checkdeletepayment()">ยกเลิกหลักฐาน</button>
@@ -274,7 +344,7 @@
                         {
                             strColorstatus = "warning";
                             strStatrus = "แจ้งชำระแล้วรอยืนยัน";
-                            strIcon = "fas fa-times";
+                            strIcon = "fas fa-history";
                         }
                         else if (Model.OrPrintStatus == 2)
                         {
@@ -295,7 +365,14 @@
                                     วันที่สั่ง : @ViewBag.OrPrintDate.ToString("dd MMM yyyy")
                                 </div>
                                 <div class="col-md-6">
-                                    วันครบกำหนดรับ : @ViewBag.OrPrintDue.ToString("dd MMM yyyy")
+                                    @if (ViewBag.OrPrintDue != null)
+                                    {
+                                        <label>วันครบกำหนดรับ : @ViewBag.OrPrintDue.ToString("dd MMM yyyy")</label>
+                                    }
+                                    else
+                                    {
+                                        <label class="text-danger">วันครบกำหนดรับ: อยู่ระอย่างการประเมินระยะเวลาส่งมอบ</label>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -329,7 +406,7 @@
                         {
                             strColorstatus = "warning";
                             strStatrus = "แจ้งชำระแล้วรอยืนยัน";
-                            strIcon = "fas fa-times";
+                            strIcon = "fas fa-history";
                         }
                         else if (Model.OrPrintStatus == 2)
                         {
@@ -431,6 +508,44 @@
     </div>
 
     <script>
+        function checksaveordue() {
+            swal({
+                title: "กรุณายืนยันการทำรายการ",
+                text: "คุณต้องการกำหนดระยะเวลาส่งมอบสื่อสิ่งพิมพ์ภายใน" + document.getElementById('OrPrintDue').value + "ใช่หรือไม่",
+                icon: "warning",
+                buttons:["ยกเลิก","ยืนยัน"],
+            }).then((willupdate) => {
+                if (willupdate) {
+                    saveordue();
+                } else {
+                    swal({
+                        title: "ยกเลิก !",
+                        text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
+                        icon:"error",
+                    });
+                }
+            })
+        }
+        function saveordue() {
+            var OrPrintId = document.getElementById("OrPrintId").value;
+            var OrPrintDue = document.getElementById('OrPrintDue').value;
+            $.ajax({
+                type: "post",
+                data: { OrPrintId, OrPrintDue },
+                url: "/OrderPrint/updateordue",
+                success: function (result) {
+                    if (result == 1) {
+                        toastr.success("ประเมินระยะเวลาส่งมอบรายการสั่งทำที่ : @ViewBag.OrPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                        setTimeout(function load() {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        toastr.error("รายการสั่งทำที่ : @ViewBag.OrPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    }
+                }
+            })
+        }
+
         function checksavepayment() {
             swal({
                 title: "กรุณายืนยันการทำรายการ",
@@ -442,9 +557,9 @@
                     savepayment();
                 } else {
                     swal({
-                        title: "ยกเลิกสำเร็จ",
+                        title: "ยกเลิก !",
                         text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
-                        icon:"success",
+                        icon:"error",
                     });
                 }
             })
@@ -479,9 +594,9 @@
                     saveworkstatus();
                 } else {
                     swal({
-                        title: "ยกเลิกสำเร็จ",
+                        title: "ยกเลิก !",
                         text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
-                        icon:"success",
+                        icon:"error",
                     });
                 }
             })
@@ -564,9 +679,9 @@
                     editworkstatus();
                 } else {
                     swal({
-                        title: "ยกเลิกสำเร็จ",
+                        title: "ยกเลิก !",
                         text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
-                        icon:"success",
+                        icon:"error",
                     });
                 }
             })
@@ -602,9 +717,9 @@
                     deletepayment();
                 } else {
                     swal({
-                        title: "ยกเลิกสำเร็จ",
+                        title: "ยกเลิก !",
                         text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
-                        icon:"success",
+                        icon:"error",
                     });
                 }
             })

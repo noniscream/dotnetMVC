@@ -365,43 +365,20 @@
     function checkorderdue() {
         if (document.getElementById("totalbill").value != ".00") {
             swal({
-                title: 'กำหนดวันที่ต้องการรับสื่อสิ่งพิมพ์ ',
-                text:'แจ้งให้ทราบ ! ระยะเวลาจริงอาจไม่ตรงตามที่กำหนด ขึ้นอยู่กับขนาดและปริมาณของสื่อสิ่งพิมพ์',
-            html: '',
-            content: {
-                element: "input",
-                attributes: {
-                    placeholder: "Input Something",
-                    type: "date",
-                    id: "swalOrPrintDue",
-                    className: "form-control",
-                    min: "@DateTime.Now.AddDays(7).ToString("yyyy-MM-dd")",
-                    max: "@DateTime.Now.AddMonths(2).ToString("yyyy-MM-dd")"
-                },
-            },
-            buttons: {
-                cancel: {
-                    visible: true,
-                    text:"ยกเลิก",
-                    className: 'btn btn-danger'
-                },
-                confirm: {
-                    text: "ยืนยัน",
-                    className: 'btn btn-success'
-                }
-            },
+                title: "กรุณายืนยันการทำรายการ",
+                text: "คุณต้องการบันทึกการสั่งทำใช่หรือไม่",
+                icon: "warning",
+                buttons:["ยกเลิก","ยืนยัน"],
         }).then((willorder) => {
             if (willorder) {
-                var x = $('#swalOrPrintDue').val();
-                swal("", "คุณต้องการรับสื่อสิ่งพิมพ์วันที่ : " + $('#swalOrPrintDue').val(), "success");
+                swal("สำเร็จ !", "บันทึกสั่งทำสื่อสิ่งพิมพ์เรียบร้อย", "success");
                 setTimeout(function todb() {
                     var OrPrintId = document.getElementById("OrPrintId").value;
                     var OrPrintTotal = document.getElementById("totalbill").value;
                     var OrPrintStatus = document.getElementById("OrPrintStatus").value;
-                    var OrPrintDue = x;
                     $.ajax({
                         type: "post",
-                        data: { OrPrintId, OrPrintTotal, OrPrintStatus, OrPrintDue },
+                        data: { OrPrintId, OrPrintTotal, OrPrintStatus },
                         url: "/OrderDetailPrint/successbill",
                         success: function (result) {
                             if (result == 1) {
@@ -416,7 +393,7 @@
                     })
                 }, 3000);
             } else {
-                swal("", "คุณยังไม่ได้กำหนดวันรับสื่อสิ่งพิมพ์" , "error");
+                swal("ไม่สำเร็จ !", "ยังไม่ทำการบันทึกการสั่งทำสื่อสิ่งพิมพ์" , "error");
             }
         });
         } else {

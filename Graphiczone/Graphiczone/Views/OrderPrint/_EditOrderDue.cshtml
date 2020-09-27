@@ -47,13 +47,13 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
-                                            <input class="form-control" type="date" name="OrPrintDue" id="OrPrintDue" min="@ViewBag.OrderDate.ToString("yyyy-MM-dd")" />
+                                            <input class="form-control" type="date" name="OrPrintDue" id="OrPrintDue" min="@ViewBag.OrderDate.ToString("yyyy-MM-dd")" onchange="checkduenull()" />
                                         </div>
                                     </div>
                                 </div>
                             </form>
                             <div align="center" style="margin-top:2%">
-                                <button class="btn btn-outline-success badge-pill" onclick="checksaveordue()">บันทึก</button>
+                                <button class="btn btn-outline-success badge-pill" id="x" onclick="checksaveordue()">บันทึก</button>
                             </div>
                         </div>
                     </div>
@@ -172,41 +172,53 @@
 
 
 <script>
+    document.getElementById('x').disabled = true;
+    function checkduenull() {
+        if (document.getElementById('OrPrintDue').value == null) {
+            document.getElementById('x').disabled = true;
+        } else {
+            document.getElementById('x').disabled = false;
+        }
+    }
     function checksaveordue() {
-        swal({
-            title: "กรุณายืนยันการทำรายการ",
-            text: "คุณต้องการกำหนดระยะเวลาส่งมอบสื่อสิ่งพิมพ์ภายใน" + document.getElementById('OrPrintDue').value + "ใช่หรือไม่",
-            icon: "warning",
-            buttons: ["ยกเลิก", "ยืนยัน"],
-        }).then((willupdate) => {
-            if (willupdate) {
-                saveordue();
-            } else {
-                swal({
-                    title: "ยกเลิก !",
-                    text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
-                    icon: "error",
-                });
-            }
-        })
-        }
-        function saveordue() {
-            var OrPrintId = document.getElementById("OrPrintId").value;
-            var OrPrintDue = document.getElementById('OrPrintDue').value;
-            $.ajax({
-                type: "post",
-                data: { OrPrintId, OrPrintDue },
-                url: "/OrderPrint/updateordue",
-                success: function (result) {
-                    if (result == 1) {
-                        toastr.success("ประเมินระยะเวลาส่งมอบรายการสั่งทำที่ : @ViewBag.OrderPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
-                        setTimeout(function load() {
-                            location.reload();
-                        }, 1500);
-                    } else {
-                        toastr.error("รายการสั่งทำที่ : @ViewBag.OrPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
-                    }
+        if (document.getElementById('OrPrintDue').value != null) {
+            swal({
+                title: "กรุณายืนยันการทำรายการ",
+                text: "คุณต้องการกำหนดระยะเวลาส่งมอบสื่อสิ่งพิมพ์ภายใน" + document.getElementById('OrPrintDue').value + "ใช่หรือไม่",
+                icon: "warning",
+                buttons: ["ยกเลิก", "ยืนยัน"],
+            }).then((willupdate) => {
+                if (willupdate) {
+                    saveordue();
+                } else {
+                    swal({
+                        title: "ยกเลิก !",
+                        text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
+                        icon: "error",
+                    });
                 }
-            })
+            });
+        } else {
+            swal("ผิดพลาด !", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
         }
+    }
+    function saveordue() {
+        var OrPrintId = document.getElementById("OrPrintId").value;
+        var OrPrintDue = document.getElementById('OrPrintDue').value;
+        $.ajax({
+            type: "post",
+            data: { OrPrintId, OrPrintDue },
+            url: "/OrderPrint/updateordue",
+            success: function (result) {
+                if (result == 1) {
+                    toastr.success("ประเมินระยะเวลาส่งมอบรายการสั่งทำที่ : @ViewBag.OrderPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });
+                    setTimeout(function load() {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    toastr.error("รายการสั่งทำที่ : @ViewBag.OrPrintId ไม่ถูกเปลี่ยนแปลง", "ไม่สำเร็จ", { timeOut: 3000, "closeButton": true });
+                }
+            }
+        });
+    }
 </script>

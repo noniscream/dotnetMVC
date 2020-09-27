@@ -55,15 +55,30 @@
                         <div class="col-md-7" style="margin-top:1rem;margin-bottom:2rem;" align="center">
                             @if (ViewBag.OrderStatus == 0)
                             {
-                                <div class="row">
-                                    <div class="col-4">
-                                        <i class="far fa-check-circle" style="color:lawngreen; font-size:5rem;"></i>
+                                @if (ViewBag.OrderDue != "อยู่ระหว่างการประเมินระยะเวลาส่งมอบ")
+                                {
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <i class="far fa-check-circle" style="color:lawngreen; font-size:5rem;"></i>
+                                        </div>
+                                        <div class="col-8" align="left">
+                                            <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะแจ้งหลักฐานการชำระเงิน</strong></p>
+                                            <p>ค้างชำระ</p>
+                                        </div>
                                     </div>
-                                    <div class="col-8" align="left">
-                                        <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะแจ้งหลักฐานการชำระเงิน</strong></p>
-                                        <p>แจ้งชำระเงินแล้ว</p>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <i class="far fa-check-circle" style="color:lawngreen; font-size:5rem;"></i>
+                                        </div>
+                                        <div class="col-8" align="left">
+                                            <p style="color:#006400;font-size:21px;"><strong><i class="fas fa-bell" style="font-size:18px;color:gold;"></i> สถานะแจ้งหลักฐานการชำระเงิน</strong></p>
+                                            <p>อยู่ระหว่างการประเมินระยะเวลาส่งมอบ</p>
+                                        </div>
                                     </div>
-                                </div>
+                                }
                             }
                             else if (ViewBag.OrderStatus == 1)
                             {

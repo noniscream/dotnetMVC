@@ -497,7 +497,7 @@
                                     <button class="btn btn-warning form-control" name="btnEdit" id="btnEdit" onclick="editshipping()">แก้ไข</button>
                                 </div>
                                 <div class="col-md-6">
-                                    <button class="btn btn-danger form-control" name="btnDelete" id="btnDelete" onclick="deleteshipping()">ลบ</button>
+                                    <button class="btn btn-danger form-control" name="btnDelete" id="btnDelete" onclick="checkeditshipping()">ลบ</button>
                                 </div>
                             }
                         }
@@ -647,6 +647,26 @@
             document.getElementById("Uploadfile").required = false;
             $("#btnSave").attr('hidden', false);
         }
+
+        function checkeditshipping() {
+            swal({
+                title: "กรุณายืนยันการทำรายการ",
+                text: "การลบข้อมูลบันทึกการส่งมอบ ไว้สำหรับกรณีบันทึกผิดพลาด คุณต้องการลบข้อมูลการส่งมอบ รายการที่ : @ViewBag.OrPrintId ใช่หรือไม่",
+                icon: "warning",
+                buttons:["ยกเลิก","ยืนยัน"],
+            }).then((willupdate) => {
+                if (willupdate) {
+                    deleteshipping();
+                } else {
+                    swal({
+                        title: "ยกเลิก !",
+                        text: "คุณได้ยกเลิกการทำรายการนี้แล้ว",
+                        icon:"error",
+                    });
+                }
+            })
+        }
+
 
         function deleteshipping() {
             var OrPrintId = document.getElementById("OrPrintId").value;

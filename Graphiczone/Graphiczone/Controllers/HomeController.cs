@@ -76,15 +76,21 @@ namespace Graphiczone.Controllers
             if (id != null)
             {
                 var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id.Trim()).FirstOrDefault();
-                if(searchData != null)
+                if (searchData != null)
                 {
                     ViewBag.OrderPrintId = searchData.OrPrintId;
                     var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == searchData.CusId).FirstOrDefault();
                     ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
                     ViewBag.OrderDate = searchData.OrPrintDate.Value.ToString("dd MMMM yyyy");
-                    ViewBag.OrderDue = searchData.OrPrintDue.Value.ToString("dd MMMM yyyy");
+                    if (searchData.OrPrintDue != null)
+                    {
+                        ViewBag.OrderDue = searchData.OrPrintDue.Value.ToString("dd MMMM yyyy");
+                    }
+                    else
+                    {
+                        ViewBag.OrderDue = "อยู่ระหว่างการประเมินระยะเวลาส่งมอบ";
+                    }
                     var prf = _graphiczoneDBContext.ProofPayment.Where(p => p.OrPrintId == searchData.OrPrintId).FirstOrDefault();
-                    ViewBag.PrfDate = prf.PrfPayDate;
                     ViewBag.Orderstatus = searchData.OrPrintStatus;
                     return View(searchData);
                 }

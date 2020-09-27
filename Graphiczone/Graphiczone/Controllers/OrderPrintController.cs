@@ -45,6 +45,7 @@ namespace Graphiczone.Controllers
 
         public IActionResult ListWorkAll(string id)
         {
+            int maxRows = 10;
             if (HttpContext.Session.GetString("UserUsername") == null)
             {
                 return View("../User/Login");
@@ -53,13 +54,13 @@ namespace Graphiczone.Controllers
             {
                 if (id != null)
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && x.OrPrintId == id ).OrderByDescending(x=>x.OrPrintStatus == 0).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && x.OrPrintId == id).OrderByDescending(x => x.OrPrintStatus == 0).ToList();
                     ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
                 else
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && id == null ).OrderByDescending(x => x.OrPrintStatus == 0);
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && id == null ).OrderByDescending(x => x.OrPrintStatus == 0).ToList();
                     ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }

@@ -49,13 +49,13 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
-                                            <input class="form-control" type="date" name="ShippingDate" id="ShippingDate" min='@ViewBag.getDatePayForPicker' max='@ViewBag.GetDueForPicker' required="required" />
+                                            <input class="form-control" type="date" name="ShippingDate" id="ShippingDate" min='@ViewBag.getDatePayForPicker' max='@ViewBag.GetDueForPicker'/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input type="file" name="Uploadfile" id="Uploadfile" required="required" />
+                                        <input type="file" name="Uploadfile" id="Uploadfile"/>
                                     </div>
                                 </div>
                                 <div class="row" style="margin-top:5px">
@@ -182,7 +182,7 @@
     $(function () {
         $("#Uploadfile").change(function () {
             $("#StatusImg").html('<font color="Gold"><i class="fas fa-time"></i> กำลังตรวจสอบ </font>');
-            var filetype = ["jpeg", "jpg", "gif", "png", "bmp"];
+            var filetype = ["jpeg", "jpg", "gif", "png", "bmp", "pdf"];
             
             if ($.inArray($(this).val().split('.').pop().toLowerCase(), filetype) == -1) {
                 $("#StatusImg").html('<font color="Red"><i class="fas fa-times"></i> ไฟล์ไม่ถูกต้อง ! ไม่สามารถใช้ไฟล์นี้ได้ </font>');
@@ -194,5 +194,14 @@
             }
         })
     })
+
+    function updateData() {
+        if (document.getElementById('ShippingDate').value == '' || document.getElementById('Uploadfile').value == '') {
+            swal("ผิดพลาด !", "กรุณากรอกข้อมูลบันทึกการส่งมอบให้ครบถ้วน", "error");
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 </script>

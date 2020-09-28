@@ -19,7 +19,7 @@
 
     @foreach (var x in Model)
     {
-        <thead class="table table-dark">
+        <thead class="table table-secondary">
             <tr>
                 <th colspan="2" align="left">รหัสสั่งทำ</th>
                 <th align="center">สั่งทำวันที่</th>
@@ -64,13 +64,13 @@
                                 <td align="center">@s.PrintName (@i.OrdPrintWidth X @i.OrdPrintHeight)</td>
                             }
                         }
-                        <td align="right">@{var total = (i.OrdPrintWidth * i.OrdPrintHeight)/10000;} @total.ToString("#,###.000")</td>
+                        <td align="right">@{var total = (i.OrdPrintWidth * i.OrdPrintHeight) / 10000;} @total.ToString("#,###.000")</td>
                         <td align="right">@i.OrdPrintNum</td>
                         <td align="right">@i.OrdPrintTotal.ToString("#,###.00")</td>
                     </tr>
                     countlist += 1;
                     totallist += i.OrdPrintTotal;
-                    
+
                 }
                 else
                 {
@@ -95,14 +95,17 @@
         countlist = 0;
         totallist = 0;
         alllist += 1;
-        
-    }
 
-<tbody align="right" style="margin-top:2px">
-    <tr>
-        <td colspan="2"><b>ยอดขายทั้งหมด : @alllist.ToString("#,###") รายการ</b></td>
-        <td colspan="3" align="right"><b>ยอดขายทั้งหมดรวมเป็นเงิน : @totalincome.ToString("#,###.00") บาท</b></td>
-    </tr>
-</tbody>
+    }
+    <tbody align="right" style="margin-top:2px">
+        <tr>
+            <td colspan="4" align="right"><b>ยอดขายทั้งหมด : </b></td>
+            <td colspan="1"><b>@alllist.ToString("#,###") รายการ</b></td>
+        </tr>
+        <tr>
+            <td colspan="4" align="right"><b>ยอดขายทั้งหมดรวมเป็นเงิน : </b></td>
+            <td colspan="1"><b>@totalincome.ToString("#,###.00") บาท</b></td>
+        </tr>
+    </tbody>
 </table>
 

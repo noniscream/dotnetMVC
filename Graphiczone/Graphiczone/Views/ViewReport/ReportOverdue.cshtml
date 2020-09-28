@@ -19,7 +19,7 @@
     }
     @foreach (var x in Model)
     {
-        <thead class="table table-dark">
+        <thead class="table table-secondary">
             <tr>
                 <th colspan="2" align="left">รหัสสั่งทำ</th>
                 <th align="center">สั่งทำวันที่</th>
@@ -94,10 +94,15 @@
         totallist = 0;
         alllist += 1;
     }
+
     <tbody align="right" style="margin-top:2px">
         <tr>
-            <td colspan="2"><b>ยอดขายที่ยังไม่ได้รับชำระเงินทั้งหมด : @alllist.ToString("#,###") รายการ</b></td>
-            <td colspan="3" align="right"><b>ยอดขายที่ยังไม่ได้รับชำระรวมเป็นเงิน : @totalincome.ToString("#,###.00") บาท</b></td>
+            <td colspan="4" align="right"><b>ยอดขายที่ยังไม่ได้รับชำระเงินทั้งหมด : </b></td>
+            <td colspan="1"><b>@alllist.ToString("#,###") รายการ</b></td>
+        </tr>
+        <tr>
+            <td colspan="4" align="right"><b>ยอดขายที่ยังไม่ได้รับชำระรวมเป็นเงิน : </b></td>
+            <td colspan="1"><b>@totalincome.ToString("#,###.00") บาท</b></td>
         </tr>
     </tbody>
 </table>

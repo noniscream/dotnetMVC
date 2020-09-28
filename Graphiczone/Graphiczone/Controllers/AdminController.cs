@@ -105,6 +105,7 @@ namespace Graphiczone.Controllers
             if (seachData != null)
             {
                 HttpContext.Session.SetString("AdminUsername", user.UserUsername); // Save Session
+                HttpContext.Session.SetString("forlistreport", "1");
                 return Json(1);
             }
             else

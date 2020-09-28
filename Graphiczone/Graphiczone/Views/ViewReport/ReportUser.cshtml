@@ -4,7 +4,7 @@
     ViewData["Title"] = "ReportUser";
     Layout = "~/Views/Shared/_formatReport.cshtml";
 }
-
+@{ var count = 1;}
     <h4 style="top:0;">รายงานพนักงาน</h4>
     <h6 align="right"><label align="right">วันที่เรียกดู @DateTime.Now.ToString("dddd dd MMMM yyyy")</label></h6>
 
@@ -32,7 +32,14 @@
                     <td align="right">@x.UserSalary</td>
                 </tr>
             </tbody>
+            count += 1;
         }
+        <tbody align="right" style="margin-top:2px">
+            <tr>
+                <td colspan="5" align="right"><b>จำนวนพนักงานทั้งหมด : </b></td>
+                <td colspan="1"><b>@count.ToString("#,###") รายการ</b></td>
+            </tr>
+        </tbody>
     </table>
 
 

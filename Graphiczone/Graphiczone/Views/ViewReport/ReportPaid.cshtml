@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Graphiczone.Models.SQLServer.OrderPrint>
+﻿@model IEnumerable<Graphiczone.Models.SQLServer.ProofPayment>
 
 @{
     ViewData["Title"] = "ReportPaid";
@@ -19,85 +19,99 @@
     }
     @foreach (var x in Model)
     {
-        <thead class="table table-dark">
-            <tr>
-                <th colspan="2" align="left">รหัสสั่งทำ</th>
-                <th align="center">สั่งทำวันที่</th>
-                <th align="center">กำหนดส่งวันที่</th>
-                <th align="center">ชื่อลูกค้าที่สั่ง</th>
-            </tr>
-        </thead>
-        <tbody align="left">
-            <tr>
-                <td colspan="2">@x.OrPrintId</td>
-                <td>@x.OrPrintDate.Value.ToString("dd MMM yyyy")</td>
-                <td>@x.OrPrintDue.Value.ToString("dd MMM yyyy")</td>
-                @foreach (var c in ViewBag.listcus)
-                {
-                    if (x.CusId == c.CusId)
-                    {
-                        <td>@c.CusFirstname @c.CusLastname</td>
-                    }
-                }
-            </tr>
-        <thead>
-            <tr>
-                <th align="center"><span align="center">รหัสรายการสั่งทำ</span></th>
-                <th aling="left"><span align="center">ป้าย</span></th>
-                <th align="center"><span align="center">พื้นที่รวม (ตร.ม.)</span></th>
-                <th align="center"><span align="center">จำนวน/หน่วย</span></th>
-                <th align="center"><span align="center">ราคา</span></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var i in ViewBag.list)
+        @foreach (var o in ViewBag.listorprint)
+        {
+            @if (x.OrPrintId == o.OrPrintId)
             {
-                if (i.OrPrintId == x.OrPrintId)
-                {
+                <thead class="table table-secondary">
                     <tr>
-                        <td align="center">@i.OrdPrintId</td>
-                        @foreach (var s in ViewBag.listprint)
+                        <th colspan="2" align="left">รหัสสั่งทำ</th>
+                        <th align="center">สั่งทำวันที่</th>
+                        <th align="center">กำหนดส่งวันที่</th>
+                        <th align="center">ชำระเงินวันที่</th>
+                        <th align="center">ชื่อลูกค้าที่สั่ง</th>
+                    </tr>
+                </thead>
+                <tbody align="left">
+                    <tr>
+                        <td colspan="2">@x.OrPrintId</td>
+                        <td>@o.OrPrintDate.ToString("dd MMM yyyy")</td>
+                        <td>@o.OrPrintDue.ToString("dd MMM yyyy")</td>
+                        <td>@x.PrfPayDate.Value.ToString("dd MMM yyyy")</td>
+                        @foreach (var c in ViewBag.listcus)
                         {
-                            if (i.PrintId == s.PrintId)
+                            if (o.CusId == c.CusId)
                             {
-                                <td align="left">@s.PrintName (@i.OrdPrintWidth X @i.OrdPrintHeight)</td>
+                                <td>@c.CusFirstname @c.CusLastname</td>
                             }
                         }
-                        <td align="right">@{var total = (i.OrdPrintWidth * i.OrdPrintHeight) / 10000;} @total.ToString("#,###.000")</td>
-                        <td align="right">@i.OrdPrintNum</td>
-                        <td align="right">@i.OrdPrintTotal.ToString("#,###.00")</td>
                     </tr>
-                    countlist += 1;
-                    totallist += i.OrdPrintTotal;
-                }
-                else
-                {
+                <thead>
+                    <tr>
+                        <th align="center"><span align="center">รหัสรายการสั่งทำ</span></th>
+                        <th aling="left"><span align="center">ป้าย</span></th>
+                        <th></th>
+                        <th align="center"><span align="center">พื้นที่รวม (ตร.ม.)</span></th>
+                        <th align="center"><span align="center">จำนวน/หน่วย</span></th>
+                        <th align="center"><span align="center">ราคา</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in ViewBag.list)
+                    {
+                        if (i.OrPrintId == x.OrPrintId)
+                        {
+                            <tr>
+                                <td align="center">@i.OrdPrintId</td>
+                                @foreach (var s in ViewBag.listprint)
+                                {
+                                    if (i.PrintId == s.PrintId)
+                                    {
+                                        <td align="left">@s.PrintName (@i.OrdPrintWidth X @i.OrdPrintHeight)</td>
+                                    }
+                                }
+                                <td></td>
+                                <td align="right">@{var total = (i.OrdPrintWidth * i.OrdPrintHeight) / 10000;} @total.ToString("#,###.000")</td>
+                                <td align="right">@i.OrdPrintNum</td>
+                                <td align="right">@i.OrdPrintTotal.ToString("#,###.00")</td>
+                            </tr>
+                            countlist += 1;
+                            totallist += i.OrdPrintTotal;
+                        }
+                        else
+                        {
 
-                }
+                        }
+                    }
+                </tbody>
+                <tbody align="right">
+                    <tr>
+                        <td colspan="5" align="center"><b>ทั้งหมด @countlist รายการ</b></td>
+                        <td colspan="1">ราคาสุทธิ : @totallist.ToString("#,###.00")</td>
+                    </tr>
+                </tbody>
+                <tbody align="right">
+                    <tr>
+                        <td colspan="5" align="right">ภาษี (7%) : @{totallist = totallist * tax;} @totallist.ToString("#,###.00")</td>
+                        <td colspan="1">รวมเป็นเงิน : @o.OrPrintTotal.ToString("#,###.00")</td>
+                    </tr>
+                </tbody>
+                </tbody>
+                totalincome += @Convert.ToDouble(o.OrPrintTotal);
+                countlist = 0;
+                totallist = 0;
+                alllist += 1;
             }
-        </tbody>
-        <tbody align="right">
-            <tr>
-                <td colspan="4" align="center"><b>ทั้งหมด @countlist รายการ</b></td>
-                <td colspan="1">ราคาสุทธิ : @totallist.ToString("#,###.00")</td>
-            </tr>
-        </tbody>
-        <tbody align="right">
-            <tr>
-                <td colspan="4" align="right">ภาษี (7%) : @{totallist = totallist * tax;} @totallist.ToString("#,###.00")</td>
-                <td colspan="1">รวมเป็นเงิน : @x.OrPrintTotal.Value.ToString("#,###.00")</td>
-            </tr>
-        </tbody>
-        </tbody>
-        totalincome += @Convert.ToDouble(x.OrPrintTotal);
-        countlist = 0;
-        totallist = 0;
-        alllist += 1;
+        }
     }
     <tbody align="right" style="margin-top:2px">
         <tr>
-            <td colspan="2"><b>ยอดขายที่ได้รับชำระเงินทั้งหมด : @alllist.ToString("#,###") รายการ</b></td>
-            <td colspan="3"><b>ยอดขายที่ได้รับชำระเงินแล้วรวมเป็นเงิน : @totalincome.ToString("#,###.00") บาท</b></td>
+            <td colspan="5" align="right"><b>ยอดขายที่ได้รับชำระเงินทั้งหมด : </b></td>
+            <td colspan="1"><b>@alllist.ToString("#,###") รายการ</b></td>
+        </tr>
+        <tr>
+            <td colspan="5" align="right"><b>ยอดขายที่ได้รับชำระเงินแล้วรวมเป็นเงิน : </b></td>
+            <td colspan="1"><b>@totalincome.ToString("#,###.00") บาท</b></td>
         </tr>
     </tbody>
 </table>

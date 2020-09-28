@@ -45,7 +45,6 @@ namespace Graphiczone.Controllers
 
         public IActionResult ListWorkAll(string id)
         {
-            int maxRows = 10;
             if (HttpContext.Session.GetString("UserUsername") == null)
             {
                 return View("../User/Login");
@@ -54,13 +53,13 @@ namespace Graphiczone.Controllers
             {
                 if (id != null)
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && x.OrPrintId == id).OrderByDescending(x => x.OrPrintStatus == 0).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && x.OrPrintId == id).ToList();
                     ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
                 else
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && id == null ).OrderByDescending(x => x.OrPrintStatus == 0).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && id == null ).OrderByDescending(x => x.OrPrintStatus == 1).ToList();
                     ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
@@ -83,7 +82,7 @@ namespace Graphiczone.Controllers
                 }
                 else
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && x.OrPrintDue == null).OrderByDescending(x=>x.OrPrintId).ToList();
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && x.OrPrintDue == null).OrderBy(x=>x.OrPrintId).ToList();
                     ViewBag.countData = searchData.Count();
                     return View(searchData);
                 }
@@ -949,7 +948,7 @@ namespace Graphiczone.Controllers
 
         public ViewResult ListReport()
         {
-            if (HttpContext.Session.GetString("AdminUsername") == null)
+            if (HttpContext.Session.GetString("forlistreport") == null)
             {
                 return View("../Admin/Login");
             }
@@ -1073,9 +1072,11 @@ namespace Graphiczone.Controllers
             else
             {
                 getViewbagshopdetail();
-                var searchRePaid = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 2 && x.OrPrintDate >= Start && x.OrPrintDate <= End).ToList();
-                if (searchRePaid != null)
+                var searchPayment = _graphiczoneDBContext.ProofPayment.Where(x => x.PrfPayDate >= Start && x.PrfPayDate <= End).OrderBy(x=>x.PrfPayDate).ToList();
+                if (searchPayment != null)
                 {
+                    List<OrderPrint> orderPrints = _graphiczoneDBContext.OrderPrint.ToList();
+                    ViewBag.listorprint = orderPrints;
                     List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
                     ViewBag.list = orderDetailPrints;
                     List<Print> prints = _graphiczoneDBContext.Print.ToList();
@@ -1085,7 +1086,7 @@ namespace Graphiczone.Controllers
                 }
                 HttpContext.Session.Remove("dates");
                 HttpContext.Session.Remove("datee");
-                return View("../ViewReport/ReportPaid", searchRePaid);
+                return View("../ViewReport/ReportPaid", searchPayment);
             }
         }
 
@@ -1210,15 +1211,11 @@ namespace Graphiczone.Controllers
             else
             {
                 getViewbagshopdetail();
-                var searchShipping = _graphiczoneDBContext.Shipping.Where(x => x.ShippingDate >= Start && x.ShippingDate <= End).ToList();
+                var searchShipping = _graphiczoneDBContext.Shipping.Where(x => x.ShippingDate >= Start && x.ShippingDate <= End).OrderBy(x=>x.ShippingDate).ToList();
                 if(searchShipping != null)
                 {
-                    List<Shipping> shippings = _graphiczoneDBContext.Shipping.ToList();
-                    ViewBag.shipping = shippings;
-                    var searchReShipingFinish = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >= 4).ToList();
-                    if (searchReShipingFinish != null)
-                    {
-                        List<OrderPrint> orderPrints = _graphiczoneDBContext.OrderPrint.ToList();
+
+                        List<OrderPrint> orderPrints = _graphiczoneDBContext.OrderPrint.Where(x=>x.OrPrintStatus >= 4).ToList();
                         ViewBag.listor = orderPrints;
                         List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();
                         ViewBag.list = orderDetailPrints;
@@ -1226,7 +1223,7 @@ namespace Graphiczone.Controllers
                         ViewBag.listprint = prints;
                         List<Customer> customers = _graphiczoneDBContext.Customer.ToList();
                         ViewBag.listcus = customers;
-                    }
+                    
                 }
                 HttpContext.Session.Remove("dates");
                 HttpContext.Session.Remove("datee");

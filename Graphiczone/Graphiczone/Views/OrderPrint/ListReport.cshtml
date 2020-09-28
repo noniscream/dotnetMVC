@@ -1,36 +1,36 @@
-﻿
-@{
-    ViewData["Title"] = "ListReport";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
-}
+﻿@using Microsoft.AspNetCore.Http
 
 <style>
-    input[type="radio"]{
-        display:none;
+    input[type="radio"] {
+        display: none;
     }
+
     .radio label {
         color: #0094ff;
         border: 2px solid #0094ff;
-        border-radius:5px;
-        padding:10px;
-        display:flex;
-        align-items:center;
+        border-radius: 5px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
     }
-    .radio label:hover {
-        box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.30);
-    }
+
+        .radio label:hover {
+            box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.30);
+        }
+
     input[type="radio"]:checked + label {
         background-color: #0094ff;
         color: white;
         box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.30);
-        font-weight:bold;
+        font-weight: bold;
     }
-    input[type="radio"]:checked + label:before {
-        border: 10px solid white;
-        background-color: #0094ff;
-        color: white;
-        box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.30);
-    }
+
+        input[type="radio"]:checked + label:before {
+            border: 10px solid white;
+            background-color: #0094ff;
+            color: white;
+            box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.30);
+        }
 </style>
 
 <h1>รายงาน</h1>
@@ -42,7 +42,7 @@
         <form>
             <div class="form-group radio">
                 <div class="row" style="margin-bottom:5px">
-                    <div class="col-md-3" >
+                    <div class="col-md-3">
                         <input class="btn badge-pill" type="radio" name="typereport" id="service" value="1" onclick="checktype()" />
                         <label for="service">ข้อมูลบริการ</label>
                     </div>
@@ -106,7 +106,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="input-group">
-                            <input style="margin-top:5px" type="checkbox" id="all" onclick="alldate()"/><label style="margin:0 5px" for="all">วันทั้งหมด</label>
+                            <input style="margin-top:5px" type="checkbox" id="all" onclick="alldate()" /><label style="margin:0 5px" for="all">วันทั้งหมด</label>
                         </div>
                     </div>
                 </div>

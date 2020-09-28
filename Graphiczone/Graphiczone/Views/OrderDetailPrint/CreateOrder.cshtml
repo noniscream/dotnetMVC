@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Http
 
 @{
-    ViewData["Title"] = "CreateOrder";
+    ViewData["Title"] = "สั่งทำสื่อสิ่งพิมพ์";
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 <style>
@@ -385,13 +385,13 @@
                                 toastr.success("คุณได้ทำการสั่งทำรายการ : " + OrPrintId + " เป็นที่เรียบร้อยแล้ว !", "สั่งทำสำเร็จ", { timeOut: 1000, "closeButton": true });
                                 setTimeout(function load() {
                                     window.location.href = ("../OrderPrint/ShowOrder");
-                                }, 2000);
+                                }, 1000);
                             } else {
                                 toastr.error("ข้อมูลผิดพลาดกรุณาเปิดบิลก่อน สั่งทำ !", "ล้มเหลว !", { timeOut: 1000, "closeButton": true });
                             }
                         }
                     })
-                }, 3000);
+                }, 1500);
             } else {
                 swal("ไม่สำเร็จ !", "ยังไม่ทำการบันทึกการสั่งทำสื่อสิ่งพิมพ์" , "error");
             }
@@ -443,7 +443,6 @@
             console.log(document.getElementById("typeprintId").value);
             var ti = document.getElementById("typeprintId").value;
             var url = '@Url.Content("~/")' + "OrderDetailPrint/getselectbyid";
-            //console.log(url);
             $.getJSON(url, { id:ti }, function (data) {
                 console.log(data);
                 var item = '';
@@ -456,14 +455,12 @@
     }
     function selectprint() {
         var pi = document.getElementById("PrintId").value;
-        //console.log(OrdPrintId);
         $.ajax({
             type: "post",
             data: { pi },
             url: "/OrderDetailPrint/getprintid",
             success: function (result) {
                 $("#Unit").html(result);
-                //console.log(result);
             }
         })
     }

@@ -1,6 +1,6 @@
 ﻿@model Graphiczone.Models.SQLServer.OrderPrint
 @{
-    ViewData["Title"] = "GetWorkDetail";
+    ViewData["Title"] = "รายละเอียดรายการสั่งทำ";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 <style>
@@ -111,7 +111,15 @@
                                         <p>@x.OrdPrintId</p>
                                     </div>
                                     <div class="table-cell">
-                                        <a href="/@x.OrdPrintFile" target="_blank"><span class="xs">@ViewBag.PrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span></a><br />
+                                        <a href="/@x.OrdPrintFile" target="_blank"><span class="xs">
+                                            @foreach (var p in ViewBag.PrintName)
+                                                    {
+                                                        if (x.PrintId == p.PrintId)
+                                                        {
+                                                            <label>@p.PrintName</label>
+                                                        }
+                                                    }
+                                            <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span></a><br />
                                         <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
 
                                     </div>
@@ -532,7 +540,7 @@
             $.ajax({
                 type: "post",
                 data: { OrPrintId, OrPrintDue },
-                url: "/OrderPrint/updateordue",
+                url: "/OrderPrint/updateordueall",
                 success: function (result) {
                     if (result == 1) {
                         toastr.success("ประเมินระยะเวลาส่งมอบรายการสั่งทำที่ : @ViewBag.OrPrintId เรียบร้อยแล้ว", "สำเร็จ", { timeOut: 3000, "closeButton": true });

@@ -79,8 +79,9 @@ namespace Graphiczone.Controllers
                     var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
                     ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
                     ViewBag.TotalDate = seachData2.OrPrintDue - DateTime.Now;
-                    var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
-                    ViewBag.PrintName = printname.PrintName;
+                    var printname = _graphiczoneDBContext.Print.ToList();
+                    List<Print> prints = printname.ToList();
+                    ViewBag.PrintName = prints;
                     ViewBag.PriceTotal = seachData2.OrPrintTotal;
                 }
                 return PartialView("_EditWorkShipping", seachData);

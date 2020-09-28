@@ -92,7 +92,15 @@
                                 </div>
                                 <div class="table-cell">
                                     <a href="/@x.OrdPrintFile" target="_blank">
-                                        <span class="xs">@ViewBag.PrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span><br />
+                                        <span class="xs">
+                                        @foreach(var p in ViewBag.PrintName)
+                                        {
+                                            if(x.PrintId == p.PrintId)
+                                            {
+                                                <label>@p.PrintName</label>
+                                            }
+                                        }
+                                        <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span><br />
                                     </a>
                                     <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
                                 </div>
@@ -134,13 +142,22 @@
                                     </div>
                                 </div>
                             </div>
-                            @if (ViewBag.OrStatus == null)
+                            @if (ViewBag.OrStatus == null && ViewBag.PrfPayFile != null)
                             {
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="alert-danger p-5">
                                             <span><b>หมายเหตุ * : หลักฐานการชำระเงินไม่ถูกต้อง ลูกค้าต้องทำการสั่งทำสื่อสิ่งพิมพ์ใหม่อีกครั้ง ! (หากต้องการสั่งทำใหม่ <a href="@Url.Action("CreateOrder","OrderDetailPrint")">คลิกที่นี่</a>)</b></span>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-row">
+                                    <div class="table-cell last-cell" align="right">
+                                        <div>
+                                            <h4 align="center">หลักฐานการชำระเงิน</h4>
+                                        </div>
+                                        <img src="/@ViewBag.PrfPayFile" width="374" height="500" />
                                     </div>
                                 </div>
                             }

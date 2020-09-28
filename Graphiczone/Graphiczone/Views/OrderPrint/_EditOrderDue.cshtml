@@ -113,7 +113,18 @@
                                                     <p>@x.OrdPrintId</p>
                                                 </div>
                                                 <div class="table-cell">
-                                                    <a href="/@x.OrdPrintFile" target="_blank"><span class="xs">@ViewBag.PrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span><br /></a>
+                                                    <a href="/@x.OrdPrintFile" target="_blank">
+                                                        <span class="xs">
+                                                            @foreach (var p in ViewBag.PrintName)
+                                                            {
+                                                                if (x.PrintId == p.PrintId)
+                                                                {
+                                                                    <label>@p.PrintName</label>
+                                                                }
+                                                            }
+                                                            <img class="img" id="showImg" src="/@x.OrdPrintFile" />
+                                                        </span><br />
+                                                    </a>
                                                     <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
                                                 </div>
                                                 <div class="table-cell">

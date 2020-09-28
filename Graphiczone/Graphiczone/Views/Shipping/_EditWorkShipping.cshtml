@@ -19,7 +19,7 @@
             visibility: visible;
         }
 </style>
-@{ 
+@{
     double total = 0;
     double tax = 0.07;
 }
@@ -49,13 +49,13 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
-                                            <input class="form-control" type="date" name="ShippingDate" id="ShippingDate" min='@ViewBag.getDatePayForPicker' max='@ViewBag.GetDueForPicker'/>
+                                            <input class="form-control" type="date" name="ShippingDate" id="ShippingDate" min='@ViewBag.getDatePayForPicker' max='@ViewBag.GetDueForPicker' />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input type="file" name="Uploadfile" id="Uploadfile"/>
+                                        <input type="file" name="Uploadfile" id="Uploadfile" />
                                     </div>
                                 </div>
                                 <div class="row" style="margin-top:5px">
@@ -118,7 +118,18 @@
                                                     <p>@x.OrdPrintId</p>
                                                 </div>
                                                 <div class="table-cell">
-                                                    <a href="/@x.OrdPrintFile" target="_blank"><span class="xs">@ViewBag.PrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span><br /></a>
+                                                    <a href="/@x.OrdPrintFile" target="_blank">
+                                                        <span class="xs">
+                                                            @foreach (var p in ViewBag.PrintName)
+                                                            {
+                                                                if (x.PrintId == p.PrintId)
+                                                                {
+                                                                    <label>@p.PrintName</label>
+                                                                }
+                                                            }
+                                                            <img class="img" id="showImg" src="/@x.OrdPrintFile" />
+                                                        </span><br />
+                                                    </a>
                                                     <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
                                                 </div>
                                                 <div class="table-cell">
@@ -183,7 +194,7 @@
         $("#Uploadfile").change(function () {
             $("#StatusImg").html('<font color="Gold"><i class="fas fa-time"></i> กำลังตรวจสอบ </font>');
             var filetype = ["jpeg", "jpg", "gif", "png", "bmp", "pdf"];
-            
+
             if ($.inArray($(this).val().split('.').pop().toLowerCase(), filetype) == -1) {
                 $("#StatusImg").html('<font color="Red"><i class="fas fa-times"></i> ไฟล์ไม่ถูกต้อง ! ไม่สามารถใช้ไฟล์นี้ได้ </font>');
                 $("#Uploadfile").val("");

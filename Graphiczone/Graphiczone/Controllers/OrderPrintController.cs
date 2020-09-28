@@ -125,8 +125,9 @@ namespace Graphiczone.Controllers
                     ViewBag.OrderDue = seachData2.OrPrintDue;
                     var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
                     ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
-                    var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
-                    ViewBag.PrintName = printname.PrintName;
+                    var printname = _graphiczoneDBContext.Print.ToList();
+                    List<Print> prints = printname.ToList();
+                    ViewBag.PrintName = prints;
                     ViewBag.PriceTotal = seachData2.OrPrintTotal;
                     var searchShipping = _graphiczoneDBContext.Shipping.Where(x => x.OrPrintId == id).FirstOrDefault();
                     if(searchShipping != null)
@@ -234,8 +235,9 @@ namespace Graphiczone.Controllers
                         {
                             List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.Where(ord => ord.OrPrintId == id).ToList();
                             ViewBag.OrPrintDetail = orderDetailPrints;
-                            var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == searchDataOrDetail.PrintId).FirstOrDefault();
-                            ViewBag.PrintName = printname.PrintName;
+                            var printname = _graphiczoneDBContext.Print.ToList();
+                            List<Print> prints = printname.ToList();
+                            ViewBag.PrintName = prints;
                             ViewBag.PriceTotal = searchData.OrPrintTotal;
                         }
                         var searchDataProofpayment = _graphiczoneDBContext.ProofPayment.Where(x => x.OrPrintId == id).FirstOrDefault();
@@ -277,6 +279,24 @@ namespace Graphiczone.Controllers
 
         [HttpPost]
         public JsonResult updateordue(OrderPrint orderPrint)
+        {
+            var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
+            if (searchData != null)
+            {
+                searchData.OrPrintDue = orderPrint.OrPrintDue;
+                _graphiczoneDBContext.SaveChanges();
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
+
+
+        }
+
+        [HttpPost]
+        public JsonResult updateordueall (OrderPrint orderPrint)
         {
             var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
             if (searchData != null)
@@ -467,9 +487,14 @@ namespace Graphiczone.Controllers
                 var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
                 ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
                 ViewBag.TotalDate = seachData2.OrPrintDue - DateTime.Now;
-                var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
+                var printname = _graphiczoneDBContext.Print.ToList();
+                List<Print> prints = printname.ToList();
                 var prooffile = _graphiczoneDBContext.ProofPayment.Where(a => a.OrPrintId == seachData2.OrPrintId).FirstOrDefault();
-                ViewBag.PrintName = printname.PrintName;
+                if(prooffile != null)
+                {
+                    ViewBag.PrfPayFile = prooffile.PrfPayFile;
+                }
+                ViewBag.PrintName = prints;
                 ViewBag.PriceTotal = seachData2.OrPrintTotal;
                 ViewBag.OrStatus = seachData2.OrPrintStatus;
             }
@@ -492,9 +517,10 @@ namespace Graphiczone.Controllers
                 var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
                 ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
                 ViewBag.TotalDate = seachData2.OrPrintDue - DateTime.Now;
-                var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
+                var printname = _graphiczoneDBContext.Print.ToList();
+                List<Print> prints = printname.ToList();
+                ViewBag.PrintName = prints;
                 var prooffile = _graphiczoneDBContext.ProofPayment.Where(a => a.OrPrintId == seachData2.OrPrintId).FirstOrDefault();
-                ViewBag.PrintName = printname.PrintName;
                 ViewBag.PriceTotal = seachData2.OrPrintTotal;
                 ViewBag.ProofFile = prooffile.PrfPayFile;
             }
@@ -517,9 +543,10 @@ namespace Graphiczone.Controllers
                 var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
                 ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
                 ViewBag.TotalDate = seachData2.OrPrintDue - DateTime.Now;
-                var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
                 var prooffile = _graphiczoneDBContext.ProofPayment.Where(a => a.OrPrintId == seachData2.OrPrintId).FirstOrDefault();
-                ViewBag.PrintName = printname.PrintName;
+                var printname = _graphiczoneDBContext.Print.ToList();
+                List<Print> prints = printname.ToList();
+                ViewBag.PrintName = prints;
                 ViewBag.PriceTotal = seachData2.OrPrintTotal;
                 ViewBag.ProofFile = prooffile.PrfPayFile;
             }
@@ -800,8 +827,9 @@ namespace Graphiczone.Controllers
                     var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
                     ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
                     ViewBag.TotalDate = seachData2.OrPrintDue - DateTime.Now;
-                    var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
-                    ViewBag.PrintName = printname.PrintName;
+                    var printname = _graphiczoneDBContext.Print.ToList();
+                    List<Print> prints = printname.ToList();
+                    ViewBag.PrintName = prints;
                     ViewBag.PriceTotal = seachData2.OrPrintTotal;
                 }
                 return PartialView("_EditWorkStatus",seachData);
@@ -830,8 +858,9 @@ namespace Graphiczone.Controllers
                     ViewBag.OrderDue = seachData2.OrPrintDue;
                     var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
                     ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
-                    var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
-                    ViewBag.PrintName = printname.PrintName;
+                    var printname = _graphiczoneDBContext.Print.ToList();
+                    List<Print> prints = printname.ToList();
+                    ViewBag.PrintName = prints;
                     ViewBag.PriceTotal = seachData2.OrPrintTotal;
                 }
                 return PartialView("_EditOrderDue", seachData);
@@ -860,8 +889,9 @@ namespace Graphiczone.Controllers
                     var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
                     ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
                     ViewBag.TotalDate = seachData2.OrPrintDue - DateTime.Now;
-                    var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
-                    ViewBag.PrintName = printname.PrintName;
+                    var printname = _graphiczoneDBContext.Print.ToList();
+                    List<Print> prints = printname.ToList();
+                    ViewBag.PrintName = prints;
                     ViewBag.PriceTotal = seachData2.OrPrintTotal;
                 }
                 return PartialView("_OrderDetailforOverdue", seachData);
@@ -890,8 +920,9 @@ namespace Graphiczone.Controllers
                     var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
                     ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
                     ViewBag.TotalDate = seachData2.OrPrintDue - DateTime.Now;
-                    var printname = _graphiczoneDBContext.Print.Where(p => p.PrintId == seachData.PrintId).FirstOrDefault();
-                    ViewBag.PrintName = printname.PrintName;
+                    var printname = _graphiczoneDBContext.Print.ToList();
+                    List<Print> prints = printname.ToList();
+                    ViewBag.PrintName = prints;
                     ViewBag.PriceTotal = seachData2.OrPrintTotal;
                 }
                 return PartialView("_OrderDetailforBin", seachData);

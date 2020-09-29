@@ -31,7 +31,14 @@
             <tr>
                 <td colspan="2">@x.OrPrintId</td>
                 <td>@x.OrPrintDate.Value.ToString("dd MMM yyyy")</td>
-                <td>@x.OrPrintDue.Value.ToString("dd MMM yyyy")</td>
+                @if(x.OrPrintDue != null)
+                {
+                    <td>@x.OrPrintDue.Value.ToString("dd MMM yyyy")</td>
+                }
+                else
+                {
+                    <td>อยู่ระหว่างประเมินระยะเวลาส่งมอบ</td>
+                }
                 @foreach (var c in ViewBag.listcus)
                 {
                     if (x.CusId == c.CusId)

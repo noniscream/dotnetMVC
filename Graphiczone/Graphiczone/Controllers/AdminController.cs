@@ -18,7 +18,7 @@ namespace Graphiczone.Controllers
         {
             _graphiczoneDBContext = graphiczoneDBContext;
         }
-        public IActionResult Index()
+        public IActionResult Index(int pageNumber = 1, int pageSize = 5)
         {
             if (HttpContext.Session.GetString("AdminUsername") == null)
             {
@@ -64,18 +64,7 @@ namespace Graphiczone.Controllers
                 List<Customer> customers = searchCustomer.ToList();
                 ViewBag.listCustomer = customers;
             }
-            var searchOrLatest = db.OrderPrint.Where(x => x.OrPrintStatus != null && x.OrPrintDate == date).OrderByDescending(x => x.OrPrintId);
-            if(searchOrLatest != null)
-            {
-                List<OrderPrint> orderPrints = searchOrLatest.ToList();
-                ViewBag.countOrLatest = searchOrLatest.Count();
-                ViewBag.listOrLatest = orderPrints;
-            }
-            else
-            {
-                ViewBag.listOrLatest = null;
-            }
-
+            
             var serachEmployee = db.User.ToList();
             if(serachEmployee != null)
             {
@@ -84,8 +73,26 @@ namespace Graphiczone.Controllers
             }
 
 
+            int ExcludeRecords = (pageSize * pageNumber) - pageSize;
+            var searchOrLatest = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && x.OrPrintDate == date).OrderByDescending(x => x.OrPrintId)
+                        .Skip(ExcludeRecords)
+                        .Take(pageSize);
+            if (searchOrLatest != null)
+            {
+                List<OrderPrint> orderPrints = searchOrLatest.ToList();
+                ViewBag.listOrLatest = orderPrints;
+                var searchPage = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus != null && x.OrPrintDate == date).Count();
+                ViewBag.totalpage = searchPage;
+                ViewBag.pagenumber = pageNumber;
+                ViewBag.pagesize = pageSize;
+                ViewBag.countOrLatest = searchPage;
+            }
+            else
+            {
+                ViewBag.listOrLatest = null;
+            }
             
-            return View();
+            return View(searchOrLatest);
         }
 
         public ViewResult Login()
@@ -105,7 +112,6 @@ namespace Graphiczone.Controllers
             if (seachData != null)
             {
                 HttpContext.Session.SetString("AdminUsername", user.UserUsername); // Save Session
-                HttpContext.Session.SetString("forlistreport", "1");
                 return Json(1);
             }
             else

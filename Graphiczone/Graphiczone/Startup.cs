@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ReflectionIT.Mvc.Paging;
 
+
 namespace Graphiczone
 {
     public class Startup
@@ -36,10 +37,7 @@ namespace Graphiczone
 
             services.AddDistributedMemoryCache();
 
-            services.AddPaging(options => {
-                options.ViewName = "Bootstrap4";
-                options.PageParameterName = "pageindex";
-            });
+            services.AddCloudscribePagination();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

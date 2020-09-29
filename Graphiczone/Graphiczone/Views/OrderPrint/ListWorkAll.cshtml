@@ -63,7 +63,7 @@
             <p>สถานะ</p>
         </div>
         <div class="table-cell last-cell text-white">
-            <p>จัดการสถานะ</p>
+            <p>จัดการ</p>
         </div>
     </div>
     @if (@ViewBag.countData != 0)
@@ -120,7 +120,7 @@
                     <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
                 </div>
                 <div class="table-cell last-cell">
-                    <a class="btn text-dark badge-pill" style="background-color:#ffc107;box-shadow: 1px 2px 2px 0px rgba(0,0,0,0.75);" href="@Url.Content("/OrderPrint/GetWorkDetail?id=")@item.OrPrintId"><i class="far fa-edit"></i> จัดการ</a>
+                    <a class="btn btn-outline-info badge-pill shadow-sm"  href="@Url.Content("/OrderPrint/GetWorkDetail?id=")@item.OrPrintId"><i class="far fa-edit"></i> จัดการ</a>
                 </div>
             </div>
         }
@@ -134,3 +134,16 @@
         </div>
     }
 </div>
+
+<cs-pager cs-paging-pagenumber="@ViewBag.pagenumber"
+          cs-paging-totalitems="@ViewBag.totalpage"
+          cs-paging-pagesize="@ViewBag.pagesize"
+          cs-pagenumber-param="pagenumber"
+          asp-controller="OrderPrint"
+          asp-action="ListWorkAll"
+          cs-pager-li-current-class="page-item active"
+          cs-pager-li-other-class="page-item"
+          cs-pager-li-non-active-class="page-item disabled"
+          cs-pager-link-current-class="page-link"
+          cs-pager-link-other-class="page-link">
+</cs-pager>

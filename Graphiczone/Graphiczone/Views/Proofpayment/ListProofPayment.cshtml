@@ -61,7 +61,7 @@
             <p>สถานะชำระเงิน</p>
         </div>
         <div class="table-cell last-cell text-white">
-            <p>แจ้งหลักฐานการชำระเงิน</p>
+            <p>จัดการ</p>
         </div>
     </div>
     @if (ViewBag.countData != 0)
@@ -109,7 +109,7 @@
     <div class="table-cell last-cell">
         <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
                 data-target="#EditProofPayment" data-url="@Url.Action($"EditProofPayment/{item.OrPrintId}")">
-            ส่งหลักฐานการโอนเงิน
+            <i class="far fa-edit"></i> ส่งหลักฐานการชำระเงิน
         </button>
     </div>
 </div>}
@@ -123,4 +123,15 @@
             }
 </div>
 
-
+<cs-pager cs-paging-pagenumber="@ViewBag.pagenumber"
+          cs-paging-totalitems="@ViewBag.totalpage"
+          cs-paging-pagesize="@ViewBag.pagesize"
+          cs-pagenumber-param="pagenumber"
+          asp-controller="ProofPayment"
+          asp-action="ListProofPayment"
+          cs-pager-li-current-class="page-item active"
+          cs-pager-li-other-class="page-item"
+          cs-pager-li-non-active-class="page-item disabled"
+          cs-pager-link-current-class="page-link"
+          cs-pager-link-other-class="page-link">
+</cs-pager>

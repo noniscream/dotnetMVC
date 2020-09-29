@@ -213,13 +213,13 @@
                                             <td>@x.OrPrintId</td>
                                             <td>@x.OrPrintDate.ToString("dd MMMyyyy")</td>
                                             @if (x.OrPrintDue != null)
-                                                {
-                                                    <td>@x.OrPrintDue.ToString("dd MMM yyyy")</td>
-                                                }
-                                                else
-                                                {
-                                                    <td>อยู่ระหว่างประเมินระยะเวลาส่งมอบ</td>
-                                                }
+                                            {
+                                                <td>@x.OrPrintDue.ToString("dd MMM yyyy")</td>
+                                            }
+                                            else
+                                            {
+                                                <td>อยู่ระหว่างประเมินระยะเวลาส่งมอบ</td>
+                                            }
                                             @foreach (var i in ViewBag.listCustomer)
                                             {
                                                 @if (x.CusId == i.CusId)
@@ -239,6 +239,18 @@
                             </tbody>
                         </table>
                     </div>
+                    <cs-pager cs-paging-pagenumber="@ViewBag.pagenumber"
+                              cs-paging-totalitems="@ViewBag.totalpage"
+                              cs-paging-pagesize="@ViewBag.pagesize"
+                              cs-pagenumber-param="pagenumber"
+                              asp-controller="Admin"
+                              asp-action="Index"
+                              cs-pager-li-current-class="page-item active"
+                              cs-pager-li-other-class="page-item"
+                              cs-pager-li-non-active-class="page-item disabled"
+                              cs-pager-link-current-class="page-link"
+                              cs-pager-link-other-class="page-link">
+                    </cs-pager>
                 </div>
             </div>
             <div class="col-md-4">

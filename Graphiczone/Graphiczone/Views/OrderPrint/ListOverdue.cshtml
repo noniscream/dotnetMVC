@@ -62,7 +62,7 @@
             <p>สถานะ</p>
         </div>
         <div class="table-cell last-cell text-white">
-            <p>ยืนยันสถานะงาน</p>
+            <p>รายละเอียด</p>
         </div>
     </div>
     @if (ViewBag.countData != 0)
@@ -125,3 +125,16 @@
         </div>
     }
 </div>
+
+<cs-pager cs-paging-pagenumber="@ViewBag.pagenumber"
+          cs-paging-totalitems="@ViewBag.totalpage"
+          cs-paging-pagesize="@ViewBag.pagesize"
+          cs-pagenumber-param="pagenumber"
+          asp-controller="OrderPrint"
+          asp-action="ListOverdue"
+          cs-pager-li-current-class="page-item active"
+          cs-pager-li-other-class="page-item"
+          cs-pager-li-non-active-class="page-item disabled"
+          cs-pager-link-current-class="page-link"
+          cs-pager-link-other-class="page-link">
+</cs-pager>

@@ -75,7 +75,7 @@ namespace Graphiczone.Controllers
         {
             if (id != null)
             {
-                var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id.Trim()).FirstOrDefault();
+                var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id.Trim() && x.OrPrintStatus != null).FirstOrDefault();
                 if (searchData != null)
                 {
                     ViewBag.OrderPrintId = searchData.OrPrintId;

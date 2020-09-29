@@ -46,6 +46,12 @@
                 </div>
                 <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                     <div class="card-body">
+                        @if (Model.OrPrintStatus >= 2 && ViewBag.OrPrintDue != null)
+                        {
+                            <div align="right">
+                                <a class="btn btn-primary" href="@Url.Action("OrderInvoice","OrderPrint",new { id = ViewBag.OrPrintId })" target="_blank">ใบเสร็จชำระเงิน</a>
+                            </div>
+                        }
                         <h5>ข้อมูลลูกค้า</h5>
                         <hr class="bg-light" />
                         <div class="row">
@@ -111,15 +117,18 @@
                                         <p>@x.OrdPrintId</p>
                                     </div>
                                     <div class="table-cell">
-                                        <a href="/@x.OrdPrintFile" target="_blank"><span class="xs">
-                                            @foreach (var p in ViewBag.PrintName)
+                                        <a href="/@x.OrdPrintFile" target="_blank">
+                                            <span class="xs">
+                                                @foreach (var p in ViewBag.PrintName)
+                                                {
+                                                    if (x.PrintId == p.PrintId)
                                                     {
-                                                        if (x.PrintId == p.PrintId)
-                                                        {
-                                                            <label>@p.PrintName</label>
-                                                        }
+                                                        <label>@p.PrintName</label>
                                                     }
-                                            <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span></a><br />
+                                                }
+                                                <img class="img" id="showImg" src="/@x.OrdPrintFile" />
+                                            </span>
+                                        </a><br />
                                         <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
 
                                     </div>

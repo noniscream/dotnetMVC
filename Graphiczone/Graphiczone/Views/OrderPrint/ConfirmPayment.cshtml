@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Graphiczone.Models.SQLServer.OrderPrint>
 
-@{ ViewData["Title"] = "ConfirmPayment";
+@{ ViewData["Title"] = "ยืนยันการชำระเงิน";
     Layout = "~/Views/Shared/_UserLayout.cshtml"; }
 
 <style>
@@ -60,7 +60,7 @@
             <p>สถานะ</p>
         </div>
         <div class="table-cell last-cell text-white">
-            <p>ยืนยันสถานะงาน</p>
+            <p>จัดการ</p>
         </div>
     </div>
 
@@ -110,7 +110,7 @@
     <div class="table-cell last-cell">
         <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
                 data-target="#EditConfirmPayment" data-url="@Url.Action($"EditConfirmPayment/{item.OrPrintId}")">
-            ยืนยันการชำระเงิน
+            <i class="fas fa-edit" id="SDT"></i> ยืนยันการชำระเงิน
         </button>
     </div>
 </div>} }

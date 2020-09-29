@@ -75,6 +75,12 @@
                     <h5 class="card-header">รายละเอียดรายการสั่ง</h5>
                     <div class="card-body">
                         <div class="container">
+                                @if (ViewBag.OrPrintStatus >= 2 && ViewBag.OrderDue != null)
+                                {
+                                    <div align="right">
+                                        <a class="btn btn-primary" href="@Url.Action("OrderInvoice","OrderPrint",new { id = ViewBag.OrderPrintId })" target="_blank">ใบเสร็จชำระเงิน</a>
+                                    </div>
+                                }
                             <div class="row">
                                 <div class="col-md-12">
                                     <label>สั่งทำโดย : คุณ @ViewBag.CusFullname</label>

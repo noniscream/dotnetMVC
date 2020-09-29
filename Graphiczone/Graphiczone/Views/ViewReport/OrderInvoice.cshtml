@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewData["Title"] = "OrderInvoice";
+    Layout = "~/Views/Shared/_formatInvoice.cshtml";
+}
+
+@{
+    var count = 1;
+    var list = 0;
+}
+
+    <div id="invoice" style="font-family: 'Sarabun', sans-serif;">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        ข้อมูลลูกค้า
+                    </div>
+                    <div class="card-body">
+                        ชื่อ-นามสกุล : @ViewBag.CusFullname <br />
+                        ที่อยู่ : @ViewBag.CusAddress
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6" align="right">
+                <div class="card">
+                    <div class="card-header">
+                        ข้อมูลสั่งทำ
+                    </div>
+                    <div class="card-body">
+                        หมายเลขสั่งทำ : @ViewBag.OrderPrintId <br />
+                        วันที่สั่ง : @ViewBag.OrderDate.ToString("dd MMMM yyyy")<br />
+                        วันที่รับ : @ViewBag.OrderDue.ToString("dd MMMM yyyy")
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="card">
+            <div class="card-header">รายละเอียดการสั่งทำสื่อสิ่งพิมพ์</div>
+            <div class="card-body">
+
+                <table class="table" style="width:100%">
+                    @{ double totalprice = 0;
+                        double totalvax = 0;
+                        double totalBill = 0;
+                        double vax = 0.07;
+                    }
+                    <thead>
+                        <tr>
+                            <td align="center">ลำดับที่</td>
+                            <td align="center">รายการสั่งทำ</td>
+                            <td align="center">จำนวน</td>
+                            <td align="center">ราคา/หน่วย(ตรม.)</td>
+                            <td align="center">จำนวนเงิน(บาท)</td>
+                        </tr>
+                    </thead>
+                    @foreach (var x in ViewBag.OrderList)
+                    {
+                        <tbody>
+                            <tr>
+                                <td align="center">@count</td>
+                                <td align="left">
+                                    @foreach (var p in ViewBag.PrintName)
+                                    {
+                                        if (x.PrintId == p.PrintId)
+                                        {
+                                            <label>@p.PrintName (@x.OrdPrintWidth X @x.OrdPrintHeight)</label>
+                                        }
+                                    }
+                                </td>
+                                <td align="right">@x.OrdPrintNum.ToString("#,###")</td>
+                                <td align="right">@x.OrdPrintPriceset.ToString("#,###.00")</td>
+                                <td align="right">@x.OrdPrintTotal.ToString("#,###.00")</td>
+
+                            </tr>
+                        </tbody>
+                        totalBill = totalBill + @Convert.ToDouble(x.OrdPrintTotal);
+                        totalvax = totalvax + @Convert.ToDouble(x.OrdPrintTotal * vax);
+                        totalprice = totalBill + totalvax;
+                        count += 1;
+                        list += 1;
+                    }
+                </table>
+                <hr />
+            </div>
+        </div>
+        <br />
+        <div align="right">
+            <p>ทั้งหมด : <b>@list.ToString("#,###")</b> รายการ</p>
+        </div>
+        <div align="right">
+            <p>รวมราคา : <b>@totalBill.ToString("#,###.00")</b> บาท</p>
+        </div>
+        <div align="right">
+            <p>ภาษี : <b>@totalvax.ToString("#,###.00")</b> บาท</p>
+        </div>
+        <div align="right">
+            <p>รวมเป็นเงินทั้งสิ้น : <b>@totalprice.ToString("#,###.00")</b> บาท</p>
+        </div>
+        <div>
+            <p align="center">ขอบคุณที่มาใช้บริการ</p>
+        </div>
+
+        @{
+            count = 0;
+            list = 0;
+        }
+    </div>

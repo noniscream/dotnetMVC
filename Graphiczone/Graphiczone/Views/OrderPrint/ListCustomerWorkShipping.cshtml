@@ -64,7 +64,7 @@
             <p>สถานะ</p>
         </div>
         <div class="table-cell last-cell text-white">
-            <p>รายละเอียดบิล</p>
+            <p>รายละเอียด</p>
         </div>
     </div>
     @if (ViewBag.countData != 0)
@@ -112,7 +112,7 @@
                 <div class="table-cell last-cell">
                     <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
                             data-target="#ConfirmShipping" data-url="@Url.Action($"ConfirmShipping/{item.OrPrintId}")">
-                        ดูรายละเอียดบิล
+                        <i class="fas fa-search"></i> ดูรายละเอียด
                     </button>
                 </div>
             </div>
@@ -127,3 +127,16 @@
                 </div>
             }
 </div>
+
+<cs-pager cs-paging-pagenumber="@ViewBag.pagenumber"
+          cs-paging-totalitems="@ViewBag.totalpage"
+          cs-paging-pagesize="@ViewBag.pagesize"
+          cs-pagenumber-param="pagenumber"
+          asp-controller="OrderPrint"
+          asp-action="ListCustomerWorkShipping"
+          cs-pager-li-current-class="page-item active"
+          cs-pager-li-other-class="page-item"
+          cs-pager-li-non-active-class="page-item disabled"
+          cs-pager-link-current-class="page-link"
+          cs-pager-link-other-class="page-link">
+</cs-pager>

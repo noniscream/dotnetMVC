@@ -199,7 +199,7 @@
     $(function () {
         $("#Uploadfile").change(function () {
             $("#StatusImg").html('<font color="Gold"><i class="fas fa-time"></i> กำลังตรวจสอบ </font>');
-            var filetype = ["jpeg", "jpg", "gif", "png", "bmp", "pdf"];
+            var filetype = ["jpeg", "jpg", "gif", "png", "bmp"];
 
             if ($.inArray($(this).val().split('.').pop().toLowerCase(), filetype) == -1) {
                 $("#StatusImg").html('<font color="Red"><i class="fas fa-times"></i> ไฟล์ไม่ถูกต้อง ! ไม่สามารถใช้ไฟล์นี้ได้ </font>');

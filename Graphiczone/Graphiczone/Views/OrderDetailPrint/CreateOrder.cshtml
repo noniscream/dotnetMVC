@@ -204,6 +204,11 @@
                                 <label for="exampleFormControlFile1">อัพโหลดไฟล์ตัวอย่างงาน : <span class="text-danger font-weight-bold">*</span></label>
                                 <input type="file" class="form-control-file" id="Uploadfile" name="Uploadfile" required="required">
                             </div>
+                            <div class="row" style="margin-top:5px">
+                                <div class="col-md-12" align="right">
+                                    <p id="StatusImg"></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -310,6 +315,21 @@
     });
 
     disabled();
+    $(function () {
+        $("#Uploadfile").change(function () {
+            $("#StatusImg").html('<font color="Gold"><i class="fas fa-time"></i> กำลังตรวจสอบ </font>');
+            var filetype = ["jpeg", "jpg", "gif", "png", "bmp"];
+
+            if ($.inArray($(this).val().split('.').pop().toLowerCase(), filetype) == -1) {
+                $("#StatusImg").html('<font color="Red"><i class="fas fa-times"></i> ไฟล์ไม่ถูกต้อง ! ไม่สามารถใช้ไฟล์นี้ได้ </font>');
+                $("#Uploadfile").val("");
+                $("#addOrder").attr('disabled', true);
+            } else {
+                $("#StatusImg").html('<font color="Green"><i class="fas fa-check"></i> ไฟล์ถูกต้อง สามารถใช้ไฟล์นี้ได้ </font>');
+                $("#addOrder").attr('disabled', false);
+            }
+        })
+    })
     function disabled() {
         document.getElementById("addorder").disabled = false;
         document.getElementById("typeprintId").disabled = true;

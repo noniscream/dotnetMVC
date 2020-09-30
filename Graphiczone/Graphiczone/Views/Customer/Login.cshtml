@@ -33,11 +33,25 @@
     </form>
     <div class="form-group">
         <div class="row">
-            <button class="btn btn-success form-control" type="submit" onclick="Login()"><i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ</button>
+            <button class="btn btn-success form-control" id="log" onclick="Login()"><i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ</button>
         </div>
     </div>
 </div>
 <script>
+    document.getElementById("CusUsername")
+        .addEventListener("keyup", function (e) {
+            if (e.code === 'Enter') {
+                document.getElementById("log").click();
+            }
+        });
+
+    document.getElementById("CusPassword")
+        .addEventListener("keyup", function (e) {
+            if (e.code === 'Enter') {
+                document.getElementById("log").click();
+            }
+        });
+
     function Login() {
         if (document.getElementById("CusUsername").value == "" || document.getElementById("CusPassword").value == "") {
             toastr.error('กรุณากรอกข้อมูลให้ครบถ้วน', 'ไม่สำเร็จ', { timeOut: 3000, "closeButton": true });

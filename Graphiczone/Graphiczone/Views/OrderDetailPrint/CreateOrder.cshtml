@@ -157,14 +157,14 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>ประเภทบริการ : <span class="text-danger font-weight-bold">*</span></label>
-                                <select class="custom-select" id="typeprintId" required="required" onchange="selectproducttype()" asp-items='@(new SelectList(ViewBag.TypePrint,"TypePrintId","TypePrintName"))'>
+                                <select class="custom-select" id="typeprintId" onchange="selectproducttype()" asp-items='@(new SelectList(ViewBag.TypePrint,"TypePrintId","TypePrintName"))'>
                                     <option value="">เลือกประเภทบริการ</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>ความกว้าง : <span class="text-danger font-weight-bold">*</span></label>
                                 <div class="input-group-prepend">
-                                    <input class="form-control" type="number" min="0.01" step="0.01" id="OrdPrintWidth" name="OrdPrintWidth" placeholder="กรอกความกว้าง" required="required" />
+                                    <input class="form-control" type="number" min="0.01" step="0.01" id="OrdPrintWidth" name="OrdPrintWidth" placeholder="กรอกความกว้าง" />
                                     <div class="input-group-append">
                                         <span class="input-group-text">ซม.</span>
                                     </div>
@@ -173,7 +173,7 @@
                             <div class="form-group">
                                 <label>ความยาว : <span class="text-danger font-weight-bold">*</span></label>
                                 <div class="input-group-prepend">
-                                    <input class="form-control" type="number" value="" min="0.01" step="0.01" id="OrdPrintHeight" name="OrdPrintHeight" placeholder="กรอกความยาว" required="required" />
+                                    <input class="form-control" type="number" value="" min="0.01" step="0.01" id="OrdPrintHeight" name="OrdPrintHeight" placeholder="กรอกความยาว" />
                                     <div class="input-group-append">
                                         <span class="input-group-text">ซม.</span>
                                     </div>
@@ -182,7 +182,7 @@
                             <div class="form-group">
                                 <label>จำนวน : <span class="text-danger font-weight-bold">*</span></label>
                                 <div class="input-group-prepend">
-                                    <input class="form-control" type="number" id="OrdPrintNum" name="OrdPrintNum" value="" min="1" placeholder="กรอกจำนวน" required="required" />
+                                    <input class="form-control" type="number" id="OrdPrintNum" name="OrdPrintNum" value="" min="1" placeholder="กรอกจำนวน" />
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="Unit"></span>
                                     </div>
@@ -192,7 +192,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>ประเภทวัสดุ : <span class="text-danger font-weight-bold">*</span></label>
-                                <select class="custom-select" id="PrintId" required="required" name="PrintId" onchange="selectprint()" @*asp-items='@(new SelectList(String.Empty,"PrintId","PrintName"))'*@>
+                                <select class="custom-select" id="PrintId" name="PrintId" onchange="selectprint()" @*asp-items='@(new SelectList(String.Empty,"PrintId","PrintName"))'*@>
                                     <option value="">เลือกประเภทวัสดุ</option>
                                 </select>
                             </div>
@@ -202,7 +202,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlFile1">อัพโหลดไฟล์ตัวอย่างงาน : <span class="text-danger font-weight-bold">*</span></label>
-                                <input type="file" class="form-control-file" id="Uploadfile" name="Uploadfile" required="required">
+                                <input type="file" class="form-control-file" id="Uploadfile" name="Uploadfile">
                             </div>
                             <div class="row" style="margin-top:5px">
                                 <div class="col-md-12" align="right">
@@ -483,6 +483,15 @@
                 $("#Unit").html(result);
             }
         })
+    }
+
+    function updateData() {
+        if (document.getElementById('typeprintId').value == '' || document.getElementById('OrdPrintWidth').value == '' || document.getElementById('OrdPrintHeight').value == '' || document.getElementById('OrdPrintNum').value == '' || document.getElementById('PrintId').value == '' || document.getElementById('Uploadfile').value == '') {
+            swal("ผิดพลาด !", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
+            return false;
+        } else {
+            return true;
+        }
     }
 
 </script>

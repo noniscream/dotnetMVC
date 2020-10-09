@@ -269,7 +269,8 @@
                                     {
                                         @if (i.PrintId == x.PrintId)
                                         {
-                                            <a href="/@x.OrdPrintFile" target="_blank"><span class="xs">@i.PrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span></a>
+                                            <a href="/@x.OrdPrintFile" target="_blank"><span class="xs">@i.PrintName <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span></a><br />
+                                            <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
                                         }
                                     }
                                     <br />

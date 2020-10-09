@@ -237,7 +237,7 @@
     function EmailCheck() {
         var engnum = /^([a-z0-9_.])+$/i;
         if (!(engnum.test(document.getElementById('getEmail').value))) {
-            $("#StatusEmail").html('<font color="Red"><i class="fas fa-check"></i> กรุณากรอกอีเมลเป็นภาษาอังกฤษหรือตัวเลขเท่านั้น เช่น graphiczone01.mail ! </font>');
+            $("#StatusEmail").html('<font color="Red"><i class="fas fa-times"></i> กรุณากรอกอีเมลเป็นภาษาอังกฤษหรือตัวเลขเท่านั้น เช่น graphiczone01.mail ! </font>');
             $("#getEmail").css("border-color", "Red");
             $("#CEM").css("border-color", "Red");
             $("#Email").css("border-color", "Red");

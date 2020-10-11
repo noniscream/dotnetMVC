@@ -827,6 +827,11 @@ namespace Graphiczone.Controllers
             if (searchData != null)
             {
                 searchData.OrPrintStatus = orderPrint.OrPrintStatus;
+                    var searchProof = _graphiczoneDBContext.ProofPayment.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
+                    if(searchProof != null)
+                    {
+                        searchProof.PrfPayDetail = proofPayment.PrfPayDetail;
+                    }
                 _graphiczoneDBContext.SaveChanges();
                 return Json(1);
             }
@@ -1177,6 +1182,7 @@ namespace Graphiczone.Controllers
             else
             {
                 getViewbagshopdetail();
+                string str = "หลักฐานการชำระเงินไม่ถูกต้อง";
                 var searchPayment = _graphiczoneDBContext.ProofPayment.Where(x => x.PrfPayDate >= Start && x.PrfPayDate <= End).OrderBy(x=>x.PrfPayDate).ToList();
                 if (searchPayment != null)
                 {
@@ -1208,7 +1214,7 @@ namespace Graphiczone.Controllers
             else
             {
                 getViewbagshopdetail();
-                var searchReOverdue = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus < 2 && x.OrPrintDate >= Start && x.OrPrintDate <= End).ToList();
+                var searchReOverdue = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus >=0 && x.OrPrintStatus < 2 && x.OrPrintDate >= Start && x.OrPrintDate <= End).ToList();
                 if (searchReOverdue != null)
                 {
                     List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.ToList();

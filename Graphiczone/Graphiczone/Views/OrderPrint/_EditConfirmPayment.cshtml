@@ -235,9 +235,10 @@
         function deletepayment() {
             var OrPrintId = document.getElementById("OrderPrintId").value;
             var OrPrintStatus = null;
+            var PrfPayDetail = "หลักฐานการชำระเงินไม่ถูกต้อง";
             $.ajax({
                 type: "post",
-                data: { OrPrintId, OrPrintStatus },
+                data: { OrPrintId, OrPrintStatus, PrfPayDetail },
                 url: "/OrderPrint/deletepayment",
                 success: function (result) {
                     if (result == 1) {

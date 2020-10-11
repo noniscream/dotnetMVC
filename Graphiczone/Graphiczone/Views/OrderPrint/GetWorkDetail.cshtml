@@ -129,7 +129,16 @@
                                                 <img class="img" id="showImg" src="/@x.OrdPrintFile" />
                                             </span>
                                         </a><br />
-                                        <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
+                                        <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small><br />
+                                        @if (x.OrdPrintDetail != null)
+                                        {
+                                        <small><p class="badge badge-primary" data-toggle="tooltip" data-placement="right" title="@x.OrdPrintDetail">รายละเอียดเพิ่มเติม</p></small>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $('[data-toggle="tooltip"]').tooltip();
+                                            });
+                                        </script>
+                                        }
 
                                     </div>
                                     <div class="table-cell">
@@ -232,7 +241,7 @@
                                         </div>
                                         @if (Model.OrPrintStatus == 0 && Model.OrPrintDue == null)
                                         {
-                                            <input class="form-control" type="date" name="OrPrintDue" id="OrPrintDue" min="@Model.OrPrintDate.Value.AddYears(-543).ToString("yyyy-MM-dd")" required="required" />
+                                            <input class="form-control" type="date" name="OrPrintDue" id="OrPrintDue" min="@DateTime.Now.ToString("yyyy-MM-dd")" required="required" />
                                         }
                                         else
                                         {

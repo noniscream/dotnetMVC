@@ -333,7 +333,7 @@ namespace Graphiczone.Controllers
             var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
             if (searchData != null)
             {
-                searchData.OrPrintDue = orderPrint.OrPrintDue.Value.AddYears(543);
+                searchData.OrPrintDue = orderPrint.OrPrintDue;
                 _graphiczoneDBContext.SaveChanges();
                 return Json(1);
             }
@@ -531,10 +531,10 @@ namespace Graphiczone.Controllers
                 var cusId = getCusId.CusId;
                 if (id != null)
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && x.OrPrintId == id && x.OrPrintStatus != null || x.OrPrintStatus == null && x.OrPrintDue != null).OrderByDescending(x => x.OrPrintId)//.ToList()
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && x.OrPrintId == id).OrderByDescending(x => x.OrPrintId)//.ToList()
                         .Skip(ExcludeRecords)
                         .Take(pageSize);
-                    var searchPage = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && x.OrPrintId == id && x.OrPrintStatus != null || x.OrPrintStatus == null && x.OrPrintDue != null).OrderByDescending(x => x.OrPrintId).Count();
+                    var searchPage = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && x.OrPrintId == id).OrderByDescending(x => x.OrPrintId).Count();
                     ViewBag.totalpage = searchPage;
                     ViewBag.pagenumber = pageNumber;
                     ViewBag.pagesize = pageSize;
@@ -543,10 +543,10 @@ namespace Graphiczone.Controllers
                 }
                 else
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && id == null && x.OrPrintStatus != null || x.OrPrintStatus == null && x.OrPrintDue != null).OrderByDescending(x => x.OrPrintId)//.ToList()
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && id == null && x.OrPrintStatus != null || x.CusId == cusId && x.OrPrintStatus == null && x.OrPrintDue != null).OrderByDescending(x => x.OrPrintId)//.ToList()
                         .Skip(ExcludeRecords)
                         .Take(pageSize);
-                    var searchPage = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && id == null && x.OrPrintStatus != null || x.OrPrintStatus == null && x.OrPrintDue != null).OrderByDescending(x => x.OrPrintId).Count();
+                    var searchPage = _graphiczoneDBContext.OrderPrint.Where(x => x.CusId == cusId && id == null && x.OrPrintStatus != null || x.CusId == cusId && x.OrPrintStatus == null && x.OrPrintDue != null).OrderByDescending(x => x.OrPrintId).Count();
                     ViewBag.totalpage = searchPage;
                     ViewBag.pagenumber = pageNumber;
                     ViewBag.pagesize = pageSize;

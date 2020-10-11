@@ -20,6 +20,7 @@ namespace Graphiczone.Controllers
         }
         public IActionResult Index(int pageNumber = 1, int pageSize = 5)
         {
+            DateTime dt = DateTime.Now;
             if (HttpContext.Session.GetString("AdminUsername") == null)
             {
                 return RedirectToAction("Login");
@@ -53,7 +54,7 @@ namespace Graphiczone.Controllers
             var searchtotalpayment = db.OrderPrint.Where(x => x.OrPrintStatus >= 2).ToList();
             ViewBag.countpayment = searchtotalpayment.Count();
             ViewBag.totalpayment = searchtotalpayment.Sum(x => x.OrPrintTotal);
-            var searchtotalcredit = db.OrderPrint.Where(x => x.OrPrintStatus < 2).ToList();
+            var searchtotalcredit = db.OrderPrint.Where(x => x.OrPrintStatus < 2 && x.OrPrintDue >= dt).ToList();
             ViewBag.countcredit = searchtotalcredit.Count();
             ViewBag.totalcredit = searchtotalcredit.Sum(x => x.OrPrintTotal);
 

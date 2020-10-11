@@ -21,10 +21,8 @@
             visibility: visible;
         }
 </style>
-@{ 
-    double total = 0;
-    double tax = 0.07;
-}
+@{ double total = 0;
+                double tax = 0.07; }
 <div class="modal fade" id="ShowOrderDetail">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
@@ -42,10 +40,9 @@
                             <div class="row" align="right">
                                 @if (ViewBag.OrStatus >= 2 && ViewBag.Orderdue != null)
                                 {
-                                    <div class="col-md-12">
-                                        <a class="btn btn-primary" href="@Url.Action("OrderInvoice","OrderPrint",new { id = ViewBag.OrderPrintId })" target="_blank">ใบเสร็จชำระเงิน</a>
-                                    </div>
-                                }
+                    <div class="col-md-12">
+                        <a class="btn btn-primary" href="@Url.Action("OrderInvoice","OrderPrint",new { id = ViewBag.OrderPrintId })" target="_blank">ใบเสร็จชำระเงิน</a>
+                    </div>}
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -59,8 +56,7 @@
                                 <div class="col-md-6">
                                     @if (ViewBag.Orderdue != null)
                                     {
-                                        <label>กำหนดรับวันที่ : @ViewBag.Orderdue.ToString("dd MMMM yyyy")</label>
-                                    }
+                        <label>กำหนดรับวันที่ : @ViewBag.Orderdue.ToString("dd MMMM yyyy")</label> }
                                     else
                                     {
                                         <label class="text-danger">กำหนดรับวันที่ : อยู่ระอย่างการประเมินระยะเวลาส่งมอบ</label>
@@ -101,16 +97,26 @@
                                 <div class="table-cell">
                                     <a href="/@x.OrdPrintFile" target="_blank">
                                         <span class="xs">
-                                        @foreach(var p in ViewBag.PrintName)
-                                        {
-                                            if(x.PrintId == p.PrintId)
+                                            @foreach (var p in ViewBag.PrintName)
                                             {
-                                                <label>@p.PrintName</label>
-                                            }
-                                        }
-                                        <img class="img" id="showImg" src="/@x.OrdPrintFile" /></span><br />
+                                                if (x.PrintId == p.PrintId)
+                                                {
+                                <label>@p.PrintName</label>}
+                                                }
+                                            <img class="img" id="showImg" src="/@x.OrdPrintFile" />
+                                        </span><br />
+
                                     </a>
-                                    <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
+                                    <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small><br />
+                                    @if (x.OrdPrintDetail != null)
+                                    {
+                                    <small><p class="badge badge-primary" data-toggle="tooltip" data-placement="right" title="@x.OrdPrintDetail">รายละเอียดเพิ่มเติม</p></small>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('[data-toggle="tooltip"]').tooltip();
+                                        });
+                                    </script>
+                                    }
                                 </div>
                                 <div class="table-cell">
                                     <p>
@@ -128,7 +134,7 @@
                                     <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
                                 </div>
                             </div>total += x.OrdPrintTotal;
-                                        }
+                        }
                                         <div class="row mt-3">
                                             <div class="col-md-4">
                                                 <div class="alert alert-primary" align="center">
@@ -152,13 +158,13 @@
                             </div>
                             @if (ViewBag.OrStatus == null && ViewBag.PrfPayFile != null)
                             {
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="alert-danger p-5">
-                                            <span><b>หมายเหตุ * : หลักฐานการชำระเงินไม่ถูกต้อง ลูกค้าต้องทำการสั่งทำสื่อสิ่งพิมพ์ใหม่อีกครั้ง ! (หากต้องการสั่งทำใหม่ <a href="@Url.Action("CreateOrder","OrderDetailPrint")">คลิกที่นี่</a>)</b></span>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert-danger p-5">
+                            <span><b>หมายเหตุ * : หลักฐานการชำระเงินไม่ถูกต้อง ลูกค้าต้องทำการสั่งทำสื่อสิ่งพิมพ์ใหม่อีกครั้ง ! (หากต้องการสั่งทำใหม่ <a href="@Url.Action("CreateOrder","OrderDetailPrint")">คลิกที่นี่</a>)</b></span>
+                        </div>
+                    </div>
+                </div>
 
                                 <div class="table-row">
                                     <div class="table-cell last-cell" align="right">
@@ -167,8 +173,7 @@
                                         </div>
                                         <img src="/@ViewBag.PrfPayFile" width="374" height="500" />
                                     </div>
-                                </div>
-                            }
+                                </div>}
                         </div>
                     </div>
                 </div>

@@ -47,7 +47,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
-                                            <input class="form-control" type="date" name="OrPrintDue" id="OrPrintDue" min="@ViewBag.OrderDate.ToString("yyyy-MM-dd")" onchange="checkduenull()" />
+                                            <input class="form-control" type="date" name="OrPrintDue" id="OrPrintDue" min="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="checkduenull()" />
                                         </div>
                                     </div>
                                 </div>
@@ -125,7 +125,16 @@
                                                             <img class="img" id="showImg" src="/@x.OrdPrintFile" />
                                                         </span><br />
                                                     </a>
-                                                    <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small>
+                                                    <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small><br />
+                                                    @if (x.OrdPrintDetail != null)
+                                                    {
+                                                    <small><p class="badge badge-primary" data-toggle="tooltip" data-placement="right" title="@x.OrdPrintDetail">รายละเอียดเพิ่มเติม</p></small>
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            $('[data-toggle="tooltip"]').tooltip();
+                                                        });
+                                                    </script>
+                                                    }
                                                 </div>
                                                 <div class="table-cell">
                                                     <p>

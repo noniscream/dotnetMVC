@@ -274,6 +274,15 @@
                                         }
                                     }
                                     <br />
+                                    @if (x.OrdPrintDetail != null)
+                                    {
+                                    <small><p class="badge badge-primary" data-toggle="tooltip" data-placement="right" title="@x.OrdPrintDetail">รายละเอียดเพิ่มเติม</p></small>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('[data-toggle="tooltip"]').tooltip();
+                                        });
+                                    </script>
+                                    }
                                 </td>
                                 <td style="text-align:right;">@sumarea.Value.ToString("#,###.00")</td>
                                 <td style="text-align:right;">@x.OrdPrintPriceset.Value.ToString("#,###.00")</td>

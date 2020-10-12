@@ -18,7 +18,6 @@ namespace Graphiczone.Models.SQLServer
         public int? OrPrintStatus { get; set; }
         public string CusId { get; set; }
 
-
         public virtual Customer Cus { get; set; }
         public virtual ProofPayment ProofPayment { get; set; }
         public virtual Shipping Shipping { get; set; }

@@ -258,6 +258,8 @@ namespace Graphiczone.Models.SQLServer
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
+                entity.Property(e => e.PrfPayStatus).HasColumnName("prfPay_status");
+
                 entity.Property(e => e.PrfPayTime)
                     .HasColumnName("prfPay_time")
                     .HasMaxLength(10)

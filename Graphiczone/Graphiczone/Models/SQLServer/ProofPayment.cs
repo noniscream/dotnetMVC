@@ -13,6 +13,7 @@ namespace Graphiczone.Models.SQLServer
         public string PrfPayTime { get; set; }
         public string PrfPayFile { get; set; }
         public string PrfPayDetail { get; set; }
+        public int? PrfPayStatus { get; set; }
 
         public virtual OrderPrint OrPrint { get; set; }
     }

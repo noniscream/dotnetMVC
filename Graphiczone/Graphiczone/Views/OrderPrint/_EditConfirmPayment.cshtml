@@ -195,9 +195,10 @@
     function editconfirmpayment() {
             var OrPrintId = document.getElementById("OrderPrintId").value;
             var OrPrintStatus = 2;
+            var PrfPayStatus = 1;
             $.ajax({
                 type: "post",
-                data: { OrPrintId, OrPrintStatus },
+                data: { OrPrintId, OrPrintStatus, PrfPayStatus },
                 url: "/OrderPrint/updateconfirmpayment",
                 success: function (result) {
                     console.log(result);
@@ -235,10 +236,10 @@
         function deletepayment() {
             var OrPrintId = document.getElementById("OrderPrintId").value;
             var OrPrintStatus = null;
-            var PrfPayDetail = "หลักฐานการชำระเงินไม่ถูกต้อง";
+            var PrfPayStatus = 0;
             $.ajax({
                 type: "post",
-                data: { OrPrintId, OrPrintStatus, PrfPayDetail },
+                data: { OrPrintId, OrPrintStatus, PrfPayStatus },
                 url: "/OrderPrint/deletepayment",
                 success: function (result) {
                     if (result == 1) {

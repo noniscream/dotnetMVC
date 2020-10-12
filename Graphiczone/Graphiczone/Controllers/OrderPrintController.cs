@@ -346,12 +346,17 @@ namespace Graphiczone.Controllers
         }
 
         [HttpPost]
-        public JsonResult updatepayment(OrderPrint orderPrint)
+        public JsonResult updatepayment(OrderPrint orderPrint, ProofPayment proofPayment)
         {
             var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
             if (searchData != null)
             {
                 searchData.OrPrintStatus = orderPrint.OrPrintStatus;
+                var searchproof = _graphiczoneDBContext.ProofPayment.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
+                if(searchproof != null)
+                {
+                    searchproof.PrfPayStatus = proofPayment.PrfPayStatus;
+                }
                 _graphiczoneDBContext.SaveChanges();
                 return Json(1);
             }
@@ -640,12 +645,17 @@ namespace Graphiczone.Controllers
         }
 
         [HttpPost]
-        public JsonResult updateconfirmpayment(OrderPrint orderPrint)
+        public JsonResult updateconfirmpayment(OrderPrint orderPrint, ProofPayment proofPayment)
         {
             var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
             if (searchData != null)
             {
                 searchData.OrPrintStatus = orderPrint.OrPrintStatus;
+                var seachproof = _graphiczoneDBContext.ProofPayment.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
+                if(seachproof != null)
+                {
+                    seachproof.PrfPayStatus = proofPayment.PrfPayStatus;
+                }
                 _graphiczoneDBContext.SaveChanges();
                 return Json(1);
             }
@@ -830,7 +840,7 @@ namespace Graphiczone.Controllers
                     var searchProof = _graphiczoneDBContext.ProofPayment.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
                     if(searchProof != null)
                     {
-                        searchProof.PrfPayDetail = proofPayment.PrfPayDetail;
+                        searchProof.PrfPayStatus = proofPayment.PrfPayStatus;
                     }
                 _graphiczoneDBContext.SaveChanges();
                 return Json(1);
@@ -1182,8 +1192,7 @@ namespace Graphiczone.Controllers
             else
             {
                 getViewbagshopdetail();
-                string str = "หลักฐานการชำระเงินไม่ถูกต้อง";
-                var searchPayment = _graphiczoneDBContext.ProofPayment.Where(x => x.PrfPayDate >= Start && x.PrfPayDate <= End).OrderBy(x=>x.PrfPayDate).ToList();
+                var searchPayment = _graphiczoneDBContext.ProofPayment.Where(x => x.PrfPayDate >= Start && x.PrfPayDate <= End && x.PrfPayStatus == 1).OrderBy(x=>x.PrfPayDate).ToList();
                 if (searchPayment != null)
                 {
                     List<OrderPrint> orderPrints = _graphiczoneDBContext.OrderPrint.ToList();

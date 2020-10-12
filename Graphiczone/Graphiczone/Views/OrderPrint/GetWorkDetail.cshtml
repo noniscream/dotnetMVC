@@ -593,9 +593,10 @@
         function savepayment() {
             var OrPrintId = document.getElementById("OrPrintId").value;
             var OrPrintStatus = 2;
+            var PrfPayStatus = 1;
             $.ajax({
                 type: "post",
-                data: { OrPrintId, OrPrintStatus },
+                data: { OrPrintId, OrPrintStatus, PrfPayStatus },
                 url: "/OrderPrint/updatepayment",
                 success: function (result) {
                     if (result == 1) {
@@ -774,9 +775,10 @@
         function deletepayment() {
             var OrPrintId = document.getElementById("OrPrintId").value;
             var OrPrintStatus = null;
+            var PrfPayStatus = 0;
             $.ajax({
                 type: "post",
-                data: { OrPrintId, OrPrintStatus },
+                data: { OrPrintId, OrPrintStatus, PrfPayStatus },
                 url: "/OrderPrint/deletepayment",
                 success: function (result) {
                     if (result == 1) {

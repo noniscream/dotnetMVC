@@ -43,7 +43,7 @@ namespace Graphiczone.Controllers
             var seachData = _graphiczoneDBContext.Customer.Where(x => x.CusUsername == username && x.CusPassword == password).FirstOrDefault();
             if(seachData != null)
             {
-                HttpContext.Session.SetString("CusUsername",cus.CusUsername); // Save Session
+                HttpContext.Session.SetString("CusUsername",cus.CusUsername); // Save Session   
                 return Json(1);
             }
             else

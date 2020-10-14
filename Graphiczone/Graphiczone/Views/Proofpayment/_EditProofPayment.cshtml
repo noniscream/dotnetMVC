@@ -40,72 +40,152 @@
                     <h5 class="card-header">แจ้งหลักฐานการชำระเงิน</h5>
                     <div class="card-body">
                         <div class="container">
-                            <form id="updateProofPayment" action="/ProofPayment/upload" method="post" enctype="multipart/form-data" onsubmit="return updateData(this)">
-
-                                <input type="hidden" name="OrPrintId" id="OrPrintId" value="@ViewBag.OrderPrintId" />
-                                <input type="hidden" name="OrPrintStatus" id="OrPrintStatus" value="1" />
-
-                                <div class="row" style="margin-bottom:2%">
+                            @if (ViewBag.PrfPayStatus == 0)
+                            {
+                                <div class="row mb-3">
                                     <div class="col-md-12">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-barcode"></i>  รหัสอ้างอิงการโอน</span>
-                                            </div>
-                                            <input class="form-control" type="text" name="PrfPayId" id="PrfPayId" placeholder="กรุณากรอกรหัสอ้างอิงการโอน" maxlength="255"/>
-                                        </div>
-                                        <div class="input-group" style="margin-top:1%">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-university"></i>  ชื่อธนาคาร</span>
-                                            </div>
-                                            <select class="form-control" name="PrfPayBank" id="PrfPayBank" >
-                                                <option value="">เลือกธนาคาร</option>
-                                                <option value="ธ.กรุงศรีอยุธยา">ธ.กรุงศรีอยุธยา</option>
-                                                <option value="ธ.กรุงเทพ">ธ.กรุงเทพ</option>
-                                                <option value="ธ.กรุงไทย">ธ.กรุงไทย</option>
-                                                <option value="ธ.กสิกรไทย">ธ.กสิกรไทย</option>
-                                                <option value="ธ.เกียรตินาคิน">ธ.เกียรตินาคิน</option>
-                                                <option value="ธ.ทหารไทย">ธ.ทหารไทย</option>
-                                                <option value="ธ.ไทยพาณิชย์">ธ.ไทยพาณิชย์</option>
-                                                <option value="ธ.ธนชาต">ธ.ธนชาต</option>
-                                                <option value="ธ.เพื่อการเกษตรและสหกรณ์">ธ.เพื่อการเกษตรและสหกรณ์</option>
-                                                <option value="ธ.ออมสิน">ธ.ออมสิน</option>
-                                                <option value="ธ.อาคารสงเคราะห์">ธ.อาคารสงเคราะห์</option>
-                                            </select>
-                                        </div>
-                                        <div class="input-group" style="margin-top:1%">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="far fa-calendar-alt"></i>  วันที่โอน</span>
-                                            </div>
-                                            <input class="form-control" type="date" name="PrfPayDate" id="PrfPayDate" min='@ViewBag.GetDateForPicker' max='@ViewBag.getDueForPicker' />
-                                        </div>
-                                        <div class="input-group" style="margin-top:1%">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="far fa-clock"></i>  เวลาที่โอน</span>
-                                            </div>
-                                            <input class="form-control" type="time" name="PrfPayTime" id="PrfPayTime" />
-                                        </div>
-                                        <div class="input-group" style="margin-top:1%">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">หมายเหตุ</span>
-                                            </div>
-                                            <textarea class="form-control" aria-label="With textarea" name="PrfPayDetail" id="PrfPayDetail"></textarea>
+                                        <div class="alert-danger p-3">
+                                            <span><b>หมายเหตุ * : หลักฐานการชำระเงินไม่ถูกต้อง ลูกค้าต้องทำการแจ้งหลักฐานชำระเงินใหม่อีกครั้ง ! (<a href="/@ViewBag.PrfPayFile" target="_blank">หลักฐานที่ถูกยกเลิก</a>)</b></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <input type="file" name="Uploadfile" id="Uploadfile" />
+                                <form id="updateProofPayment" action="/ProofPayment/editupload" method="post" enctype="multipart/form-data" onsubmit="return updateData(this)">
+
+                                    <input type="hidden" name="OrPrintId" id="OrPrintId" value="@ViewBag.OrderPrintId" />
+                                    <input type="hidden" name="OrPrintStatus" id="OrPrintStatus" value="1" />
+
+                                    <div class="row" style="margin-bottom:2%">
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-barcode"></i>  รหัสอ้างอิงการโอน</span>
+                                                </div>
+                                                <input class="form-control" type="text" name="PrfPayId" id="PrfPayId" placeholder="กรุณากรอกรหัสอ้างอิงการโอน" maxlength="255" />
+                                            </div>
+                                            <div class="input-group" style="margin-top:1%">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-university"></i>  ชื่อธนาคาร</span>
+                                                </div>
+                                                <select class="form-control" name="PrfPayBank" id="PrfPayBank">
+                                                    <option value="">เลือกธนาคาร</option>
+                                                    <option value="ธ.กรุงศรีอยุธยา">ธ.กรุงศรีอยุธยา</option>
+                                                    <option value="ธ.กรุงเทพ">ธ.กรุงเทพ</option>
+                                                    <option value="ธ.กรุงไทย">ธ.กรุงไทย</option>
+                                                    <option value="ธ.กสิกรไทย">ธ.กสิกรไทย</option>
+                                                    <option value="ธ.เกียรตินาคิน">ธ.เกียรตินาคิน</option>
+                                                    <option value="ธ.ทหารไทย">ธ.ทหารไทย</option>
+                                                    <option value="ธ.ไทยพาณิชย์">ธ.ไทยพาณิชย์</option>
+                                                    <option value="ธ.ธนชาต">ธ.ธนชาต</option>
+                                                    <option value="ธ.เพื่อการเกษตรและสหกรณ์">ธ.เพื่อการเกษตรและสหกรณ์</option>
+                                                    <option value="ธ.ออมสิน">ธ.ออมสิน</option>
+                                                    <option value="ธ.อาคารสงเคราะห์">ธ.อาคารสงเคราะห์</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-group" style="margin-top:1%">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i>  วันที่โอน</span>
+                                                </div>
+                                                <input class="form-control" type="date" name="PrfPayDate" id="PrfPayDate" min='@ViewBag.GetDateForPicker' max='@ViewBag.getDueForPicker' />
+                                            </div>
+                                            <div class="input-group" style="margin-top:1%">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="far fa-clock"></i>  เวลาที่โอน</span>
+                                                </div>
+                                                <input class="form-control" type="time" name="PrfPayTime" id="PrfPayTime" />
+                                            </div>
+                                            <div class="input-group" style="margin-top:1%">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">หมายเหตุ</span>
+                                                </div>
+                                                <textarea class="form-control" aria-label="With textarea" name="PrfPayDetail" id="PrfPayDetail"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row" style="margin-top:5px">
-                                    <div class="col-md-12" align="right">
-                                        <p id="StatusImg"></p>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <input type="file" name="Uploadfile" id="Uploadfile" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div align="center" style="margin-top:2%">
-                                    <button type="submit" class="btn btn-outline-success badge-pill" id="btnSave">บันทึก</button>
-                                </div>
-                            </form>
+                                    <div class="row" style="margin-top:5px">
+                                        <div class="col-md-12" align="right">
+                                            <p id="StatusImg"></p>
+                                        </div>
+                                    </div>
+                                    <div align="center" style="margin-top:2%">
+                                        <button type="submit" class="btn btn-outline-success badge-pill" id="btnSave">บันทึก</button>
+                                    </div>
+                                </form>
+
+                            }
+                            else
+                            {
+                                <form id="updateProofPayment" action="/ProofPayment/upload" method="post" enctype="multipart/form-data" onsubmit="return updateData(this)">
+
+                                    <input type="hidden" name="OrPrintId" id="OrPrintId" value="@ViewBag.OrderPrintId" />
+                                    <input type="hidden" name="OrPrintStatus" id="OrPrintStatus" value="1" />
+
+                                    <div class="row" style="margin-bottom:2%">
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-barcode"></i>  รหัสอ้างอิงการโอน</span>
+                                                </div>
+                                                <input class="form-control" type="text" name="PrfPayId" id="PrfPayId" placeholder="กรุณากรอกรหัสอ้างอิงการโอน" maxlength="255" />
+                                            </div>
+                                            <div class="input-group" style="margin-top:1%">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-university"></i>  ชื่อธนาคาร</span>
+                                                </div>
+                                                <select class="form-control" name="PrfPayBank" id="PrfPayBank">
+                                                    <option value="">เลือกธนาคาร</option>
+                                                    <option value="ธ.กรุงศรีอยุธยา">ธ.กรุงศรีอยุธยา</option>
+                                                    <option value="ธ.กรุงเทพ">ธ.กรุงเทพ</option>
+                                                    <option value="ธ.กรุงไทย">ธ.กรุงไทย</option>
+                                                    <option value="ธ.กสิกรไทย">ธ.กสิกรไทย</option>
+                                                    <option value="ธ.เกียรตินาคิน">ธ.เกียรตินาคิน</option>
+                                                    <option value="ธ.ทหารไทย">ธ.ทหารไทย</option>
+                                                    <option value="ธ.ไทยพาณิชย์">ธ.ไทยพาณิชย์</option>
+                                                    <option value="ธ.ธนชาต">ธ.ธนชาต</option>
+                                                    <option value="ธ.เพื่อการเกษตรและสหกรณ์">ธ.เพื่อการเกษตรและสหกรณ์</option>
+                                                    <option value="ธ.ออมสิน">ธ.ออมสิน</option>
+                                                    <option value="ธ.อาคารสงเคราะห์">ธ.อาคารสงเคราะห์</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-group" style="margin-top:1%">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i>  วันที่โอน</span>
+                                                </div>
+                                                <input class="form-control" type="date" name="PrfPayDate" id="PrfPayDate" min='@ViewBag.GetDateForPicker' max='@ViewBag.getDueForPicker' />
+                                            </div>
+                                            <div class="input-group" style="margin-top:1%">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="far fa-clock"></i>  เวลาที่โอน</span>
+                                                </div>
+                                                <input class="form-control" type="time" name="PrfPayTime" id="PrfPayTime" />
+                                            </div>
+                                            <div class="input-group" style="margin-top:1%">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">หมายเหตุ</span>
+                                                </div>
+                                                <textarea class="form-control" aria-label="With textarea" name="PrfPayDetail" id="PrfPayDetail"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <input type="file" name="Uploadfile" id="Uploadfile" />
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:5px">
+                                        <div class="col-md-12" align="right">
+                                            <p id="StatusImg"></p>
+                                        </div>
+                                    </div>
+                                    <div align="center" style="margin-top:2%">
+                                        <button type="submit" class="btn btn-outline-success badge-pill" id="btnSave">บันทึก</button>
+                                    </div>
+                                </form>
+                            }
                         </div>
                     </div>
                 </div>

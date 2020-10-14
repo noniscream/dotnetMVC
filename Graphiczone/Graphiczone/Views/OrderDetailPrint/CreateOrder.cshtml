@@ -156,7 +156,7 @@
                     <div class="contact-form row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>ประเภทบริการ : <span class="text-danger font-weight-bold">*</span></label>
+                                <label>ประเภทสื่อสิ่งพิมพ์ : <span class="text-danger font-weight-bold">*</span></label>
                                 <select class="custom-select" id="typeprintId" onchange="selectproducttype()" asp-items='@(new SelectList(ViewBag.TypePrint,"TypePrintId","TypePrintName"))'>
                                     <option value="">เลือกประเภทบริการ</option>
                                 </select>
@@ -171,7 +171,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>ความยาว : <span class="text-danger font-weight-bold">*</span></label>
+                                <label>ความสูง : <span class="text-danger font-weight-bold">*</span></label>
                                 <div class="input-group-prepend">
                                     <input class="form-control" type="number" value="" min="0.01" step="0.01" id="OrdPrintHeight" name="OrdPrintHeight" placeholder="กรอกความยาว" />
                                     <div class="input-group-append">
@@ -191,7 +191,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>ประเภทวัสดุ : <span class="text-danger font-weight-bold">*</span></label>
+                                <label>ชื่อสื่อสิ่งพิมพ์ : <span class="text-danger font-weight-bold">*</span></label>
                                 <select class="custom-select" id="PrintId" name="PrintId" onchange="selectprint()" @*asp-items='@(new SelectList(String.Empty,"PrintId","PrintName"))'*@>
                                     <option value="">เลือกประเภทวัสดุ</option>
                                 </select>
@@ -232,9 +232,9 @@
                         <tr style="border-right: 2px solid #d6d4d4;" @*align="center" style="color:black;border-top: 3px solid black;border-bottom: 3px solid black;border-left: 3px solid black;"*@>
                             <th>ชื่อรายการ</th>
                             <th>พื้นที่รวม(ตรม.)</th>
-                            <th>ราคาต่อหน่วย</th>
+                            <th>ราคาต่อหน่วย(บาท)</th>
                             <th>จำนวน</th>
-                            <th>ราคา</th>
+                            <th>ราคา(บาท)</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -299,7 +299,7 @@
                     }
                 </table>
                 <div align="right">
-                    <p class="alert-info">รวมราคา : <b>@totalBill.ToString("#,###.00")</b> บาท</p>
+                    <p class="alert-info">ราคาสุทธิ : <b>@totalBill.ToString("#,###.00")</b> บาท</p>
                 </div>
                 <div align="right">
                     <p class="alert-danger">ภาษี : <b>@totalvax.ToString("#,###.00")</b> บาท</p>
@@ -478,7 +478,7 @@
                 var item = '';
                 $("#PrintId").empty();
                 $.each(data, function (i, row) {
-                    item += "<option value=' " + data[i].value + "'>" + data[i].text + " ราคาต่อ 1 ตร.ม. "+ data[i].group.name + "</option>";
+                    item += "<option value=' " + data[i].value + "'>" + data[i].text + " ราคาต่อ 1 ตร.ม. "+ data[i].group.name + " บาท </option>";
                      });
                 $("#PrintId").html(item);
             });

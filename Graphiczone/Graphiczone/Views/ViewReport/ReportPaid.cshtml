@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<Graphiczone.Models.SQLServer.ProofPayment>
 
 @{
-    ViewData["Title"] = "รายงานข้อมูลการให้บริการที่ได้รับชำระเงินแล้ว";
+    ViewData["Title"] = "รายงานข้อมูลสั่งทำสื่อสิ่งพิมพ์ที่ชำระเงินแล้ว";
     Layout = "~/Views/Shared/_formatReport.cshtml";
 }
 
-<h4 style="top:0;" align="center">รายงานข้อมูลการให้บริการที่ได้รับชำระเงินแล้ว</h4>
+<h4 style="top:0;" align="center">รายงานข้อมูลสั่งทำสื่อสิ่งพิมพ์ที่ชำระเงินแล้ว</h4>
 <h6 align="right"><label>ตั้งแต่ @ViewBag.Start.ToString("dd MMM yyyy") จนถึง @ViewBag.End.ToString("dd MMM yyyy")</label></h6>
 <h6 align="right"><label align="right">วันที่เรียกดู @DateTime.Now.ToString("dddd dd MMMM yyyy")</label></h6>
 
@@ -25,27 +25,19 @@
             {
                 <thead class="table table-secondary">
                     <tr>
-                        <th colspan="2" align="left">รหัสสั่งทำ</th>
-                        <th align="center">สั่งทำวันที่</th>
-                        <th align="center">กำหนดส่งวันที่</th>
-                        <th align="center">ชำระเงินวันที่</th>
-                        <th align="center">ชื่อลูกค้าที่สั่ง</th>
-                    </tr>
-                </thead>
-                <tbody align="left">
-                    <tr>
-                        <td colspan="2">@x.OrPrintId</td>
-                        <td>@o.OrPrintDate.ToString("dd MMM yyyy")</td>
-                        <td>@o.OrPrintDue.ToString("dd MMM yyyy")</td>
-                        <td>@x.PrfPayDate.Value.ToString("dd MMM yyyy")</td>
+                        <th colspan="2" align="left">รหัสสั่งทำ : @x.OrPrintId</th>
+                        <th align="center">สั่งทำวันที่ : @o.OrPrintDate.ToString("dd MMM yyyy")</th>
+                        <th align="center">กำหนดส่งวันที่ : @o.OrPrintDue.ToString("dd MMM yyyy")</th>
+                        <th align="center">ชำระเงินวันที่ : @x.PrfPayDate.Value.ToString("dd MMM yyyy")</th>
                         @foreach (var c in ViewBag.listcus)
                         {
                             if (o.CusId == c.CusId)
                             {
-                                <td>@c.CusFirstname @c.CusLastname</td>
+                                <th align="center">ชื่อลูกค้าที่สั่ง : @c.CusFirstname @c.CusLastname</th>
                             }
                         }
                     </tr>
+                </thead>
                 <thead>
                     <tr>
                         <th align="center"><span align="center">รหัสรายการสั่งทำ</span></th>
@@ -53,7 +45,7 @@
                         <th></th>
                         <th align="center"><span align="center">พื้นที่รวม (ตร.ม.)</span></th>
                         <th align="center"><span align="center">จำนวน/หน่วย</span></th>
-                        <th align="center"><span align="center">ราคา</span></th>
+                        <th align="center"><span align="center">ราคา(บาท)</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -96,7 +88,6 @@
                         <td colspan="1">รวมเป็นเงิน : @o.OrPrintTotal.ToString("#,###.00")</td>
                     </tr>
                 </tbody>
-                </tbody>
                 totalincome += @Convert.ToDouble(o.OrPrintTotal);
                 countlist = 0;
                 totallist = 0;
@@ -106,11 +97,11 @@
     }
     <tbody align="right" style="margin-top:2px">
         <tr>
-            <td colspan="5" align="right"><b>ยอดขายที่ได้รับชำระเงินทั้งหมด : </b></td>
+            <td colspan="5" align="right"><b>รายการสั่งทำที่ชำระเงินแล้วทั้งหมด : </b></td>
             <td colspan="1"><b>@alllist.ToString("#,###") รายการ</b></td>
         </tr>
         <tr>
-            <td colspan="5" align="right"><b>ยอดขายที่ได้รับชำระเงินแล้วรวมเป็นเงิน : </b></td>
+            <td colspan="5" align="right"><b>รวมเป็นเงินทั้งสิ้น : </b></td>
             <td colspan="1"><b>@totalincome.ToString("#,###.00") บาท</b></td>
         </tr>
     </tbody>

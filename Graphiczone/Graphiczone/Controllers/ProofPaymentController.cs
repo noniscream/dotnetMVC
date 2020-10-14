@@ -85,6 +85,13 @@ namespace Graphiczone.Controllers
                 var seachData2 = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
                 if (seachData2 != null)
                 {
+                    var searchData3 = _graphiczoneDBContext.ProofPayment.Where(x => x.OrPrintId == id).FirstOrDefault();
+                    if(searchData3 != null)
+                    {
+                        ViewBag.PrfPayFile = searchData3.PrfPayFile;
+                        ViewBag.PrfPayStatus = searchData3.PrfPayStatus;
+
+                    }
                     List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).ToList();
                     ViewBag.OrderList = orderDetailPrints;
                     ViewBag.OrderPrintId = seachData.OrPrintId;
@@ -138,6 +145,50 @@ namespace Graphiczone.Controllers
                     }
                 }
 
+                _graphiczoneDBContext.ProofPayment.Add(proofPayment);
+                _graphiczoneDBContext.SaveChanges();
+                var x = "คุณได้ทำการแจ้งหลักฐานการโอน รายการที่ : " + orderPrint.OrPrintId + "เรียบร้อยแล้ว";
+                return RedirectToAction("ListProofPayment");
+            }
+
+            return Json("ไม่สำเร็จ");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> edituploadAsync(OrderPrint orderPrint, ProofPayment proofPayment)
+        {
+            var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == orderPrint.OrPrintId).FirstOrDefault();
+
+            if (searchData != null)
+            {
+                var searchData2 = _graphiczoneDBContext.ProofPayment.Where(x => x.OrPrintId == proofPayment.OrPrintId).FirstOrDefault();
+                if(searchData2 != null)
+                {
+                    _graphiczoneDBContext.Remove(searchData2);
+                }
+
+                searchData.OrPrintStatus = orderPrint.OrPrintStatus;
+
+                proofPayment.OrPrintId = orderPrint.OrPrintId;
+                proofPayment.PrfPayDate = proofPayment.PrfPayDate;
+
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+
+                string fileName = Path.GetFileNameWithoutExtension(Uploadfile.FileName);
+                string extension = Path.GetExtension(Uploadfile.FileName);
+
+                if (extension == ".jpg" || extension == ".png" || extension == ".gif")
+                {
+                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    proofPayment.PrfPayFile = "images/" + fileName;
+                    fileName = Path.Combine(wwwRootPath, "images", fileName);
+
+
+                    using (var fileStream = new FileStream(fileName, FileMode.Create))
+                    {
+                        await Uploadfile.CopyToAsync(fileStream);
+                    }
+                }
                 _graphiczoneDBContext.ProofPayment.Add(proofPayment);
                 _graphiczoneDBContext.SaveChanges();
                 var x = "คุณได้ทำการแจ้งหลักฐานการโอน รายการที่ : " + orderPrint.OrPrintId + "เรียบร้อยแล้ว";

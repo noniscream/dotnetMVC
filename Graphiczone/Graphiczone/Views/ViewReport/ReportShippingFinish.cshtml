@@ -20,27 +20,19 @@
             {
                 <thead class="table table-secondary">
                     <tr>
-                        <th colspan="2" align="left">รหัสสั่งทำ</th>
-                        <th align="center">สั่งทำวันที่</th>
-                        <th align="center">กำหนดส่งวันที่</th>
-                        <th align="center">ส่งมอบวันที่</th>
-                        <th align="center">ชื่อลูกค้าที่สั่ง</th>
-                    </tr>
-                </thead>
-                <tbody align="left">
-                    <tr>
-                        <td colspan="2">@o.OrPrintId</td>
-                        <td>@o.OrPrintDate.ToString("dd MMM yyyy")</td>
-                        <td>@o.OrPrintDue.ToString("dd MMM yyyy")</td>
-                        <td>@x.ShippingDate.Value.ToString("dd MMM yyyy")</td>
+                        <th colspan="2" align="left">รหัสสั่งทำ : @o.OrPrintId</th>
+                        <th align="center">สั่งทำวันที่ : @o.OrPrintDate.ToString("dd MMM yyyy")</th>
+                        <th align="center">กำหนดส่งวันที่ : @o.OrPrintDue.ToString("dd MMM yyyy")</th>
+                        <th align="center">ส่งมอบวันที่ : @x.ShippingDate.Value.ToString("dd MMM yyyy")</th>
                         @foreach (var c in ViewBag.listcus)
                         {
                             if (o.CusId == c.CusId)
                             {
-                                <td>@c.CusFirstname @c.CusLastname</td>
+                                <th align="center">ชื่อลูกค้าที่สั่ง : @c.CusFirstname @c.CusLastname</th>
                             }
                         }
                     </tr>
+                </thead>
                     <thead>
                         <tr>
                             <th align="center"><span align="center">รหัสรายการสั่งทำ</span></th>
@@ -48,7 +40,7 @@
                             <th></th>
                             <th align="center"><span align="center">พื้นที่รวม (ตร.ม.)</span></th>
                             <th align="center"><span align="center">จำนวน/หน่วย</span></th>
-                            <th align="center"><span align="center">ราคา</span></th>
+                            <th align="center"><span align="center">ราคา(บาท)</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,7 +75,6 @@
                             <td colspan="6" align="center"><b>ทั้งหมด @countlist รายการ</b></td>
                         </tr>
                     </tbody>
-                </tbody>
                 countlist = 0;
                 alllist += 1;
             }

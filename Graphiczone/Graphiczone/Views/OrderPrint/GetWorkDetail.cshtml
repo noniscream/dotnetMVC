@@ -162,20 +162,15 @@
                                 total += x.OrdPrintTotal;
                             }
                             <div class="row mt-3">
-                                <div class="col-md-4">
-                                    <div class="alert alert-primary" align="center">
-                                        <h5>ราคาสุทธิ : <b>@total.ToString("#,###.00")</b> บาท</h5>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="alert alert-warning" align="center">
                                         @{ total = total * tax;}
                                         <h5>ภาษี 7% เป็นเงิน : <b>@total.ToString("#,###.00")</b> บาท</h5>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="alert alert-success" align="center">
-                                        <h5>รวมเป็นเงิน : <b>@ViewBag.PriceTotal.ToString("#,###.00")</b> บาท</h5>
+                                        <h5>รวมเป็นเงินทั้งสิ้น : <b>@ViewBag.PriceTotal.ToString("#,###.00")</b> บาท</h5>
                                     </div>
                                 </div>
                             </div>
@@ -349,10 +344,10 @@
                             @if (Model.OrPrintStatus == 1 && ViewBag.getPayCode != null)
                             {
                                 <div class="col-md-6">
-                                    <button class="btn btn-success form-control" onclick="checksavepayment()">ยืนยันการชำระ</button>
+                                    <button class="btn btn-success form-control" onclick="checksavepayment()">ยืนยันการชำระ(โอนถูกต้อง)</button>
                                 </div>
                                 <div class="col-md-6">
-                                    <button class="btn btn-danger form-control" onclick="checkdeletepayment()">ยกเลิกหลักฐาน</button>
+                                    <button class="btn btn-danger form-control" onclick="checkdeletepayment()">ปฏิเสธการชำระ(แจ้งหลักฐานไม่ถูกต้อง)</button>
                                 </div>
                             }
                         </div>

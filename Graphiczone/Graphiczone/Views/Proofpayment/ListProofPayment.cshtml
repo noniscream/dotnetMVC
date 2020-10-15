@@ -79,30 +79,21 @@
         <p>@item.OrPrintDue.Value.ToString("dd MMM yyyy")</p>
     </div>
     <div class="table-cell">
-        @if (item.OrPrintStatus == 0)
+        @foreach (var p in ViewBag.prfpay)
         {
-            strStatus = "ค้างชำระ";
-            strColorStatus = "danger";
-        }
-        else if (item.OrPrintStatus == 1)
-        {
-            strStatus = "แจ้งชำระแล้วรอยืนยัน";
-            strColorStatus = "info";
-        }
-        else if (item.OrPrintStatus == 2)
-        {
-            strStatus = "ชำระเงินแล้ว";
-            strColorStatus = "success";
-        }
-        else if (item.OrPrintStatus == 3)
-        {
-            strStatus = "ผลิตเสร็จแล้ว";
-            strColorStatus = "primary";
-        }
-        else if (item.OrPrintStatus == 4)
-        {
-            strStatus = "ส่งมอบแล้ว";
-            strColorStatus = "warning";
+            if (item.OrPrintId == p.OrPrintId)
+            {
+                if(p.PrfPayStatus != null)
+                {
+                    strStatus = "ถูกปฏิเสธการแจ้งชำระเงิน";
+                    strColorStatus = "danger";
+                }
+            }
+            else
+            {
+                strStatus = "ค้างชำระ";
+                strColorStatus = "danger";
+            }
         }
         <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
     </div>

@@ -57,6 +57,12 @@ namespace Graphiczone.Controllers
                     ViewBag.pagenumber = pageNumber;
                     ViewBag.pagesize = pageSize;
                     ViewBag.countData = searchData.Count();
+                    var searchPrf = _graphiczoneDBContext.ProofPayment.ToList();
+                    if (searchPrf != null)
+                    {
+                        List<ProofPayment> prf = _graphiczoneDBContext.ProofPayment.ToList();
+                        ViewBag.prfpay = prf;
+                    }
                     return View(searchData);
                 }
                 else
@@ -69,6 +75,12 @@ namespace Graphiczone.Controllers
                     ViewBag.pagenumber = pageNumber;
                     ViewBag.pagesize = pageSize;
                     ViewBag.countData = searchData.Count();
+                    var searchPrf = _graphiczoneDBContext.ProofPayment.ToList();
+                    if (searchPrf != null)
+                    {
+                        List<ProofPayment> prf = _graphiczoneDBContext.ProofPayment.ToList();
+                        ViewBag.prfpay = prf;
+                    }
                     return View(searchData);
                 }
             }

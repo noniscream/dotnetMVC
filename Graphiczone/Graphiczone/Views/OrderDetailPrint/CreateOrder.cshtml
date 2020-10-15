@@ -232,7 +232,7 @@
                         <tr style="border-right: 2px solid #d6d4d4;" @*align="center" style="color:black;border-top: 3px solid black;border-bottom: 3px solid black;border-left: 3px solid black;"*@>
                             <th>ชื่อรายการ</th>
                             <th>พื้นที่รวม(ตรม.)</th>
-                            <th>ราคาต่อหน่วย(บาท)</th>
+                            <th>ราคาต่อ ตรม. (บาท)</th>
                             <th>จำนวน</th>
                             <th>ราคา(บาท)</th>
                             <th></th>
@@ -295,14 +295,11 @@
                         </tbody>
                         totalBill = totalBill + @Convert.ToDouble(x.OrdPrintTotal);
                         totalvax = totalvax + @Convert.ToDouble(x.OrdPrintTotal * vax);
-                        totalprice = totalBill + totalvax;
+                        totalprice = totalBill - totalvax;
                     }
                 </table>
                 <div align="right">
-                    <p class="alert-info">ราคาสุทธิ : <b>@totalBill.ToString("#,###.00")</b> บาท</p>
-                </div>
-                <div align="right">
-                    <p class="alert-danger">ภาษี : <b>@totalvax.ToString("#,###.00")</b> บาท</p>
+                    <p class="alert-warning">ภาษี : <b>@totalvax.ToString("#,###.00")</b> บาท</p>
                 </div>
                 <div align="right">
                     <p class="alert-success">รวมเป็นเงินทั้งสิ้น : <b>@totalprice.ToString("#,###.00")</b> บาท</p>

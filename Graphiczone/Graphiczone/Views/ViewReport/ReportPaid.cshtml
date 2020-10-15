@@ -13,6 +13,7 @@
     @{
         var countlist = 0;
         double totallist = 0;
+        double totallistx = 0;
         double tax = 0.07;
         double totalincome = 0;
         var alllist = 0;
@@ -79,13 +80,12 @@
                 <tbody align="right">
                     <tr>
                         <td colspan="5" align="center"><b>ทั้งหมด @countlist รายการ</b></td>
-                        <td colspan="1">ราคาสุทธิ : @totallist.ToString("#,###.00")</td>
+                        <td colspan="1" align="right">ภาษี (7%) : @{totallistx = totallist * tax;} @totallistx.ToString("#,###.00")</td>
                     </tr>
                 </tbody>
                 <tbody align="right">
                     <tr>
-                        <td colspan="5" align="right">ภาษี (7%) : @{totallist = totallist * tax;} @totallist.ToString("#,###.00")</td>
-                        <td colspan="1">รวมเป็นเงิน : @o.OrPrintTotal.ToString("#,###.00")</td>
+                        <td colspan="6">รวมเป็นเงิน : @o.OrPrintTotal.ToString("#,###.00")</td>
                     </tr>
                 </tbody>
                 totalincome += @Convert.ToDouble(o.OrPrintTotal);
@@ -97,7 +97,7 @@
     }
     <tbody align="right" style="margin-top:2px">
         <tr>
-            <td colspan="5" align="right"><b>รายการสั่งทำที่ชำระเงินแล้วทั้งหมด : </b></td>
+            <td colspan="5" align="right"><b>ข้อมูลสั่งทำที่ชำระเงินแล้วทั้งหมด : </b></td>
             <td colspan="1"><b>@alllist.ToString("#,###") รายการ</b></td>
         </tr>
         <tr>

@@ -68,42 +68,60 @@
     {
         @foreach (var item in Model)
         {
-<div class="table-row" id="roworder">
-    <div class="table-cell">
-        <p>@item.OrPrintId</p>
-    </div>
-    <div class="table-cell">
-        <p>@item.OrPrintDate.Value.ToString("dd MMM yyyy")</p>
-    </div>
-    <div class="table-cell">
-        <p>@item.OrPrintDue.Value.ToString("dd MMM yyyy")</p>
-    </div>
-    <div class="table-cell">
-        @foreach (var p in ViewBag.prfpay)
-        {
-            if (item.OrPrintId == p.OrPrintId)
+            @foreach(var p in ViewBag.prfpay)
             {
-                if(p.PrfPayStatus != null)
+                if(item.OrPrintId == p.OrPrintId)
                 {
-                    strStatus = "ถูกปฏิเสธการแจ้งชำระเงิน";
-                    strColorStatus = "danger";
+                    if (item.OrPrintStatus == 1 && p.PrfPayStatus == 0)
+                    {
+                        <div class="table-row" id="roworder">
+                            <div class="table-cell">
+                                <p>@item.OrPrintId</p>
+                            </div>
+                            <div class="table-cell">
+                                <p>@item.OrPrintDate.Value.ToString("dd MMM yyyy")</p>
+                            </div>
+                            <div class="table-cell">
+                                <p>@item.OrPrintDue.Value.ToString("dd MMM yyyy")</p>
+                            </div>
+                            <div class="table-cell">
+                                <p class="badge badge-pill badge-danger">ถูกปฏิเสธการแจ้งชำระ</p>
+                            </div>
+                            <div class="table-cell last-cell">
+                                <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
+                                        data-target="#EditProofPayment" data-url="@Url.Action($"EditProofPayment/{item.OrPrintId}")">
+                                    <i class="far fa-edit"></i> ส่งหลักฐานการชำระเงิน
+                                </button>
+                            </div>
+                        </div>
+                    }
                 }
-            }
-            else
+            }  
+
+            @if(item.OrPrintStatus == 0)
             {
-                strStatus = "ค้างชำระ";
-                strColorStatus = "danger";
+                <div class="table-row" id="roworder">
+                    <div class="table-cell">
+                        <p>@item.OrPrintId</p>
+                    </div>
+                    <div class="table-cell">
+                        <p>@item.OrPrintDate.Value.ToString("dd MMM yyyy")</p>
+                    </div>
+                    <div class="table-cell">
+                        <p>@item.OrPrintDue.Value.ToString("dd MMM yyyy")</p>
+                    </div>
+                    <div class="table-cell">
+                        <p class="badge badge-pill badge-danger">ค้างชำระ</p>
+                    </div>
+                    <div class="table-cell last-cell">
+                        <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
+                                data-target="#EditProofPayment" data-url="@Url.Action($"EditProofPayment/{item.OrPrintId}")">
+                            <i class="far fa-edit"></i> ส่งหลักฐานการชำระเงิน
+                        </button>
+                    </div>
+                </div>
             }
         }
-        <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
-    </div>
-    <div class="table-cell last-cell">
-        <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
-                data-target="#EditProofPayment" data-url="@Url.Action($"EditProofPayment/{item.OrPrintId}")">
-            <i class="far fa-edit"></i> ส่งหลักฐานการชำระเงิน
-        </button>
-    </div>
-</div>}
     }else
             {
                 <div class="table-row bg-light">

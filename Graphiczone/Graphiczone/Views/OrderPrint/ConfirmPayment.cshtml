@@ -68,59 +68,65 @@
     {
 @foreach (var item in Model)
 {
-<div class="table-row" id="roworder">
-    <div class="table-cell">
-        <p>@item.OrPrintId</p>
-    </div>
-    <div class="table-cell">
-        <p>@item.OrPrintDate.Value.ToString("dd MMM yyyy")</p>
-    </div>
-    <div class="table-cell">
-        <p>@item.OrPrintDue.Value.ToString("dd MMM yyyy")</p>
-    </div>
-    <div class="table-cell">
-        @if (item.OrPrintStatus == 0)
+    @foreach (var p in ViewBag.prfpay)
+    {
+        if (item.OrPrintId == p.OrPrintId)
         {
-            strStatus = "ค้างชำระ";
-            strColorStatus = "danger";
-        }
-        else if (item.OrPrintStatus == 1)
-        {
-            strStatus = "แจ้งชำระแล้วรอยืนยัน";
-            strColorStatus = "info";
-        }
-        else if (item.OrPrintStatus == 2)
-        {
-            strStatus = "ชำระเงินแล้ว";
-            strColorStatus = "success";
-        }
-        else if (item.OrPrintStatus == 3)
-        {
-            strStatus = "ผลิตเสร็จแล้ว";
-            strColorStatus = "primary";
-        }
-        else if (item.OrPrintStatus == 4)
-        {
-            strStatus = "ส่งมอบแล้ว";
-            strColorStatus = "warning";
-        }
-
-        <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
-    </div>
-    <div class="table-cell last-cell">
-        <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
-                data-target="#EditConfirmPayment" data-url="@Url.Action($"EditConfirmPayment/{item.OrPrintId}")">
-            <i class="fas fa-edit" id="SDT"></i> ยืนยันการชำระเงิน
-        </button>
-    </div>
-</div>} }
-            else
+            if (item.OrPrintStatus == 1 && p.PrfPayStatus == null)
             {
-                <div class="table-row bg-secondary">
+                <div class="table-row" id="roworder">
+                    <div class="table-cell">
+                        <p>@item.OrPrintId</p>
+                    </div>
+                    <div class="table-cell">
+                        <p>@item.OrPrintDate.Value.ToString("dd MMM yyyy")</p>
+                    </div>
+                    <div class="table-cell">
+                        <p>@item.OrPrintDue.Value.ToString("dd MMM yyyy")</p>
+                    </div>
+                    <div class="table-cell">
+                        <p class="badge badge-pill badge-info">แจ้งชำระแล้วรอยืนยัน</p>
+                    </div>
                     <div class="table-cell last-cell">
-                        <span class="text-white font-weight-bold">ไม่พบข้อมูล</span>
+                        <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
+                                data-target="#EditConfirmPayment" data-url="@Url.Action($"EditConfirmPayment/{item.OrPrintId}")">
+                            <i class="fas fa-edit" id="SDT"></i> ยืนยันการชำระเงิน
+                        </button>
                     </div>
                 </div>
             }
+            else
+            {
+                <div class="table-row" id="roworder">
+                    <div class="table-cell">
+                        <p>@item.OrPrintId</p>
+                    </div>
+                    <div class="table-cell">
+                        <p>@item.OrPrintDate.Value.ToString("dd MMM yyyy")</p>
+                    </div>
+                    <div class="table-cell">
+                        <p>@item.OrPrintDue.Value.ToString("dd MMM yyyy")</p>
+                    </div>
+                    <div class="table-cell">
+                        <p class="badge badge-pill badge-danger">ปฏิเสธหลักฐานชำระเงินแล้ว</p>
+                    </div>
+                    <div class="table-cell last-cell">
+                        <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
+                                data-target="#EditConfirmPayment" data-url="@Url.Action($"DetailConfirmPayment/{item.OrPrintId}")">
+                            <i class="fas fa-search" id="SDT"></i> ดูรายละเอียด
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+    }
+} }
+            else
+            {
+<div class="table-row bg-secondary">
+    <div class="table-cell last-cell">
+        <span class="text-white font-weight-bold">ไม่พบข้อมูล</span>
+    </div>
+</div>            }
 </div>
 

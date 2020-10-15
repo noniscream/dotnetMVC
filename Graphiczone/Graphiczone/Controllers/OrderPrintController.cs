@@ -62,6 +62,12 @@ namespace Graphiczone.Controllers
                     ViewBag.pagenumber = pageNumber;
                     ViewBag.pagesize = pageSize;
                     ViewBag.countData = searchPage;
+                    var searchPrf = _graphiczoneDBContext.ProofPayment.ToList();
+                    if (searchPrf != null)
+                    {
+                        List<ProofPayment> prf = _graphiczoneDBContext.ProofPayment.ToList();
+                        ViewBag.prfpay = prf;
+                    }
                     return View(searchData);
                 }
                 else
@@ -74,6 +80,12 @@ namespace Graphiczone.Controllers
                     ViewBag.pagenumber = pageNumber;
                     ViewBag.pagesize = pageSize;
                     ViewBag.countData = searchPage;
+                    var searchPrf = _graphiczoneDBContext.ProofPayment.ToList();
+                    if (searchPrf != null)
+                    {
+                        List<ProofPayment> prf = _graphiczoneDBContext.ProofPayment.ToList();
+                        ViewBag.prfpay = prf;
+                    }
                     return View(searchData);
                 }
             }
@@ -371,7 +383,7 @@ namespace Graphiczone.Controllers
 
         // เฟม
 
-        public IActionResult ConfirmPayment(String id)
+        public IActionResult ConfirmPayment(string id)
         {
             if (HttpContext.Session.GetString("UserUsername") == null)
             {
@@ -383,12 +395,24 @@ namespace Graphiczone.Controllers
                 {
                     var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 1 && x.OrPrintId == id).ToList();
                     ViewBag.countData = seachData.Count();
+                    var searchPrf = _graphiczoneDBContext.ProofPayment.ToList();
+                    if (searchPrf != null)
+                    {
+                        List<ProofPayment> prf = _graphiczoneDBContext.ProofPayment.ToList();
+                        ViewBag.prfpay = prf;
+                    }
                     return View(seachData);
                 }
                 else
                 {
                     var seachData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 1 && x.OrPrintId != null).ToList();
                     ViewBag.countData = seachData.Count();
+                    var searchPrf = _graphiczoneDBContext.ProofPayment.ToList();
+                    if (searchPrf != null)
+                    {
+                        List<ProofPayment> prf = _graphiczoneDBContext.ProofPayment.ToList();
+                        ViewBag.prfpay = prf;
+                    }
                     return View(seachData);
                 }
                 
@@ -419,6 +443,12 @@ namespace Graphiczone.Controllers
                     ViewBag.pagenumber = pageNumber;
                     ViewBag.pagesize = pageSize;
                     ViewBag.countData = searchPage;
+                    var searchPrf = _graphiczoneDBContext.ProofPayment.ToList();
+                    if (searchPrf != null)
+                    {
+                        List<ProofPayment> prf = _graphiczoneDBContext.ProofPayment.ToList();
+                        ViewBag.prfpay = prf;
+                    }
                     return View(seachData);
                 }
                 else
@@ -431,6 +461,12 @@ namespace Graphiczone.Controllers
                     ViewBag.pagenumber = pageNumber;
                     ViewBag.pagesize = pageSize;
                     ViewBag.countData = searchPage;
+                    var searchPrf = _graphiczoneDBContext.ProofPayment.ToList();
+                    if (searchPrf != null)
+                    {
+                        List<ProofPayment> prf = _graphiczoneDBContext.ProofPayment.ToList();
+                        ViewBag.prfpay = prf;
+                    }
                     return View(seachData);
                 }
             }
@@ -544,6 +580,12 @@ namespace Graphiczone.Controllers
                     ViewBag.pagenumber = pageNumber;
                     ViewBag.pagesize = pageSize;
                     ViewBag.countData = searchPage;
+                    var searchPrf = _graphiczoneDBContext.ProofPayment.ToList();
+                    if (searchPrf != null)
+                    {
+                        List<ProofPayment> prf = _graphiczoneDBContext.ProofPayment.ToList();
+                        ViewBag.prfpay = prf;
+                    }
                     return View(searchData);
                 }
                 else
@@ -556,6 +598,12 @@ namespace Graphiczone.Controllers
                     ViewBag.pagenumber = pageNumber;
                     ViewBag.pagesize = pageSize;
                     ViewBag.countData = searchPage;
+                    var searchPrf = _graphiczoneDBContext.ProofPayment.ToList();
+                    if (searchPrf != null)
+                    {
+                        List<ProofPayment> prf = _graphiczoneDBContext.ProofPayment.ToList();
+                        ViewBag.prfpay = prf;
+                    }
                     return View(searchData);
                 }
             }
@@ -610,8 +658,16 @@ namespace Graphiczone.Controllers
                 List<Print> prints = printname.ToList();
                 ViewBag.PrintName = prints;
                 var prooffile = _graphiczoneDBContext.ProofPayment.Where(a => a.OrPrintId == seachData2.OrPrintId).FirstOrDefault();
+                if (prooffile != null)
+                {
+                    ViewBag.getPayCode = prooffile.PrfPayId;
+                    ViewBag.getPayBank = prooffile.PrfPayBank;
+                    ViewBag.getPayDate = prooffile.PrfPayDate.Value.ToString("dd/MM/yyyy");
+                    ViewBag.getPayTime = prooffile.PrfPayTime;
+                    ViewBag.getPayDetail = prooffile.PrfPayDetail;
+                    ViewBag.ProofFile = prooffile.PrfPayFile;
+                }
                 ViewBag.PriceTotal = seachData2.OrPrintTotal;
-                ViewBag.ProofFile = prooffile.PrfPayFile;
                 ViewBag.OrStatus = seachData2.OrPrintStatus;
             }
 
@@ -634,14 +690,57 @@ namespace Graphiczone.Controllers
                 ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
                 ViewBag.TotalDate = seachData2.OrPrintDue - DateTime.Now;
                 var prooffile = _graphiczoneDBContext.ProofPayment.Where(a => a.OrPrintId == seachData2.OrPrintId).FirstOrDefault();
+                if (prooffile != null)
+                {
+                    ViewBag.getPayCode = prooffile.PrfPayId;
+                    ViewBag.getPayBank = prooffile.PrfPayBank;
+                    ViewBag.getPayDate = prooffile.PrfPayDate.Value.ToString("dd/MM/yyyy");
+                    ViewBag.getPayTime = prooffile.PrfPayTime;
+                    ViewBag.getPayDetail = prooffile.PrfPayDetail;
+                    ViewBag.ProofFile = prooffile.PrfPayFile;
+                }
                 var printname = _graphiczoneDBContext.Print.ToList();
                 List<Print> prints = printname.ToList();
                 ViewBag.PrintName = prints;
                 ViewBag.PriceTotal = seachData2.OrPrintTotal;
-                ViewBag.ProofFile = prooffile.PrfPayFile;
             }
 
             return PartialView("_EditConfirmPayment", seachData);
+        }
+
+        [HttpGet]
+        public IActionResult DetailConfirmPayment(string id)
+        {
+            var seachData = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+            var seachData2 = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintId == id).FirstOrDefault();
+            if (seachData2 != null)
+            {
+                List<OrderDetailPrint> orderDetailPrints = _graphiczoneDBContext.OrderDetailPrint.Where(x => x.OrPrintId == id).ToList();
+                ViewBag.OrderList = orderDetailPrints;
+                ViewBag.OrderPrintId = seachData.OrPrintId;
+                ViewBag.OrderDate = seachData2.OrPrintDate;
+                ViewBag.OrderDue = seachData2.OrPrintDue;
+                var cusname = _graphiczoneDBContext.Customer.Where(c => c.CusId == seachData2.CusId).FirstOrDefault();
+                ViewBag.CusFullname = cusname.CusFirstname + " " + cusname.CusLastname;
+                ViewBag.TotalDate = seachData2.OrPrintDue - DateTime.Now;
+                var prooffile = _graphiczoneDBContext.ProofPayment.Where(a => a.OrPrintId == seachData2.OrPrintId).FirstOrDefault();
+                if(prooffile != null)
+                {
+                    ViewBag.getPayCode = prooffile.PrfPayId;
+                    ViewBag.getPayBank = prooffile.PrfPayBank;
+                    ViewBag.getPayDate = prooffile.PrfPayDate.Value.ToString("dd/MM/yyyy");
+                    ViewBag.getPayTime = prooffile.PrfPayTime;
+                    ViewBag.getPayDetail = prooffile.PrfPayDetail;
+                    ViewBag.ProofFile = prooffile.PrfPayFile;
+                }
+                var printname = _graphiczoneDBContext.Print.ToList();
+                List<Print> prints = printname.ToList();
+                ViewBag.PrintName = prints;
+                ViewBag.PriceTotal = seachData2.OrPrintTotal;
+                
+            }
+
+            return PartialView("_DetailConfirmPayment", seachData);
         }
 
         [HttpPost]

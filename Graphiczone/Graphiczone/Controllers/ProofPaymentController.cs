@@ -49,10 +49,10 @@ namespace Graphiczone.Controllers
                 var cusId = getCusId.CusId;
                 if (id != null)
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && x.OrPrintId == id && x.CusId == cusId && x.OrPrintDue != null && x.OrPrintDue >= dt.AddDays(-2)).OrderByDescending(x => x.OrPrintId)//.ToList()
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus <= 1 && x.OrPrintId == id && x.CusId == cusId && x.OrPrintDue != null && x.OrPrintDue >= dt.AddDays(-2)).OrderByDescending(x => x.OrPrintId)//.ToList()
                         .Skip(ExcludeRecords)
                         .Take(pageSize);
-                    var searchPage = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && x.OrPrintId == id && x.CusId == cusId && x.OrPrintDue != null && x.OrPrintDue >= dt.AddDays(-2)).OrderByDescending(x => x.OrPrintId).Count();
+                    var searchPage = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus <= 1 && x.OrPrintId == id && x.CusId == cusId && x.OrPrintDue != null && x.OrPrintDue >= dt.AddDays(-2)).OrderByDescending(x => x.OrPrintId).Count();
                     ViewBag.totalpage = searchPage;
                     ViewBag.pagenumber = pageNumber;
                     ViewBag.pagesize = pageSize;
@@ -67,10 +67,10 @@ namespace Graphiczone.Controllers
                 }
                 else
                 {
-                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && id == null && x.CusId == cusId && x.OrPrintDue != null && x.OrPrintDue >= dt.AddDays(-2)).OrderByDescending(x => x.OrPrintId)//.ToList()
+                    var searchData = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus <= 1 && id == null && x.CusId == cusId && x.OrPrintDue != null && x.OrPrintDue >= dt.AddDays(-2)).OrderByDescending(x => x.OrPrintId)//.ToList()
                         .Skip(ExcludeRecords)
                         .Take(pageSize);
-                    var searchPage = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus == 0 && id == null && x.CusId == cusId && x.OrPrintDue != null && x.OrPrintDue >= dt.AddDays(-2)).OrderByDescending(x => x.OrPrintId).Count();
+                    var searchPage = _graphiczoneDBContext.OrderPrint.Where(x => x.OrPrintStatus <= 1 && id == null && x.CusId == cusId && x.OrPrintDue != null && x.OrPrintDue >= dt.AddDays(-2)).OrderByDescending(x => x.OrPrintId).Count();
                     ViewBag.totalpage = searchPage;
                     ViewBag.pagenumber = pageNumber;
                     ViewBag.pagesize = pageSize;

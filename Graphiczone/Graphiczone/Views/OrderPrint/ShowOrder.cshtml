@@ -67,64 +67,106 @@
     {
 @foreach (var item in Model)
 {
-<div class="table-row" id="roworder">
-    <div class="table-cell">
-        <p>@item.OrPrintId</p>
-    </div>
-    <div class="table-cell">
-        <p>@item.OrPrintDate.Value.Date.ToString("dd MMM yyyy")</p>
-    </div>
-    <div class="table-cell">
-        @if (item.OrPrintDue != null)
+    if(item.OrPrintStatus == 1)
+    {
+        @foreach(var p in ViewBag.prfpay)
         {
-            <p>@item.OrPrintDue.Value.Date.ToString("dd MMM yyyy")</p>
-        }
-        else
-        {
-            <p class="text-danger">อยู่ระหว่างการประเมินระยะเวลาส่งมอบ</p>
-        }
+            if(item.OrPrintId == p.OrPrintId)
+            {
+                <div class="table-row" id="roworder">
+                    <div class="table-cell">
+                        <p>@item.OrPrintId</p>
+                    </div>
+                    <div class="table-cell">
+                        <p>@item.OrPrintDate.Value.Date.ToString("dd MMM yyyy")</p>
+                    </div>
+                    <div class="table-cell">
+                        @if (item.OrPrintDue != null)
+                        {
+                            <p>@item.OrPrintDue.Value.Date.ToString("dd MMM yyyy")</p>
+                        }
+                        else
+                        {
+                            <p class="text-danger">อยู่ระหว่างการประเมินระยะเวลาส่งมอบ</p>
+                        }
 
-    </div>
-    <div class="table-cell">
-        @if (item.OrPrintStatus == 0)
-        {
-            strStatus = "ค้างชำระ";
-            strColorStatus = "danger";
+                    </div>
+                    <div class="table-cell">
+                        @if (item.OrPrintStatus == 1 && p.PrfPayStatus == 0)
+                        {
+                            strStatus = "ถูกปฏิเสธการชำระ";
+                            strColorStatus = "danger";
+                        }
+                        <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
+                    </div>
+                    <div class="table-cell last-cell">
+                        <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
+                                data-target="#ShowOrderDetail" data-url="@Url.Action($"ShowOrderDetail/{item.OrPrintId}")">
+                            <i class="fas fa-search"></i> ดูรายละเอียด
+                        </button>
+                    </div>
+                </div>
+            }
         }
-        else if (item.OrPrintStatus == 1)
-        {
-            strStatus = "แจ้งชำระแล้วรอยืนยัน";
-            strColorStatus = "info";
-        }
-        else if (item.OrPrintStatus == 2)
-        {
-            strStatus = "ชำระเงินแล้ว";
-            strColorStatus = "success";
-        }
-        else if (item.OrPrintStatus == 3)
-        {
-            strStatus = "ผลิตเสร็จแล้ว";
-            strColorStatus = "primary";
-        }
-        else if (item.OrPrintStatus == 4)
-        {
-            strStatus = "รับสื่อสิ่งพิมพ์แล้ว";
-            strColorStatus = "warning";
-        }
-        else
-        {
-            strStatus = "รายการนี้ถูกยกเลิก";
-            strColorStatus = "secondary";
-        }
-        <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
-    </div>
-    <div class="table-cell last-cell">
-        <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
-                data-target="#ShowOrderDetail" data-url="@Url.Action($"ShowOrderDetail/{item.OrPrintId}")">
-            <i class="fas fa-search"></i> ดูรายละเอียด
-        </button>
-    </div>
-</div>} }
+    }
+    else
+    {
+        <div class="table-row" id="roworder">
+                <div class="table-cell">
+                    <p>@item.OrPrintId</p>
+                </div>
+                <div class="table-cell">
+                    <p>@item.OrPrintDate.Value.Date.ToString("dd MMM yyyy")</p>
+                </div>
+                <div class="table-cell">
+                    @if (item.OrPrintDue != null)
+                    {
+                        <p>@item.OrPrintDue.Value.Date.ToString("dd MMM yyyy")</p>
+                    }
+                    else
+                    {
+                        <p class="text-danger">อยู่ระหว่างการประเมินระยะเวลาส่งมอบ</p>
+                    }
+
+                </div>
+                <div class="table-cell">
+                    @if (item.OrPrintStatus == 0)
+                    {
+                        strStatus = "ค้างชำระ";
+                        strColorStatus = "danger";
+                    }
+                    else if (item.OrPrintStatus == 1)
+                    {
+                        strStatus = "แจ้งชำระแล้วรอยืนยัน";
+                        strColorStatus = "info";
+                    }
+                    else if (item.OrPrintStatus == 2)
+                    {
+                        strStatus = "ชำระเงินแล้ว";
+                        strColorStatus = "success";
+                    }
+                    else if (item.OrPrintStatus == 3)
+                    {
+                        strStatus = "ผลิตเสร็จแล้ว";
+                        strColorStatus = "primary";
+                    }
+                    else if (item.OrPrintStatus == 4)
+                    {
+                        strStatus = "รับสื่อสิ่งพิมพ์แล้ว";
+                        strColorStatus = "warning";
+                    }
+                    <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
+                </div>
+                <div class="table-cell last-cell">
+                    <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
+                            data-target="#ShowOrderDetail" data-url="@Url.Action($"ShowOrderDetail/{item.OrPrintId}")">
+                        <i class="fas fa-search"></i> ดูรายละเอียด
+                    </button>
+                </div>
+            </div>
+    }
+}
+    }
             else
             {
                 <div class="table-row bg-light">

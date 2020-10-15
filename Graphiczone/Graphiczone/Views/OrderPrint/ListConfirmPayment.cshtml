@@ -70,61 +70,90 @@
     {
         @foreach (var item in Model)
         {
-            <div class="table-row" id="roworder">
-                <div class="table-cell">
-                    <p>@item.OrPrintId</p>
-                </div>
-                <div class="table-cell">
-                    <p>@item.OrPrintDate.Value.ToString("dd MMM yyyy")</p>
-                </div>
-                <div class="table-cell">
-                    <p>@item.OrPrintDue.Value.ToString("dd MMM yyyy")</p>
-                </div>
-                <div class="table-cell">
-                    @if (item.OrPrintStatus == 0)
+            @foreach (var p in ViewBag.prfpay)
+            {
+                if (item.OrPrintId == p.OrPrintId)
+                {
+                    if (item.OrPrintStatus == 1 && p.PrfPayStatus == 0)
                     {
-                        strStatus = "ค้างชำระ";
-                        strColorStatus = "danger";
+                        <div class="table-row" id="roworder">
+                            <div class="table-cell">
+                                <p>@item.OrPrintId</p>
+                            </div>
+                            <div class="table-cell">
+                                <p>@item.OrPrintDate.Value.ToString("dd MMM yyyy")</p>
+                            </div>
+                            <div class="table-cell">
+                                <p>@item.OrPrintDue.Value.ToString("dd MMM yyyy")</p>
+                            </div>
+                            <div class="table-cell">
+                                <p class="badge badge-pill badge-danger">ถูกปฏิเสธการแจ้งชำระ</p>
+                            </div>
+                            <div class="table-cell last-cell">
+                                <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
+                                        data-target="#ListConfirmPaymentDetail" data-url="@Url.Action($"ListConfirmPaymentDetail/{item.OrPrintId}")">
+                                    <i class="fas fa-search"></i> ดูรายละเอียด
+                                </button>
+                            </div>
+                        </div>
                     }
-                    else if (item.OrPrintStatus == 1)
+                    else if (item.OrPrintStatus == 2 && p.PrfPayStatus == 1)
                     {
-                        strStatus = "แจ้งชำระแล้วรอยืนยัน";
-                        strColorStatus = "info";
+                        <div class="table-row" id="roworder">
+                            <div class="table-cell">
+                                <p>@item.OrPrintId</p>
+                            </div>
+                            <div class="table-cell">
+                                <p>@item.OrPrintDate.Value.ToString("dd MMM yyyy")</p>
+                            </div>
+                            <div class="table-cell">
+                                <p>@item.OrPrintDue.Value.ToString("dd MMM yyyy")</p>
+                            </div>
+                            <div class="table-cell">
+                                <p class="badge badge-pill badge-success">ชำระเงินเรียบร้อย</p>
+                            </div>
+                            <div class="table-cell last-cell">
+                                <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
+                                        data-target="#ListConfirmPaymentDetail" data-url="@Url.Action($"ListConfirmPaymentDetail/{item.OrPrintId}")">
+                                    <i class="fas fa-search"></i> ดูรายละเอียด
+                                </button>
+                            </div>
+                        </div>
                     }
-                    else if (item.OrPrintStatus == 2)
+                    else
                     {
-                        strStatus = "ชำระเงินแล้ว";
-                        strColorStatus = "success";
+                        <div class="table-row" id="roworder">
+                            <div class="table-cell">
+                                <p>@item.OrPrintId</p>
+                            </div>
+                            <div class="table-cell">
+                                <p>@item.OrPrintDate.Value.ToString("dd MMM yyyy")</p>
+                            </div>
+                            <div class="table-cell">
+                                <p>@item.OrPrintDue.Value.ToString("dd MMM yyyy")</p>
+                            </div>
+                            <div class="table-cell">
+                                <p class="badge badge-pill badge-info">แจ้งหลักฐานชำระเงินแล้ว</p>
+                            </div>
+                            <div class="table-cell last-cell">
+                                <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
+                                        data-target="#ListConfirmPaymentDetail" data-url="@Url.Action($"ListConfirmPaymentDetail/{item.OrPrintId}")">
+                                    <i class="fas fa-search"></i> ดูรายละเอียด
+                                </button>
+                            </div>
+                        </div>
                     }
-                    else if (item.OrPrintStatus == 3)
-                    {
-                        strStatus = "ผลิตเสร็จแล้ว";
-                        strColorStatus = "primary";
-                    }
-                    else if (item.OrPrintStatus == 4)
-                    {
-                        strStatus = "ส่งมอบแล้ว";
-                        strColorStatus = "warning";
-                    }
-                    <p class="badge badge-pill badge-@strColorStatus">@strStatus</p>
-                </div>
-                <div class="table-cell last-cell">
-                    <button type="button" class="btn btn-outline-info badge-pill" data-toggle="ajax-modal"
-                            data-target="#ListConfirmPaymentDetail" data-url="@Url.Action($"ListConfirmPaymentDetail/{item.OrPrintId}")">
-                        <i class="fas fa-search"></i> ดูรายละเอียด
-                    </button>
-                </div>
-            </div>
+                }
+            }
         }
     }
     else
-            {
-                <div class="table-row bg-light">
-                    <div class="table-cell last-cell">
-                        <span class="text-secondary font-weight-bold">ไม่พบข้อมูล</span>
-                    </div>
-                </div>
-            }
+    {
+        <div class="table-row bg-light">
+            <div class="table-cell last-cell">
+                <span class="text-secondary font-weight-bold">ไม่พบข้อมูล</span>
+            </div>
+        </div>}
 </div>
 <cs-pager cs-paging-pagenumber="@ViewBag.pagenumber"
           cs-paging-totalitems="@ViewBag.totalpage"

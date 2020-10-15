@@ -100,8 +100,7 @@
                                                         {
                                                             if (x.PrintId == p.PrintId)
                                                             {
-                                                                <label>@p.PrintName</label>
-                                                            }
+                                        <label>@p.PrintName</label>}
                                                         }
                                                         <img class="img" id="showImg" src="/@x.OrdPrintFile" />
                                                     </span><br />
@@ -109,13 +108,12 @@
                                                 <small>( @x.OrdPrintWidth X @x.OrdPrintHeight )</small><br />
                                                 @if (x.OrdPrintDetail != null)
                                                 {
-                                                <small><p class="badge badge-primary" data-toggle="tooltip" data-placement="right" title="@x.OrdPrintDetail">รายละเอียดเพิ่มเติม</p></small>
-                                                <script>
-                                                    $(document).ready(function () {
-                                                        $('[data-toggle="tooltip"]').tooltip();
-                                                    });
-                                                </script>
-                                                }
+                                        <small><p class="badge badge-primary" data-toggle="tooltip" data-placement="right" title="@x.OrdPrintDetail">รายละเอียดเพิ่มเติม</p></small>
+                                                            <script>
+                                                                $(document).ready(function () {
+                                                                    $('[data-toggle="tooltip"]').tooltip();
+                                                                });
+                                                            </script>}
                                             </div>
                                             <div class="table-cell">
                                                 <p>
@@ -132,8 +130,7 @@
                                             <div class="table-cell last-cell">
                                                 <p>@x.OrdPrintTotal.ToString("#,###.00")</p>
                                             </div>
-                                        </div>
-                                        total += x.OrdPrintTotal;
+                                        </div>total += x.OrdPrintTotal;
                                                     }
                                             <div class="row mt-3">
                                                 <div class="col-md-6">
@@ -155,6 +152,61 @@
                                                         <h4 align="center">หลักฐานการชำระเงิน</h4>
                                                     </div>
                                                     <img src="/@ViewBag.ProofFile" width="374" height="500" />
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-3">
+                                                <div class="form-group">
+                                                    <div class="row" style="margin-bottom:5px">
+                                                        <div class="col-md-12">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i class="fas fa-file-invoice-dollar"></i></span>
+                                                                </div>
+                                                                <input class="form-control" type="text" name="PrfPayId" id="PrfPayId" value="@ViewBag.getPayCode" readonly />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row" style="margin-bottom:5px">
+                                                        <div class="col-md-4">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i class="fas fa-university"></i></span>
+                                                                </div>
+                                                                <input class="form-control" type="text" name="PrfPayBank" id="PrfPayBank" value="@ViewBag.getPayBank" readonly />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+                                                                </div>
+                                                                <input class="form-control" type="text" name="PrfPayDate" id="PrfPayDate" value="@ViewBag.getPayDate" readonly />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                                                </div>
+                                                                <input class="form-control" type="text" name="PrfPayTime" id="PrfPayTime" value="@ViewBag.getPayTime" readonly />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row" style="margin-bottom:5px">
+                                                        <div class="col-md-12">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
+                                                                </div>
+                                                                <input class="form-control" type="text" name="PrfPayDetail" id="PrfPayDetail" value="@ViewBag.getPayDetail" readonly />
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
